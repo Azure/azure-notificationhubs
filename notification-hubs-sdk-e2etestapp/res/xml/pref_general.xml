@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="pref_notificationhub_url"
+        android:title="@string/pref_notificationhub_title_url"
+        android:maxLines="1"
+        android:singleLine="true" 
+        android:defaultValue="@string/pref_notificationhub_url"/>
+
+    <EditTextPreference 
+        android:key="pref_notificationhub_keyname" 
+        android:title="@string/pref_notificationhub_title_keyname"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:defaultValue="@string/pref_notificationhub_keyname"/>
+
+    <EditTextPreference 
+        android:key="pref_notificationhub_keyvalue" 
+        android:title="@string/pref_notificationhub_title_keyvalue"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:defaultValue="@string/pref_notificationhub_keyvalue"/>
+    
+    <EditTextPreference 
+        android:key="pref_notificationhub_name" 
+        android:title="@string/pref_notificationhub_title_name"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:defaultValue="@string/pref_notificationhub_name"/>
+    
+    
+    <EditTextPreference 
+        android:key="pref_log_post_url" 
+        android:title="@string/pref_title_log_post_url"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:defaultValue="@string/pref_log_post_url"/>
+    
+    <EditTextPreference 
+        android:key="pref_GCM_sender_id" 
+        android:title="@string/pref_title_GCM_sender_id"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:defaultValue="@string/pref_GCM_sender_id"/>
+    
+    
+</PreferenceScreen>
