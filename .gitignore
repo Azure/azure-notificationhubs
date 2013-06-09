@@ -1,0 +1,8 @@
+notification-hubs-sdk-e2etestapp/bin
+notification-hubs-sdk-e2etestapp/gen
+notification-hubs-sdk/bin
+notification-hubs-sdk/gen
+notification-hubs-sdk-testapp/bin
+notification-hubs-sdk-testapp/gen
+notification-hubs-sdk-testapp-tests/bin
+notification-hubs-sdk-testapp-tests/gen
