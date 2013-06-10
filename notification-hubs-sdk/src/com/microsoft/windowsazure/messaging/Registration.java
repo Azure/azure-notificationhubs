@@ -307,7 +307,7 @@ public abstract class Registration {
 	/**
 	 * Gets the registration name
 	 */
-	public String getName() {
+	String getName() {
 		return mName;
 	}
 

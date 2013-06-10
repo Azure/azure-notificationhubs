@@ -105,6 +105,13 @@ public class TemplateRegistration extends Registration {
 	void setBodyTemplate(String bodyTemplate) {
 		mBodyTemplate = bodyTemplate;
 	}
+	
+	/**
+	 * Gets the template name
+	 */
+	public String getTemplateName() {
+		return getName();
+	}
 
 	/**
 	 * Indicates if a registration xml is a Template Registration
