@@ -79,9 +79,9 @@ public class NotificationHub {
 	private static final String GCMREGID_KEY = "GCMREGID";
 	
 	/**
-	 * The Notification Hub name
+	 * The Notification Hub path
 	 */
-	private String mNotificationHubName;
+	private String mNotificationHubPath;
 	
 	/**
 	 * Notification Hub Connection String 
@@ -97,12 +97,12 @@ public class NotificationHub {
 
 	/**
 	 * Creates a new NotificationHub client
-	 * @param notificationHubName	Notification Hub name
+	 * @param notificationHubPath	Notification Hub path
 	 * @param connectionString	Notification Hub connection string
 	 * @param context	Android context used to access SharedPreferences
 	 */
-	public NotificationHub(String notificationHubName, String connectionString, Context context) {
-		setNotificationHubName(notificationHubName);
+	public NotificationHub(String notificationHubPath, String connectionString, Context context) {
+		setNotificationHubPath(notificationHubPath);
 		setConnectionString(connectionString);
 
 		if (context == null) {
@@ -126,7 +126,7 @@ public class NotificationHub {
 			throw new IllegalArgumentException("gcmId");
 		}
 		
-		NativeRegistration registration = new NativeRegistration(mNotificationHubName);
+		NativeRegistration registration = new NativeRegistration(mNotificationHubPath);
 		registration.setGCMRegistrationId(gcmId);
 		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
 		registration.addTags(tags);
@@ -156,7 +156,7 @@ public class NotificationHub {
 			throw new IllegalArgumentException("template");
 		}
 
-		TemplateRegistration registration = new TemplateRegistration(mNotificationHubName);
+		TemplateRegistration registration = new TemplateRegistration(mNotificationHubPath);
 		registration.setGCMRegistrationId(gcmId);
 		registration.setName(templateName);
 		registration.setBodyTemplate(template);
@@ -227,7 +227,7 @@ public class NotificationHub {
 
 		String filter = "GcmRegistrationId eq '" + gcmId + "'";
 
-		String resource = mNotificationHubName + "/Registrations/?$filter=" + URLEncoder.encode(filter, "UTF-8");
+		String resource = mNotificationHubPath + "/Registrations/?$filter=" + URLEncoder.encode(filter, "UTF-8");
 		String content = null;
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "GET");
 
@@ -251,12 +251,12 @@ public class NotificationHub {
 			Element entry = (Element) entries.item(i);
 			String xml = getXmlString(entry);
 			if (TemplateRegistration.isTemplateRegistration(xml)) {
-				registration = new TemplateRegistration(mNotificationHubName);
+				registration = new TemplateRegistration(mNotificationHubPath);
 			} else {
-				registration = new NativeRegistration(mNotificationHubName);
+				registration = new NativeRegistration(mNotificationHubPath);
 			}
 
-			registration.loadXml(xml, mNotificationHubName);
+			registration.loadXml(xml, mNotificationHubPath);
 
 			storeRegistrationId(registration.getName(), registration.getRegistrationId(), registration.getGCMRegistrationId());
 		}
@@ -284,22 +284,22 @@ public class NotificationHub {
 	}
 
 	/**
-	 * Gets the Notification Hub name
+	 * Gets the Notification Hub path
 	 */
-	public String getNotificationHubName() {
-		return mNotificationHubName;
+	public String getNotificationHubPath() {
+		return mNotificationHubPath;
 	}
 
 	/**
-	 * Sets the Notification Hub name
+	 * Sets the Notification Hub path
 	 */
-	public void setNotificationHubName(String notificationHubName) {
+	public void setNotificationHubPath(String notificationHubPath) {
 
-		if (isNullOrWhiteSpace(notificationHubName)) {
-			throw new IllegalArgumentException("notificationHubName");
+		if (isNullOrWhiteSpace(notificationHubPath)) {
+			throw new IllegalArgumentException("notificationHubPath");
 		}
 
-		mNotificationHubName = notificationHubName;
+		mNotificationHubPath = notificationHubPath;
 	}
 
 	/**
@@ -367,12 +367,12 @@ public class NotificationHub {
 		
 		Registration result;
 		if (TemplateRegistration.isTemplateRegistration(response)) {
-			result = new TemplateRegistration(mNotificationHubName);
+			result = new TemplateRegistration(mNotificationHubPath);
 		} else {
-			result = new NativeRegistration(mNotificationHubName);
+			result = new NativeRegistration(mNotificationHubPath);
 		}
 
-		result.loadXml(response, mNotificationHubName);
+		result.loadXml(response, mNotificationHubPath);
 
 		storeRegistrationId(result.getName(), result.getRegistrationId(), registration.getGCMRegistrationId());
 		
@@ -383,18 +383,18 @@ public class NotificationHub {
 		Connection conn = new Connection(mConnectionString);
 
 		// new registration
-		String resource = mNotificationHubName + "/Registrations/";
+		String resource = mNotificationHubPath + "/Registrations/";
 		String content = registration.toXml();
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "POST");
 
 		Registration result;
 		if (TemplateRegistration.isTemplateRegistration(response)) {
-			result = new TemplateRegistration(mNotificationHubName);
+			result = new TemplateRegistration(mNotificationHubPath);
 		} else {
-			result = new NativeRegistration(mNotificationHubName);
+			result = new NativeRegistration(mNotificationHubPath);
 		}
 		
-		result.loadXml(response, mNotificationHubName);
+		result.loadXml(response, mNotificationHubPath);
 
 		storeRegistrationId(result.getName(), result.getRegistrationId(), result.getGCMRegistrationId());
 		
@@ -408,7 +408,7 @@ public class NotificationHub {
 	 */
 	private void deleteRegistrationInternal(String registrationName, String registrationId) throws Exception {
 		Connection conn = new Connection(mConnectionString);
-		String resource = mNotificationHubName + "/Registrations/" + registrationId;
+		String resource = mNotificationHubPath + "/Registrations/" + registrationId;
 		
 		try {
 			conn.executeRequest(resource, null, XML_CONTENT_TYPE, "DELETE", new BasicHeader("If-Match", "*"));

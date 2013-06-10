@@ -10,17 +10,17 @@ import android.test.InstrumentationTestCase;
 
 public class NotificationHubTests extends InstrumentationTestCase {
 	public void testCreateNotificationHub() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
-		NotificationHub nh = new NotificationHub(nhName, cs, context);
+		NotificationHub nh = new NotificationHub(nhPath, cs, context);
 
-		assertEquals(nh.getNotificationHubName(), nhName);
+		assertEquals(nh.getNotificationHubPath(), nhPath);
 		assertEquals(nh.getConnectionString(), cs);
 	}
 	
 	public void testCreateNotificationHubWithInvalidValues() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
 				
@@ -33,14 +33,14 @@ public class NotificationHubTests extends InstrumentationTestCase {
 		}
 		
 		try {
-			new NotificationHub(nhName, null, context);
+			new NotificationHub(nhPath, null, context);
 			
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
 		}
 		
 		try {
-			new NotificationHub(nhName, cs, null);
+			new NotificationHub(nhPath, cs, null);
 			
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
@@ -48,10 +48,10 @@ public class NotificationHubTests extends InstrumentationTestCase {
 	}
 	
 	public void testRegisterWithInvalidValues() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
-		NotificationHub nh = new NotificationHub(nhName, cs, context);
+		NotificationHub nh = new NotificationHub(nhPath, cs, context);
 		
 		String[] tags = {"myTag_1", "myTag_2"};
 
@@ -65,10 +65,10 @@ public class NotificationHubTests extends InstrumentationTestCase {
 	}
 	
 	public void testRegisterTemplateWithInvalidValues() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
-		NotificationHub nh = new NotificationHub(nhName, cs, context);
+		NotificationHub nh = new NotificationHub(nhPath, cs, context);
 		
 		String gcmId = "123456";
 		String templateName = "myTemplate";
@@ -101,10 +101,10 @@ public class NotificationHubTests extends InstrumentationTestCase {
 	}
 	
 	public void testUnregisterTemplateWithInvalidValues() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
-		NotificationHub nh = new NotificationHub(nhName, cs, context);
+		NotificationHub nh = new NotificationHub(nhPath, cs, context);
 
 		try {
 			nh.unregisterTemplate(null);
@@ -116,10 +116,10 @@ public class NotificationHubTests extends InstrumentationTestCase {
 	}
 	
 	public void testUnregisterAllWithInvalidValues() {
-		String nhName = "myHub";
+		String nhPath = "myHub";
 		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		Context context = getInstrumentation().getTargetContext();
-		NotificationHub nh = new NotificationHub(nhName, cs, context);
+		NotificationHub nh = new NotificationHub(nhPath, cs, context);
 
 		try {
 			nh.unregisterAll(null);

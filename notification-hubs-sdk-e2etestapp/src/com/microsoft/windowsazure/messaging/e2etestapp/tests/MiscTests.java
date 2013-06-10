@@ -230,7 +230,7 @@ public class MiscTests extends TestGroup {
 					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
-					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubName(), cs, ApplicationContext.getContext());
+					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
 
 					register(this, nh, UUID.randomUUID().toString(), (String[]) null);
 
@@ -366,7 +366,7 @@ public class MiscTests extends TestGroup {
 					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
-					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubName(), cs, ApplicationContext.getContext());
+					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
 
 					registerTemplate(this, nh, UUID.randomUUID().toString(), templateName, (String[]) null);
 
@@ -459,7 +459,7 @@ public class MiscTests extends TestGroup {
 					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
-					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubName(), cs, ApplicationContext.getContext());
+					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
 
 					addUnexistingNativeRegistration(UUID.randomUUID().toString());
 
@@ -561,7 +561,7 @@ public class MiscTests extends TestGroup {
 					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
-					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubName(), cs, ApplicationContext.getContext());
+					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
 
 					addUnexistingTemplateRegistration(templateName, UUID.randomUUID().toString());
 
@@ -703,7 +703,7 @@ public class MiscTests extends TestGroup {
 					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
-					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubName(), cs, ApplicationContext.getContext());
+					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
 
 					unregisterAll(this, nh, UUID.randomUUID().toString());
 
