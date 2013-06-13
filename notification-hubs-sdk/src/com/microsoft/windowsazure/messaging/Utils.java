@@ -44,6 +44,6 @@ class Utils {
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		transformer.transform(source, result);
 
-		return new String(buffer.toByteArray());
+		return new String(buffer.toByteArray(), "UTF-8");
 	}
 }
