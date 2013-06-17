@@ -20,8 +20,8 @@ See the Apache Version 2.0 License for specific language governing permissions a
 package com.microsoft.windowsazure.messaging.e2etestapp.tests;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import android.content.SharedPreferences;
@@ -41,7 +41,6 @@ import com.microsoft.windowsazure.messaging.e2etestapp.framework.TestCase;
 import com.microsoft.windowsazure.messaging.e2etestapp.framework.TestGroup;
 import com.microsoft.windowsazure.messaging.e2etestapp.framework.TestResult;
 import com.microsoft.windowsazure.messaging.e2etestapp.framework.TestStatus;
-import com.microsoft.windowsazure.messaging.e2etestapp.framework.Util;
 
 public class MiscTests extends TestGroup {
 
@@ -50,7 +49,7 @@ public class MiscTests extends TestGroup {
 
 	private static final String DEFAULT_REGISTRATION_NAME = "$Default";
 	private static final String REGISTRATION_NAME_STORAGE_KEY = "__NH_REG_NAME_";
-	
+
 	private NativeRegistration register(TestCase test, NotificationHub hub, String gcmId, String[] tags) throws Exception {
 		test.log("Register Native with GCMID = " + gcmId);
 		if (tags != null && tags.length > 0) {
@@ -110,9 +109,38 @@ public class MiscTests extends TestGroup {
 		editor.commit();
 	}
 
+	private int getRegistrationCountInLocalStorage() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContext.getContext());
+		int regCount = 0;
+
+		for (String key : preferences.getAll().keySet()) {
+			if (key.startsWith("__NH_REG_NAME_")) {
+				regCount++;
+			}
+		}
+
+		return regCount;
+	}
+
+	private boolean matchTags(final String[] tags, List<String> regTags) {
+		if (tags == null || regTags == null) {
+			return (tags == null && regTags == null) || (tags == null && regTags.size() == 0) || (regTags == null && tags.length == 0);
+		} else if (regTags.size() != tags.length) {
+			return false;
+		} else {
+			for (String tag : tags) {
+				if (!regTags.contains(tag)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	// Register Native Tests
 
-	private TestCase createRegisterNativeTestCase(String name, final String... tags) {
+	private TestCase createRegisterNativeTestCase(String name, final String[] tags) {
 		TestCase register = new TestCase() {
 
 			@Override
@@ -125,12 +153,7 @@ public class MiscTests extends TestGroup {
 
 					Registration reg = register(this, notificationHub, UUID.randomUUID().toString(), tags);
 
-					ArrayList<String> tagList = new ArrayList<String>();
-					for (String tag : tags) {
-						tagList.add(tag);
-					}
-
-					if (!Util.compareLists(reg.getTags(), tagList)) {
+					if (!matchTags(tags, reg.getTags())) {
 						result.setStatus(TestStatus.Failed);
 					}
 
@@ -147,7 +170,7 @@ public class MiscTests extends TestGroup {
 		return register;
 	}
 
-	private TestCase createRegisterNativeTwiceTestCase(String name, final String... tags) {
+	private TestCase createRegisterNativeTwiceTestCase(String name, final String[] firstTags, final String[] lastTags) {
 		TestCase register = new TestCase() {
 
 			@Override
@@ -158,14 +181,55 @@ public class MiscTests extends TestGroup {
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
 
-					String newTag = UUID.randomUUID().toString();
+					String gcmId = UUID.randomUUID().toString();
+
+					register(this, notificationHub, gcmId, firstTags);
+
+					gcmId = UUID.randomUUID().toString();
+
+					Registration reg = register(this, notificationHub, gcmId, lastTags);
+
+					if (!matchTags(lastTags, reg.getTags())) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					if (getRegistrationCountInLocalStorage() != 1) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					unregister(this, notificationHub);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+
+		return register;
+	}
+
+	private TestCase createReRegisterNativeTestCase(String name) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
 
 					String gcmId = UUID.randomUUID().toString();
-					
-					register(this, notificationHub, gcmId, tags);
-					Registration reg = register(this, notificationHub, gcmId, new String[] { newTag });
 
-					if (reg.getTags().size() == 0 || reg.getTags().size() != 1 || !reg.getTags().get(0).equals(newTag)) {
+					Registration reg1 = register(this, notificationHub, gcmId, (String[]) null);
+
+					unregister(this, notificationHub);
+
+					Registration reg2 = register(this, notificationHub, gcmId, (String[]) null);
+
+					if (reg2.getRegistrationId().equals(reg1.getRegistrationId())) {
 						result.setStatus(TestStatus.Failed);
 					}
 
@@ -246,9 +310,7 @@ public class MiscTests extends TestGroup {
 		return register;
 	}
 
-	// Register Template Tests
-
-	private TestCase createRegisterTemplateTestCase(String name, final String templateName, final String... tags) {
+	private TestCase createRegisterNativeEmptyGcmRegistrationIdTestCase(String name) {
 		TestCase register = new TestCase() {
 
 			@Override
@@ -259,16 +321,45 @@ public class MiscTests extends TestGroup {
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
 
-					Registration reg = registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, tags);
+					register(this, notificationHub, "", (String[]) null);
 
-					ArrayList<String> tagList = new ArrayList<String>();
-					for (String tag : tags) {
-						tagList.add(tag);
-					}
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(IllegalArgumentException.class);
 
-					if (!Util.compareLists(reg.getTags(), tagList)) {
+		return register;
+	}
+
+	// Register Template Tests
+
+	private TestCase createRegisterTemplateTestCase(String name, final String templateName, final String[] tags) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					String template = "{\"time_to_live\": 108, \"delay_while_idle\": true, \"data\": { \"message\": \"$(msg)\" } }";
+
+					TemplateRegistration reg = registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, template, tags);
+
+					if (!(reg.getBodyTemplate() != null && reg.getBodyTemplate().equals(template))) {
 						result.setStatus(TestStatus.Failed);
 					}
+
+					if (!matchTags(tags, reg.getTags())) {
+						result.setStatus(TestStatus.Failed);
+					}
+
 					unregisterTemplate(this, notificationHub, templateName);
 
 					return result;
@@ -282,7 +373,7 @@ public class MiscTests extends TestGroup {
 		return register;
 	}
 
-	private TestCase createRegisterTemplateTwiceTestCase(String name, final String templateName, final String... tags) {
+	private TestCase createRegisterTemplateTwiceTestCase(String name, final String templateName, final String[] firstTags, final String[] lastTags) {
 		TestCase register = new TestCase() {
 
 			@Override
@@ -294,14 +385,94 @@ public class MiscTests extends TestGroup {
 					result.setTestCase(this);
 
 					String gcmId = UUID.randomUUID().toString();
-					
-					registerTemplate(this, notificationHub, gcmId, templateName, tags);
 
-					String newTag = UUID.randomUUID().toString();
+					registerTemplate(this, notificationHub, gcmId, templateName, firstTags);
 
-					Registration reg = registerTemplate(this, notificationHub, gcmId, templateName, new String[] { newTag });
+					gcmId = UUID.randomUUID().toString();
 
-					if (reg.getTags().size() == 0 || reg.getTags().size() != 1 || !reg.getTags().get(0).equals(newTag)) {
+					String newTemplate = "{\"time_to_live\": 21, \"delay_while_idle\": false, \"data\": { \"message\": \"$(msg)\" } }";
+
+					TemplateRegistration reg = registerTemplate(this, notificationHub, gcmId, templateName, newTemplate, lastTags);
+
+					if (!(reg.getBodyTemplate() != null && reg.getBodyTemplate().equals(newTemplate))) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					if (!matchTags(lastTags, reg.getTags())) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					if (getRegistrationCountInLocalStorage() != 1) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					unregisterTemplate(this, notificationHub, templateName);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+
+		return register;
+	}
+
+	private TestCase createRegisterTwoTemplatesTestCase(String name, final String templateName1, final String templateName2) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					String gcmId = UUID.randomUUID().toString();
+
+					registerTemplate(this, notificationHub, gcmId, templateName1, (String[]) null);
+					registerTemplate(this, notificationHub, gcmId, templateName2, (String[]) null);
+
+					if (getRegistrationCountInLocalStorage() != 2) {
+						result.setStatus(TestStatus.Failed);
+					}
+
+					unregisterTemplate(this, notificationHub, templateName1);
+					unregisterTemplate(this, notificationHub, templateName2);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+
+		return register;
+	}
+
+	private TestCase createReRegisterTemplateTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					String gcmId = UUID.randomUUID().toString();
+
+					TemplateRegistration reg1 = registerTemplate(this, notificationHub, gcmId, templateName, (String[]) null);
+
+					unregisterTemplate(this, notificationHub, templateName);
+
+					TemplateRegistration reg2 = registerTemplate(this, notificationHub, gcmId, templateName, (String[]) null);
+
+					if (reg2.getRegistrationId().equals(reg1.getRegistrationId())) {
 						result.setStatus(TestStatus.Failed);
 					}
 
@@ -393,7 +564,141 @@ public class MiscTests extends TestGroup {
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
 
-					registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, "{this is a very ill formatted template}", (String[]) null);
+					registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, "{this is a very ill formatted template}",
+							(String[]) null);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(NotificationHubException.class);
+
+		return register;
+	}
+
+	private TestCase createRegisterTemplateEmptyGCMRegistrationIdTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					registerTemplate(this, notificationHub, "", templateName, (String[]) null);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(IllegalArgumentException.class);
+
+		return register;
+	}
+
+	private TestCase createRegisterTemplateEmptyTemplateNameTestCase(String name) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					registerTemplate(this, notificationHub, UUID.randomUUID().toString(), "", (String[]) null);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(IllegalArgumentException.class);
+
+		return register;
+	}
+
+	private TestCase createRegisterTemplateEmptyTemplateTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, "", (String[]) null);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(IllegalArgumentException.class);
+
+		return register;
+	}
+
+	private TestCase createReRegisterTemplateEmptyTemplateTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					String gcmId = UUID.randomUUID().toString();
+
+					registerTemplate(this, notificationHub, gcmId, templateName, (String[]) null);
+
+					registerTemplate(this, notificationHub, gcmId, templateName, "", (String[]) null);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+		register.setExpectedExceptionClass(IllegalArgumentException.class);
+
+		return register;
+	}
+
+	private TestCase createReRegisterTemplateInvalidPayloadTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					String gcmId = UUID.randomUUID().toString();
+
+					registerTemplate(this, notificationHub, gcmId, templateName, (String[]) null);
+
+					registerTemplate(this, notificationHub, gcmId, templateName, "{this is a very ill formatted template}", (String[]) null);
 
 					return result;
 				} catch (Exception e) {
@@ -408,6 +713,30 @@ public class MiscTests extends TestGroup {
 	}
 
 	// Unregister Native Tests
+
+	private TestCase createUnregisterNativeNonExistingTestCase(String name) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					unregister(this, notificationHub);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+
+		return register;
+	}
 
 	private TestCase createUnregisterNativeWrongHubTestCase(String name) {
 		TestCase register = new TestCase() {
@@ -511,6 +840,30 @@ public class MiscTests extends TestGroup {
 
 	// Unregister Template Tests
 
+	private TestCase createUnregisterTemplateNonExistingTestCase(String name, final String templateName) {
+		TestCase register = new TestCase() {
+
+			@Override
+			protected TestResult executeTest() {
+				try {
+					NotificationHub notificationHub = ApplicationContext.createNotificationHub();
+					TestResult result = new TestResult();
+					result.setStatus(TestStatus.Passed);
+					result.setTestCase(this);
+
+					unregisterTemplate(this, notificationHub, templateName);
+
+					return result;
+				} catch (Exception e) {
+					return createResultFromException(e);
+				}
+			}
+		};
+		register.setName(name);
+
+		return register;
+	}
+
 	private TestCase createUnregisterTemplateWrongHubTestCase(String name, final String templateName) {
 		TestCase register = new TestCase() {
 
@@ -590,7 +943,8 @@ public class MiscTests extends TestGroup {
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
 
-					TemplateRegistration templateRegistration = registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName, (String[]) null);
+					TemplateRegistration templateRegistration = registerTemplate(this, notificationHub, UUID.randomUUID().toString(), templateName,
+							(String[]) null);
 					String registrationId = templateRegistration.getRegistrationId();
 					unregisterTemplate(this, notificationHub, templateName);
 
@@ -718,7 +1072,7 @@ public class MiscTests extends TestGroup {
 
 		return register;
 	}
-	
+
 	private TestCase createClearStorageOnNewVersion(String name) {
 		TestCase register = new TestCase() {
 
@@ -729,17 +1083,17 @@ public class MiscTests extends TestGroup {
 					TestResult result = new TestResult();
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
-					
+
 					ApplicationContext.clearNotificationHubStorageData();
-					
+
 					SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContext.getContext());
 					Editor editor = preferences.edit();
 					editor.putString("__NH_STORAGE_VERSION", "0.9.0");
 					editor.putString("__NH_STORAGE_" + UUID.randomUUID().toString(), UUID.randomUUID().toString());
 					editor.commit();
-					
+
 					ApplicationContext.createNotificationHub(false);
-					
+
 					for (String key : preferences.getAll().keySet()) {
 						if (key.startsWith("__NH_")) {
 							if (key.equals("__NH_STORAGE_VERSION")) {
@@ -752,19 +1106,19 @@ public class MiscTests extends TestGroup {
 							}
 						}
 					}
-					
+
 					return result;
 				} catch (Exception e) {
 					return createResultFromException(e);
 				}
 			}
 		};
-		
+
 		register.setName(name);
 
 		return register;
 	}
-	
+
 	private TestCase createCheckIsRefreshNeeded(String name) {
 		TestCase register = new TestCase() {
 
@@ -775,33 +1129,24 @@ public class MiscTests extends TestGroup {
 					TestResult result = new TestResult();
 					result.setStatus(TestStatus.Passed);
 					result.setTestCase(this);
-					
+
 					String gcmId = UUID.randomUUID().toString();
-					register(this, notificationHub, gcmId, (String[])null);
-					
+					register(this, notificationHub, gcmId, (String[]) null);
+
 					notificationHub = ApplicationContext.createNotificationHub(true);
-					registerTemplate(this, notificationHub, gcmId, UUID.randomUUID().toString(), (String[])null);
-					
-					SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationContext.getContext());
-					int regCount = 0;
-					
-					for (String key : preferences.getAll().keySet()) {
-						if (key.startsWith("__NH_REG_NAME_")) {
-							regCount++;
-						}
-					}
-					
-					if (regCount != 2) {
+					registerTemplate(this, notificationHub, gcmId, UUID.randomUUID().toString(), (String[]) null);
+
+					if (getRegistrationCountInLocalStorage() != 2) {
 						result.setStatus(TestStatus.Failed);
 					}
-					
+
 					return result;
 				} catch (Exception e) {
 					return createResultFromException(e);
 				}
 			}
 		};
-		
+
 		register.setName(name);
 
 		return register;
@@ -810,35 +1155,66 @@ public class MiscTests extends TestGroup {
 	public MiscTests() {
 		super("Misc tests");
 
-		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - No tags"));
-		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - One tag", "tagNum1"));
-		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - Three tags", "tagNum1", "tagNum2", "tagNum3"));
+		String[] noTags = (String[]) null;
+		String[] oneTag = new String[] { "tagNum1" };
+		String[] threeTags = new String[] { "tagNum1", "tagNum2", "tagNum3" };
+		String[] otherTags = new String[] { "tagNum4", "tagNum5", "tagNum6", "tagNum7", "tagNum8" };
+		String[] manyTags = new String[60];
 
-		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - No tags"));
-		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - One tag", "tagNum1"));
-		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - Three tags", "tagNum1", "tagNum2", "tagNum3"));
+		for (int i = 0; i < 60; i++) {
+			manyTags[i] = "tagNum" + (i + 1);
+		}
+
+		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - 60 tags", manyTags));
+		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - No tags", noTags));
+		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - One tag", oneTag));
+		this.addTest(createRegisterNativeTestCase("Register native - Register / Unregister - Three tags", threeTags));
+
+		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - No tags -> Other tags", noTags, otherTags));
+		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - One tag -> Other tags", oneTag, otherTags));
+		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - Three tags -> Other tags", threeTags, otherTags));
+		this.addTest(createRegisterNativeTwiceTestCase("Register native - Register twice / Unregister - Other tags -> No tags", otherTags, noTags));
+
+		this.addTest(createReRegisterNativeTestCase("Register native - Register / Unregister / Register / Unregister"));
 
 		this.addTest(createRegisterNativeWrongHubTestCase("Register native - Wrong hub"));
 		this.addTest(createRegisterNativeWrongCredentialsTestCase("Register native - Wrong credentials"));
+		this.addTest(createRegisterNativeEmptyGcmRegistrationIdTestCase("Register native - Empty GCM Registration Id"));
 
-		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - No tags", UUID.randomUUID().toString()));
-		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - One tag", UUID.randomUUID().toString(), "tagNum1"));
-		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - Three tags", UUID.randomUUID().toString(), "tagNum1",
-				"tagNum2", "tagNum3"));
+		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - 60 tags", UUID.randomUUID().toString(), manyTags));
+		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - No tags", UUID.randomUUID().toString(), noTags));
+		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - One tag", UUID.randomUUID().toString(), oneTag));
+		this.addTest(createRegisterTemplateTestCase("Register template - Register / Unregister - Three tags", UUID.randomUUID().toString(), threeTags));
 
-		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - No tags", UUID.randomUUID().toString()));
-		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - One tag", UUID.randomUUID().toString(), "tagNum1"));
-		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - Three tags", UUID.randomUUID().toString(),
-				"tagNum1", "tagNum2", "tagNum3"));
+		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - No tags -> Other tags", UUID.randomUUID()
+				.toString(), noTags, otherTags));
+		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - One tag -> Other tags", UUID.randomUUID()
+				.toString(), oneTag, otherTags));
+		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - Three tags -> Other tags", UUID.randomUUID()
+				.toString(), threeTags, otherTags));
+		this.addTest(createRegisterTemplateTwiceTestCase("Register template - Register twice / Unregister - Other tags -> No tags", UUID.randomUUID()
+				.toString(), otherTags, noTags));
+
+		this.addTest(createRegisterTwoTemplatesTestCase("Register template - Register two templates / Unregister", UUID.randomUUID().toString(), UUID
+				.randomUUID().toString()));
+
+		this.addTest(createReRegisterTemplateTestCase("Register template - Register / Unregister / Register / Unregister", UUID.randomUUID().toString()));
 
 		this.addTest(createRegisterTemplateWrongHubTestCase("Register template - Wrong hub", UUID.randomUUID().toString()));
 		this.addTest(createRegisterTemplateWrongCredentialsTestCase("Register template - Wrong credentials", UUID.randomUUID().toString()));
 		this.addTest(createRegisterTemplateInvalidPayloadTestCase("Register template - Invalid Payload", UUID.randomUUID().toString()));
+		this.addTest(createRegisterTemplateEmptyGCMRegistrationIdTestCase("Register template - Empty GCM Registration Id", UUID.randomUUID().toString()));
+		this.addTest(createRegisterTemplateEmptyTemplateNameTestCase("Register template - Empty template name"));
+		this.addTest(createRegisterTemplateEmptyTemplateTestCase("Register template - Empty template", UUID.randomUUID().toString()));
+		this.addTest(createReRegisterTemplateEmptyTemplateTestCase("Register template - Reregister Empty template", UUID.randomUUID().toString()));
+		this.addTest(createReRegisterTemplateInvalidPayloadTestCase("Register template - Reregister invalid payload", UUID.randomUUID().toString()));
 
+		this.addTest(createUnregisterNativeNonExistingTestCase("Unregister native - Non existing"));
 		this.addTest(createUnregisterNativeWrongHubTestCase("Unregister native - Wrong hub"));
 		this.addTest(createUnregisterNativeWrongCredentialsTestCase("Unregister native - Wrong credentials"));
 		this.addTest(createUnregisterNativeUnexistingRegistrationTestCase("Unregister native - Unexisting registration"));
 
+		this.addTest(createUnregisterTemplateNonExistingTestCase("Unregister template - Non existing", UUID.randomUUID().toString()));
 		this.addTest(createUnregisterTemplateWrongHubTestCase("Unregister template - Wrong hub", UUID.randomUUID().toString()));
 		this.addTest(createUnregisterTemplateWrongCredentialsTestCase("Unregister template - Wrong credentials", UUID.randomUUID().toString()));
 		this.addTest(createUnregisterTemplateUnexistingRegistrationTestCase("Unregister template - Unexisting registration", UUID.randomUUID().toString()));

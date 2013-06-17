@@ -279,6 +279,12 @@ public class NotificationHub {
 		if (isNullOrWhiteSpace(connectionString)) {
 			throw new IllegalArgumentException("connectionString");
 		}
+		
+		try {
+			ConnectionStringParser.parse(connectionString);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("connectionString", e);
+		}
 
 		mConnectionString = connectionString;
 	}
