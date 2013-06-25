@@ -35,7 +35,7 @@ public class ConnectionString {
 	 * @param accessSecret	The Shared Access Secret
 	 * @return	The connection string
 	 */
-	public static String createUsingSharedAccessSecret(URI endPoint, String keyName, String accessSecret) {
+	public static String createUsingSharedAccessKey(URI endPoint, String keyName, String accessSecret) {
 		if (endPoint == null) {
 			throw new IllegalArgumentException("endPoint");
 		}
@@ -57,12 +57,12 @@ public class ConnectionString {
 	 * @param fullAccessSecret	The Shared Access Secret
 	 * @return	The connection string
 	 */
-	public static String createUsingSharedAccessSecretWithFullAccess(URI endPoint, String fullAccessSecret) {
+	public static String createUsingSharedAccessKeyWithFullAccess(URI endPoint, String fullAccessSecret) {
 		if (isNullOrWhiteSpace(fullAccessSecret)) {
 			throw new IllegalArgumentException("fullAccessSecret");
 		}
 
-		return createUsingSharedAccessSecret(endPoint, "DefaultFullSharedAccessSignature", fullAccessSecret);
+		return createUsingSharedAccessKey(endPoint, "DefaultFullSharedAccessSignature", fullAccessSecret);
 	}
 
 	/**
@@ -71,11 +71,11 @@ public class ConnectionString {
 	 * @param listenAccessSecret	the Shared Access Secret
 	 * @return The connection string
 	 */
-	public static String createUsingSharedAccessSecretWithListenAccess(URI endPoint, String listenAccessSecret) {
+	public static String createUsingSharedAccessKeyWithListenAccess(URI endPoint, String listenAccessSecret) {
 		if (isNullOrWhiteSpace(listenAccessSecret)) {
 			throw new IllegalArgumentException("listenAccessSecret");
 		}
 
-		return createUsingSharedAccessSecret(endPoint, "DefaultListenSharedAccessSignature", listenAccessSecret);
+		return createUsingSharedAccessKey(endPoint, "DefaultListenSharedAccessSignature", listenAccessSecret);
 	}
 }

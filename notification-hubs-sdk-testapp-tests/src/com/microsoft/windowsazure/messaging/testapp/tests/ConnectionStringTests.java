@@ -29,38 +29,38 @@ import android.test.InstrumentationTestCase;
 public class ConnectionStringTests extends InstrumentationTestCase {
 	
 	public void testCreateConnectionWithFullAccessString() {
-		String cs = ConnectionString.createUsingSharedAccessSecretWithFullAccess(URI.create("http://myUrl.com"), "secret123");
+		String cs = ConnectionString.createUsingSharedAccessKeyWithFullAccess(URI.create("http://myUrl.com"), "secret123");
 		
 		assertEquals("Endpoint=http://myUrl.com;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=secret123", cs);
 	}
 	
 	public void testCreateConnectionWithListenAccessString() {
-		String cs = ConnectionString.createUsingSharedAccessSecretWithListenAccess(URI.create("http://myUrl.com"), "secret123");
+		String cs = ConnectionString.createUsingSharedAccessKeyWithListenAccess(URI.create("http://myUrl.com"), "secret123");
 		
 		assertEquals("Endpoint=http://myUrl.com;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=secret123", cs);
 	}
 	
 	public void testCreateConnectionWithCustomAccessString() {
-		String cs = ConnectionString.createUsingSharedAccessSecret(URI.create("http://myUrl.com"), "MyKeyName", "secret123");
+		String cs = ConnectionString.createUsingSharedAccessKey(URI.create("http://myUrl.com"), "MyKeyName", "secret123");
 		
 		assertEquals("Endpoint=http://myUrl.com;SharedAccessKeyName=MyKeyName;SharedAccessKey=secret123", cs);
 	}
 	
 	public void testCreateConnectionWithInvalidValues() {
 		try {
-			ConnectionString.createUsingSharedAccessSecret(null, "keyName", "keyValue");
+			ConnectionString.createUsingSharedAccessKey(null, "keyName", "keyValue");
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
 		}
 		
 		try {
-			ConnectionString.createUsingSharedAccessSecret(URI.create("http://myServer.com"), null, "keyValue");
+			ConnectionString.createUsingSharedAccessKey(URI.create("http://myServer.com"), null, "keyValue");
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
 		}
 		
 		try {
-			ConnectionString.createUsingSharedAccessSecret(URI.create("http://myServer.com"), "keyName", null);
+			ConnectionString.createUsingSharedAccessKey(URI.create("http://myServer.com"), "keyName", null);
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
 		}
