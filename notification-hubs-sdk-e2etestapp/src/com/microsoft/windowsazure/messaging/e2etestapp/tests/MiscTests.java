@@ -291,7 +291,7 @@ public class MiscTests extends TestGroup {
 						csParts.put(keyValue.split("=")[0], keyValue.split("=")[1]);
 					}
 
-					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
+					String cs = ConnectionString.createUsingSharedAccessKey(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
 					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
@@ -534,7 +534,7 @@ public class MiscTests extends TestGroup {
 						csParts.put(keyValue.split("=")[0], keyValue.split("=")[1]);
 					}
 
-					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
+					String cs = ConnectionString.createUsingSharedAccessKey(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
 					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
@@ -785,7 +785,7 @@ public class MiscTests extends TestGroup {
 						csParts.put(keyValue.split("=")[0], keyValue.split("=")[1]);
 					}
 
-					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
+					String cs = ConnectionString.createUsingSharedAccessKey(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
 					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
@@ -911,7 +911,7 @@ public class MiscTests extends TestGroup {
 						csParts.put(keyValue.split("=")[0], keyValue.split("=")[1]);
 					}
 
-					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
+					String cs = ConnectionString.createUsingSharedAccessKey(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
 					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());
@@ -1054,7 +1054,7 @@ public class MiscTests extends TestGroup {
 						csParts.put(keyValue.split("=")[0], keyValue.split("=")[1]);
 					}
 
-					String cs = ConnectionString.createUsingSharedAccessSecret(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
+					String cs = ConnectionString.createUsingSharedAccessKey(URI.create(csParts.get("Endpoint")), csParts.get("SharedAccessKeyName"),
 							"1234567890");
 
 					NotificationHub nh = new NotificationHub(notificationHub.getNotificationHubPath(), cs, ApplicationContext.getContext());

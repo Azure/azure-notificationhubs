@@ -33,7 +33,7 @@ public class ApplicationContext {
 		String keyValue = getNotificationHubKeyValue();
 		String notificationHubName = getNotificationHubName();
 		
-		String connectionString = ConnectionString.createUsingSharedAccessSecret(URI.create(endpoint), keyName, keyValue);
+		String connectionString = ConnectionString.createUsingSharedAccessKey(URI.create(endpoint), keyName, keyValue);
 		
 		if (clearLocalStorage) {
 			clearNotificationHubStorageData();
