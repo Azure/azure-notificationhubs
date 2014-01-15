@@ -103,7 +103,7 @@ class Connection {
 	/**
 	 * Api version
 	 */
-	private static final String API_VERSION = "2014-01";
+	private static final String API_VERSION = "2013-10";
 
 	/**
 	 * Connection data retrieved from connection string
@@ -209,6 +209,7 @@ class Connection {
 		String content;
 		String headerValue=null;
 		AndroidHttpClient client = null;
+		boolean noHeaderButExpected=false;
 
 		try {
 			client = AndroidHttpClient.newInstance(getUserAgent());
@@ -220,9 +221,10 @@ class Connection {
 			
 			if(targetHeaderName!=null){
 				if(!response.containsHeader(targetHeaderName)){
-					throw new NotificationHubException("The '"+targetHeaderName + "' header does not present in collection", status);
+					noHeaderButExpected=true;					
+				} else{
+					headerValue=response.getFirstHeader(targetHeaderName).getValue();
 				}
-				headerValue=response.getFirstHeader(targetHeaderName).getValue();
 			}
 			
 		} finally {
@@ -232,6 +234,9 @@ class Connection {
 		}
 
 		if (status >= 200 && status < 300) {
+			if(noHeaderButExpected){
+				throw new NotificationHubException("The '"+targetHeaderName + "' header does not present in collection", status);
+			}
 			return targetHeaderName==null?content:headerValue;
 		} else if (status == 404) {
 			throw new NotificationHubResourceNotFoundException();

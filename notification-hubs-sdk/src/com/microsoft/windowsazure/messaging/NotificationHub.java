@@ -383,7 +383,7 @@ public class NotificationHub {
 		String resource = registration.getURI();
 		String content = registration.toXml();
 
-		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT", new BasicHeader("If-Match", "*"));
+		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT");
 		
 		Registration result;
 		if (mPnsSpecificRegistrationFactory.isTemplateRegistration(response)) {
