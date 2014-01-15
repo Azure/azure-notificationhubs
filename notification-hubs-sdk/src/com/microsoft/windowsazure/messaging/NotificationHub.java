@@ -24,6 +24,7 @@ import static com.microsoft.windowsazure.messaging.Utils.*;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Set;
 
@@ -74,9 +75,14 @@ public class NotificationHub {
 	private static final String STORAGE_VERSION = "1.0.0";
 	
 	/**
-	 * GCMRegistrationId Key
+	 * PNS Handle Key
 	 */
-	private static final String GCMREGID_KEY = "GCMREGID";
+	private static final String PNS_HANDLE_KEY = "PNS_HANDLE";
+		
+	/**
+	 * New registration location header name
+	 */
+	private static final String NEW_REGISTRATION_LOCATION_HEADER = "Location";
 	
 	/**
 	 * The Notification Hub path
@@ -93,6 +99,11 @@ public class NotificationHub {
 	 */
 	private SharedPreferences mSharedPreferences;
 	
+	/**
+	 * Factory which creates Registrations according the PNS supported on device
+	 */
+	private PnsSpecificRegistrationFactory mPnsSpecificRegistrationFactory;
+	
 	private boolean mIsRefreshNeeded = false;
 
 	/**
@@ -102,6 +113,8 @@ public class NotificationHub {
 	 * @param context	Android context used to access SharedPreferences
 	 */
 	public NotificationHub(String notificationHubPath, String connectionString, Context context) {
+		mPnsSpecificRegistrationFactory = new PnsSpecificRegistrationFactory();
+		
 		setNotificationHubPath(notificationHubPath);
 		setConnectionString(connectionString);
 
@@ -116,36 +129,36 @@ public class NotificationHub {
 
 	/**
 	 * Registers the client for native notifications with the specified tags
-	 * @param gcmId	The GCM Registration Id
+	 * @param pnsHandle	PNS specific identifier
 	 * @param tags	Tags to use in the registration
 	 * @return	The created registration
 	 * @throws Exception
 	 */
-	public NativeRegistration register(String gcmId, String... tags) throws Exception {
-		if (isNullOrWhiteSpace(gcmId)) {
-			throw new IllegalArgumentException("gcmId");
+	public Registration register(String pnsHandle, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(pnsHandle)) {
+			throw new IllegalArgumentException("pnsHandle");
 		}
 		
-		NativeRegistration registration = new NativeRegistration(mNotificationHubPath);
-		registration.setGCMRegistrationId(gcmId);
+		Registration registration = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
+		registration.setPNSHandle(pnsHandle);
 		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
 		registration.addTags(tags);
 
-		return (NativeRegistration) registerInternal(registration);
+		return registerInternal(registration);
 	}
 
 	/**
 	 * Registers the client for template notifications with the specified tags
-	 * @param gcmId	The GCM Registration Id
+	 * @param pnsHandle	PNS specific identifier
 	 * @param templateName	The template name
 	 * @param template	The template body
 	 * @param tags	The tags to use in the registration
 	 * @return	The created registration
 	 * @throws Exception
 	 */
-	public TemplateRegistration registerTemplate(String gcmId, String templateName, String template, String... tags) throws Exception {
-		if (isNullOrWhiteSpace(gcmId)) {
-			throw new IllegalArgumentException("gcmId");
+	public TemplateRegistration registerTemplate(String pnsHandle, String templateName, String template, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(pnsHandle)) {
+			throw new IllegalArgumentException("pnsHandle");
 		}
 		
 		if (isNullOrWhiteSpace(templateName)) {
@@ -156,8 +169,8 @@ public class NotificationHub {
 			throw new IllegalArgumentException("template");
 		}
 
-		TemplateRegistration registration = new TemplateRegistration(mNotificationHubPath);
-		registration.setGCMRegistrationId(gcmId);
+		TemplateRegistration registration = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
+		registration.setPNSHandle(pnsHandle);
 		registration.setName(templateName);
 		registration.setBodyTemplate(template);
 		registration.addTags(tags);
@@ -188,11 +201,11 @@ public class NotificationHub {
 	
 	/**
 	 * Unregisters the client for all notifications
-	 * @param gcmId The GCM Registration Id
+	 * @param pnsHandle	PNS specific identifier
 	 * @throws Exception
 	 */
-	public void unregisterAll(String gcmId) throws Exception {
-		refreshRegistrationInformation(gcmId);
+	public void unregisterAll(String pnsHandle) throws Exception {
+		refreshRegistrationInformation(pnsHandle);
 		
 		Set<String> keys = mSharedPreferences.getAll().keySet();
 		
@@ -206,9 +219,9 @@ public class NotificationHub {
 		}
 	}
 	
-	private void refreshRegistrationInformation(String gcmId) throws Exception {
-		if (isNullOrWhiteSpace(gcmId)) {
-			throw new IllegalArgumentException("gcmId");
+	private void refreshRegistrationInformation(String pnsHandle) throws Exception {
+		if (isNullOrWhiteSpace(pnsHandle)) {
+			throw new IllegalArgumentException("pnsHandle");
 		}
 		
 		// delete old registration information
@@ -225,7 +238,7 @@ public class NotificationHub {
 		// get existing registrations
 		Connection conn = new Connection(mConnectionString);
 
-		String filter = "GcmRegistrationId eq '" + gcmId + "'";
+		String filter = mPnsSpecificRegistrationFactory.getPNSHandleFieldName() + " eq '" + pnsHandle + "'";
 
 		String resource = mNotificationHubPath + "/Registrations/?$filter=" + URLEncoder.encode(filter, "UTF-8");
 		String content = null;
@@ -250,15 +263,15 @@ public class NotificationHub {
 			Registration registration;
 			Element entry = (Element) entries.item(i);
 			String xml = getXmlString(entry);
-			if (TemplateRegistration.isTemplateRegistration(xml)) {
-				registration = new TemplateRegistration(mNotificationHubPath);
+			if (mPnsSpecificRegistrationFactory.isTemplateRegistration(xml)) {
+				registration = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
 			} else {
-				registration = new NativeRegistration(mNotificationHubPath);
+				registration = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
 			}
 
 			registration.loadXml(xml, mNotificationHubPath);
 
-			storeRegistrationId(registration.getName(), registration.getRegistrationId(), registration.getGCMRegistrationId());
+			storeRegistrationId(registration.getName(), registration.getRegistrationId(), registration.getPNSHandle());
 		}
 		
 		mIsRefreshNeeded = false;
@@ -317,24 +330,32 @@ public class NotificationHub {
 	private Registration registerInternal(Registration registration) throws Exception {
 		
 		if (mIsRefreshNeeded) {
-			String gcmId = mSharedPreferences.getString(STORAGE_PREFIX + GCMREGID_KEY, "");
+			String pNSHandle = mSharedPreferences.getString(STORAGE_PREFIX + PNS_HANDLE_KEY, "");
 			
-			if (isNullOrWhiteSpace(gcmId)) {
-				gcmId = registration.getGCMRegistrationId();
+			if (isNullOrWhiteSpace(pNSHandle)) {
+				pNSHandle = registration.getPNSHandle();
 			}
 			
-			refreshRegistrationInformation(gcmId);
+			refreshRegistrationInformation(pNSHandle);
 		}
 		
 		String registrationId = retrieveRegistrationId(registration.getName());
-		
-		if (!isNullOrWhiteSpace(registrationId)) {
-			registration.setRegistrationId(registrationId);
-			
-			return updateRegistrationInternal(registration);
-		} else {
-			return createRegistrationInternal(registration);
+		if(isNullOrWhiteSpace(registrationId)){
+			registrationId = createRegistrationId();
 		}
+		
+		registration.setRegistrationId(registrationId);
+		
+		try{
+			return upsertRegistrationInternal(registration);
+		}
+		catch(RegistrationGoneException e){
+			// if we get an RegistrationGoneException (410) from service, we will recreate registration id and will try to do upsert one more time.
+		}
+		
+		registrationId = createRegistrationId();
+		registration.setRegistrationId(registrationId);
+		return upsertRegistrationInternal(registration);
 	}
 
 	/**
@@ -356,53 +377,37 @@ public class NotificationHub {
 	 * @return	The updated registration
 	 * @throws Exception
 	 */
-	private Registration updateRegistrationInternal(Registration registration) throws Exception {
+	private Registration upsertRegistrationInternal(Registration registration) throws Exception {
 		Connection conn = new Connection(mConnectionString);
 
 		String resource = registration.getURI();
 		String content = registration.toXml();
 
-		String response;
-		try {
-			response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT", new BasicHeader("If-Match", "*"));
-		} catch (NotificationHubResourceNotFoundException ex) {
-			removeRegistrationId(registration.getName());
-
-			return createRegistrationInternal(registration);
-		}
+		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT", new BasicHeader("If-Match", "*"));
 		
 		Registration result;
-		if (TemplateRegistration.isTemplateRegistration(response)) {
-			result = new TemplateRegistration(mNotificationHubPath);
+		if (mPnsSpecificRegistrationFactory.isTemplateRegistration(response)) {
+			result = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
 		} else {
-			result = new NativeRegistration(mNotificationHubPath);
+			result = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
 		}
 
 		result.loadXml(response, mNotificationHubPath);
 
-		storeRegistrationId(result.getName(), result.getRegistrationId(), registration.getGCMRegistrationId());
+		storeRegistrationId(result.getName(), result.getRegistrationId(), registration.getPNSHandle());
 		
 		return result;
-	}
+	}	
 	
-	private Registration createRegistrationInternal(Registration registration) throws Exception {
+	private String createRegistrationId() throws Exception {
 		Connection conn = new Connection(mConnectionString);
 
-		// new registration
-		String resource = mNotificationHubPath + "/Registrations/";
-		String content = registration.toXml();
-		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "POST");
-
-		Registration result;
-		if (TemplateRegistration.isTemplateRegistration(response)) {
-			result = new TemplateRegistration(mNotificationHubPath);
-		} else {
-			result = new NativeRegistration(mNotificationHubPath);
-		}
+		String resource = mNotificationHubPath + "/registrationids/";
+		String response = conn.executeRequest(resource, null, XML_CONTENT_TYPE, "POST", NEW_REGISTRATION_LOCATION_HEADER);
 		
-		result.loadXml(response, mNotificationHubPath);
-
-		storeRegistrationId(result.getName(), result.getRegistrationId(), result.getGCMRegistrationId());
+		URI regIdUri = new URI(response);
+		String[] pathFragments=regIdUri.getPath().split("/");
+		String result=pathFragments[pathFragments.length-1];
 		
 		return result;
 	}
@@ -439,12 +444,12 @@ public class NotificationHub {
 	 * @param registrationId	The registration id to store in local storage
 	 * @throws Exception
 	 */
-	private void storeRegistrationId(String registrationName, String registrationId, String gcmRegistrationId) throws Exception {
+	private void storeRegistrationId(String registrationName, String registrationId, String pNSHandle) throws Exception {
 		Editor editor = mSharedPreferences.edit();
 
 		editor.putString(STORAGE_PREFIX + REGISTRATION_NAME_STORAGE_KEY + registrationName, registrationId);
 
-		editor.putString(STORAGE_PREFIX + GCMREGID_KEY, gcmRegistrationId);
+		editor.putString(STORAGE_PREFIX + PNS_HANDLE_KEY, pNSHandle);
 		
 		// Always overwrite the storage version with the latest value
 		editor.putString(STORAGE_PREFIX + STORAGE_VERSION_KEY, STORAGE_VERSION);
