@@ -103,7 +103,7 @@ class Connection {
 	/**
 	 * Api version
 	 */
-	private static final String API_VERSION = "2013-10";
+	private static final String API_VERSION = "2014-01";
 
 	/**
 	 * Connection data retrieved from connection string
