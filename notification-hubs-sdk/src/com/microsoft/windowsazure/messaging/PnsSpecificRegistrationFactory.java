@@ -35,7 +35,7 @@ public final class PnsSpecificRegistrationFactory {
 	 */
 	PnsSpecificRegistrationFactory() {
 		// https://developer.amazon.com/public/solutions/devices/kindle-fire/specifications/01-device-and-feature-specifications
-		mIsAmazonDevice=android.os.Build.MANUFACTURER == "Amazon";
+		mIsAmazonDevice=android.os.Build.MANUFACTURER.compareToIgnoreCase("Amazon")==0;
 	}
 
 	/**
