@@ -98,12 +98,7 @@ public class NotificationHub {
 	 * SharedPreferences reference used to access local storage
 	 */
 	private SharedPreferences mSharedPreferences;
-	
-	/**
-	 * Factory which creates Registrations according the PNS supported on device
-	 */
-	private PnsSpecificRegistrationFactory mPnsSpecificRegistrationFactory;
-	
+		
 	private boolean mIsRefreshNeeded = false;
 
 	/**
@@ -112,9 +107,7 @@ public class NotificationHub {
 	 * @param connectionString	Notification Hub connection string
 	 * @param context	Android context used to access SharedPreferences
 	 */
-	public NotificationHub(String notificationHubPath, String connectionString, Context context) {
-		mPnsSpecificRegistrationFactory = new PnsSpecificRegistrationFactory();
-		
+	public NotificationHub(String notificationHubPath, String connectionString, Context context) {		
 		setNotificationHubPath(notificationHubPath);
 		setConnectionString(connectionString);
 
@@ -139,7 +132,7 @@ public class NotificationHub {
 			throw new IllegalArgumentException("pnsHandle");
 		}
 		
-		Registration registration = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
+		Registration registration = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
 		registration.setPNSHandle(pnsHandle);
 		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
 		registration.addTags(tags);
@@ -169,7 +162,7 @@ public class NotificationHub {
 			throw new IllegalArgumentException("template");
 		}
 
-		TemplateRegistration registration = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
+		TemplateRegistration registration = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
 		registration.setPNSHandle(pnsHandle);
 		registration.setName(templateName);
 		registration.setBodyTemplate(template);
@@ -238,7 +231,7 @@ public class NotificationHub {
 		// get existing registrations
 		Connection conn = new Connection(mConnectionString);
 
-		String filter = mPnsSpecificRegistrationFactory.getPNSHandleFieldName() + " eq '" + pnsHandle + "'";
+		String filter = PnsSpecificRegistrationFactory.getInstance().getPNSHandleFieldName() + " eq '" + pnsHandle + "'";
 
 		String resource = mNotificationHubPath + "/Registrations/?$filter=" + URLEncoder.encode(filter, "UTF-8");
 		String content = null;
@@ -263,10 +256,10 @@ public class NotificationHub {
 			Registration registration;
 			Element entry = (Element) entries.item(i);
 			String xml = getXmlString(entry);
-			if (mPnsSpecificRegistrationFactory.isTemplateRegistration(xml)) {
-				registration = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
+			if (PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(xml)) {
+				registration = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
 			} else {
-				registration = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
+				registration = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
 			}
 
 			registration.loadXml(xml, mNotificationHubPath);
@@ -386,10 +379,10 @@ public class NotificationHub {
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT");
 		
 		Registration result;
-		if (mPnsSpecificRegistrationFactory.isTemplateRegistration(response)) {
-			result = mPnsSpecificRegistrationFactory.createTemplateRegistration(mNotificationHubPath);
+		if (PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response)) {
+			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
 		} else {
-			result = mPnsSpecificRegistrationFactory.createNativeRegistration(mNotificationHubPath);
+			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
 		}
 
 		result.loadXml(response, mNotificationHubPath);

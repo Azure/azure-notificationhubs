@@ -24,7 +24,11 @@ package com.microsoft.windowsazure.messaging;
  * Represents a factory which creates Registrations according the PNS supported on device, and also provides some PNS specific utility methods
  */
 public final class PnsSpecificRegistrationFactory {
-
+	/**
+	 * Keeps the single instance
+	 */
+	private static final PnsSpecificRegistrationFactory mInstance=new PnsSpecificRegistrationFactory();
+	
 	/**
 	 * If it is Amazon device
 	 */
@@ -33,9 +37,16 @@ public final class PnsSpecificRegistrationFactory {
 	/**
 	 * Creates a new instance of PnsSpecificRegistrationFactory
 	 */
-	PnsSpecificRegistrationFactory() {
+	private PnsSpecificRegistrationFactory() {
 		// https://developer.amazon.com/public/solutions/devices/kindle-fire/specifications/01-device-and-feature-specifications
 		mIsAmazonDevice=android.os.Build.MANUFACTURER.compareToIgnoreCase("Amazon")==0;
+	}
+	
+	/**
+	 * Returns the instance of PnsSpecificRegistrationFactory
+	 */
+	public static PnsSpecificRegistrationFactory getInstance(){
+		return mInstance;
 	}
 
 	/**
@@ -74,5 +85,12 @@ public final class PnsSpecificRegistrationFactory {
 	 */
 	public String getPNSHandleFieldName(){
 		return mIsAmazonDevice?AdmNativeRegistration.ADM_HANDLE_NODE:GcmNativeRegistration.GCM_HANDLE_NODE;
+	}
+	
+	/**
+	 * Returns API origin value according the PNS supported on device
+	 */
+	public String getAPIOrigin(){
+		return mIsAmazonDevice?"AndroidSdkAdm":"AndroidSdkGcm";
 	}
 }

@@ -342,8 +342,8 @@ class Connection {
 	 * Generates the User-Agent
 	 */
 	private String getUserAgent() {
-		String userAgent = String.format("NOTIFICATION-HUBS/%s (lang=%s; os=%s; os_version=%s; arch=%s)", SDK_VERSION, "Java", "Android",
-				Build.VERSION.RELEASE, Build.CPU_ABI);
+		String userAgent = String.format("NOTIFICATIONHUBS/%s (api-origin=%s; os=%s; os_version=%s;)", 
+				SDK_VERSION, PnsSpecificRegistrationFactory.getInstance().getAPIOrigin(), "Android", Build.VERSION.RELEASE);
 
 		return userAgent;
 	}
