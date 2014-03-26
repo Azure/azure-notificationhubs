@@ -61,7 +61,6 @@ public abstract class Registration {
 	 */
 	static final String REGISTRATION_NAME_JSON_PROPERTY = "registrationName";
 
-
 	/**
 	 * The Registration Id
 	 */
@@ -78,9 +77,9 @@ public abstract class Registration {
 	protected String mExpirationTime;
 	
 	/**
-	 * The GCM Registration Id
+	 * The PNS specific identifier
 	 */
-	protected String mGCMRegistrationId;
+	protected String mPNSHandle;
 	
 	/**
 	 * The registration name
@@ -144,18 +143,17 @@ public abstract class Registration {
 		content.setAttribute("type", "application/xml");
 		entry.appendChild(content);
 
-		Element gcmRegistrationDescription = doc.createElement(getSpecificPayloadNodeName());
-		gcmRegistrationDescription.setAttribute("xmlns:i", "http://www.w3.org/2001/XMLSchema-instance");
-		gcmRegistrationDescription.setAttribute("xmlns", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect");
-		content.appendChild(gcmRegistrationDescription);
+		Element registrationDescription = doc.createElement(getSpecificPayloadNodeName());
+		registrationDescription.setAttribute("xmlns:i", "http://www.w3.org/2001/XMLSchema-instance");
+		registrationDescription.setAttribute("xmlns", "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect");
+		content.appendChild(registrationDescription);
 
-		appendNodeWithValue(doc, gcmRegistrationDescription, "ETag", getETag());
-		appendNodeWithValue(doc, gcmRegistrationDescription, "ExpirationTime", getExpirationTimeString());
-		appendNodeWithValue(doc, gcmRegistrationDescription, "RegistrationId", getRegistrationId());
-		appendTagsNode(doc, gcmRegistrationDescription);
-		appendNodeWithValue(doc, gcmRegistrationDescription, "GcmRegistrationId", getGCMRegistrationId());
+		appendNodeWithValue(doc, registrationDescription, "ETag", getETag());
+		appendNodeWithValue(doc, registrationDescription, "ExpirationTime", getExpirationTimeString());
+		appendNodeWithValue(doc, registrationDescription, "RegistrationId", getRegistrationId());
+		appendTagsNode(doc, registrationDescription);
 
-		appendCustomPayload(doc, gcmRegistrationDescription);
+		appendCustomPayload(doc, registrationDescription);
 	}
 
 	/**
@@ -168,9 +166,9 @@ public abstract class Registration {
 	/**
 	 * Appends the tags node to the registration xml
 	 * @param doc	The document to modify
-	 * @param gcmRegistrationDescription	The parent element
+	 * @param registrationDescription	The parent element
 	 */
-	protected void appendTagsNode(Document doc, Element gcmRegistrationDescription) {
+	protected void appendTagsNode(Document doc, Element registrationDescription) {
 		List<String> tagList = getTags();
 		if (tagList != null && tagList.size() > 0) {
 			String tagsNodeValue = tagList.get(0);
@@ -181,7 +179,7 @@ public abstract class Registration {
 
 			Element tags = doc.createElement("Tags");
 			tags.appendChild(doc.createTextNode(tagsNodeValue));
-			gcmRegistrationDescription.appendChild(tags);
+			registrationDescription.appendChild(tags);
 		}
 	}
 
@@ -233,8 +231,6 @@ public abstract class Registration {
 					mTags.add(tag);
 				}
 			}
-
-			mGCMRegistrationId = getNodeValue(payloadNode, "GcmRegistrationId");
 
 			loadCustomXmlData(payloadNode);
 		}
@@ -396,17 +392,17 @@ public abstract class Registration {
 	}
 
 	/**
-	 * Gets the GCM Registration ID
+	 * Gets the PNS specific identifier
 	 */
-	public String getGCMRegistrationId() {
-		return mGCMRegistrationId;
+	public String getPNSHandle() {
+		return mPNSHandle;
 	}
 
 	/**
-	 * Sets the GCM Registration ID
+	 * Sets the PNS specific identifier
 	 */
-	void setGCMRegistrationId(String gCMRegistrationId) {
-		mGCMRegistrationId = gCMRegistrationId;
+	void setPNSHandle(String pNSHandle) {
+		mPNSHandle = pNSHandle;
 	}
 
 	/**

@@ -93,7 +93,7 @@ class Connection {
 	/**
 	 * SDK Version
 	 */
-	private static final String SDK_VERSION = "2013-05";
+	private static final String SDK_VERSION = "2014-01";
 
 	/**
 	 * API version query string parameter
@@ -103,7 +103,7 @@ class Connection {
 	/**
 	 * Api version
 	 */
-	private static final String API_VERSION = "2013-04";
+	private static final String API_VERSION = "2014-01";
 
 	/**
 	 * Connection data retrieved from connection string
@@ -129,6 +129,22 @@ class Connection {
 	 * @throws Exception
 	 */
 	public String executeRequest(String resource, String content, String contentType, String method, Header... extraHeaders) throws Exception {
+		return executeRequest(resource, content, contentType, method, null, extraHeaders);
+	}
+	
+	
+	/**
+	 * Executes a request to the Notification Hub server
+	 * @param resource	The resource to access
+	 * @param content	The request content body
+	 * @param contentType	The request content type
+	 * @param method	The request method
+	 * @param targetHeaderName The header name when we need to get value from it in instead of content
+	 * @param extraHeaders	Extra headers to include in the request
+	 * @return	The response content body
+	 * @throws Exception
+	 */
+	public String executeRequest(String resource, String content, String contentType, String method, String targetHeaderName, Header... extraHeaders) throws Exception {
 		URI endpointURI = URI.create(mConnectionData.get(ENDPOINT_KEY));
 		String scheme = endpointURI.getScheme();
 
@@ -157,7 +173,7 @@ class Connection {
 			}
 		}
 
-		return executeRequest(wrapper);
+		return executeRequest(wrapper, targetHeaderName);
 	}
 
 	/**
@@ -182,23 +198,35 @@ class Connection {
 	/**
 	 * Executes a web request
 	 * @param request	The request to execute
-	 * @return	The content string
+	 * @param targetHeaderName The header name when we need to get value from it in instead of content
+	 * @return	The content string or header value
 	 * @throws Exception
 	 */
-	private String executeRequest(HttpUriRequest request) throws Exception {
+	private String executeRequest(HttpUriRequest request, String targetHeaderName) throws Exception {
 		addAuthorizationHeader(request);
 
 		int status;
 		String content;
+		String headerValue=null;
 		AndroidHttpClient client = null;
+		boolean noHeaderButExpected=false;
 
 		try {
 			client = AndroidHttpClient.newInstance(getUserAgent());
 
 			HttpResponse response = client.execute(request);
 
-			status = response.getStatusLine().getStatusCode();
+			status = response.getStatusLine().getStatusCode();			
 			content = getResponseContent(response);
+			
+			if(targetHeaderName!=null){
+				if(!response.containsHeader(targetHeaderName)){
+					noHeaderButExpected=true;					
+				} else{
+					headerValue=response.getFirstHeader(targetHeaderName).getValue();
+				}
+			}
+			
 		} finally {
 			if (client != null) {
 				client.close();
@@ -206,11 +234,16 @@ class Connection {
 		}
 
 		if (status >= 200 && status < 300) {
-			return content;
+			if(noHeaderButExpected){
+				throw new NotificationHubException("The '"+targetHeaderName + "' header does not present in collection", status);
+			}
+			return targetHeaderName==null?content:headerValue;
 		} else if (status == 404) {
 			throw new NotificationHubResourceNotFoundException();
 		} else if (status == 401) {
 			throw new NotificationHubUnauthorizedException();
+		} else if (status == 410) {
+			throw new RegistrationGoneException();
 		} else {
 			throw new NotificationHubException(content, status);
 		}
@@ -309,8 +342,8 @@ class Connection {
 	 * Generates the User-Agent
 	 */
 	private String getUserAgent() {
-		String userAgent = String.format("NOTIFICATION-HUBS/%s (lang=%s; os=%s; os_version=%s; arch=%s)", SDK_VERSION, "Java", "Android",
-				Build.VERSION.RELEASE, Build.CPU_ABI);
+		String userAgent = String.format("NOTIFICATIONHUBS/%s (api-origin=%s; os=%s; os_version=%s;)", 
+				SDK_VERSION, PnsSpecificRegistrationFactory.getInstance().getAPIOrigin(), "Android", Build.VERSION.RELEASE);
 
 		return userAgent;
 	}

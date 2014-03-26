@@ -24,20 +24,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Represents a native registration
+ * Represents GCM native registration
  */
-public class NativeRegistration extends Registration {
+public class GcmNativeRegistration extends Registration {
 
 	/**
 	 * Custom payload node name for native registrations
 	 */
 	private static final String GCM_NATIVE_REGISTRATION_CUSTOM_NODE = "GcmRegistrationDescription";
+	
+	/**
+	 * Custom node name for PNS handle
+	 */
+	static final String GCM_HANDLE_NODE = "GcmRegistrationId";
 
 	/**
 	 * Creates a new native registration
 	 * @param notificationHubPath	The notification hub path
 	 */
-	NativeRegistration(String notificationHubPath) {
+	GcmNativeRegistration(String notificationHubPath) {
 		super(notificationHubPath);
 	}
 
@@ -47,11 +52,13 @@ public class NativeRegistration extends Registration {
 	}
 
 	@Override
-	protected void appendCustomPayload(Document doc, Element gcmRegistrationDescription) {
+	protected void appendCustomPayload(Document doc, Element registrationDescription) {
+		appendNodeWithValue(doc, registrationDescription, GCM_HANDLE_NODE, getPNSHandle());
 	}
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
+		setPNSHandle(getNodeValue(payloadNode, GCM_HANDLE_NODE));
 		setName(DEFAULT_REGISTRATION_NAME);
 	}
 }

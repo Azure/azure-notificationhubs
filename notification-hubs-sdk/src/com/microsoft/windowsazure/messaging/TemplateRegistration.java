@@ -29,12 +29,7 @@ import org.w3c.dom.NodeList;
 /**
  * Represents a template registration
  */
-public class TemplateRegistration extends Registration {
-
-	/**
-	 * Custom payload node name for template registrations
-	 */
-	private static final String GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE = "GcmTemplateRegistrationDescription";
+public abstract class TemplateRegistration extends Registration {
 
 	/**
 	 * The template body
@@ -47,28 +42,23 @@ public class TemplateRegistration extends Registration {
 	 */
 	TemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
-	}
-	
-	@Override
-	protected String getSpecificPayloadNodeName() {
-		return GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
-	}
+	}	
 
 	@Override
-	protected void appendCustomPayload(Document doc, Element gcmTemplateRegistrationDescription) {
-		appendBodyTemplateNode(doc, gcmTemplateRegistrationDescription);
-		appendNodeWithValue(doc, gcmTemplateRegistrationDescription, "TemplateName", getName());
+	protected void appendCustomPayload(Document doc, Element templateRegistrationDescription) {
+		appendBodyTemplateNode(doc, templateRegistrationDescription);
+		appendNodeWithValue(doc, templateRegistrationDescription, "TemplateName", getName());
 	}
 
 	/**
 	 * Appends the template body to a registration xml
 	 * @param doc
-	 * @param gcmTemplateRegistrationDescription
+	 * @param templateRegistrationDescription
 	 */
-	private void appendBodyTemplateNode(Document doc, Element gcmTemplateRegistrationDescription) {
+	private void appendBodyTemplateNode(Document doc, Element templateRegistrationDescription) {
 		if (!Utils.isNullOrWhiteSpace(getBodyTemplate())) {
 			Element bodyTemplate = doc.createElement("BodyTemplate");
-			gcmTemplateRegistrationDescription.appendChild(bodyTemplate);
+			templateRegistrationDescription.appendChild(bodyTemplate);
 
 			CDATASection bodyTemplateCDATA = doc.createCDATASection(getBodyTemplate());
 			bodyTemplate.appendChild(bodyTemplateCDATA);
@@ -111,13 +101,5 @@ public class TemplateRegistration extends Registration {
 	 */
 	public String getTemplateName() {
 		return getName();
-	}
-
-	/**
-	 * Indicates if a registration xml is a Template Registration
-	 * @param xml	The xml to check
-	 */
-	static boolean isTemplateRegistration(String xml) {
-		return xml.contains("<" + GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE);
 	}
 }

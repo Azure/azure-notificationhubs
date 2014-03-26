@@ -29,7 +29,6 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 import com.microsoft.windowsazure.messaging.ConnectionString;
-import com.microsoft.windowsazure.messaging.NativeRegistration;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.messaging.NotificationHubException;
 import com.microsoft.windowsazure.messaging.NotificationHubResourceNotFoundException;
@@ -50,7 +49,7 @@ public class MiscTests extends TestGroup {
 	private static final String DEFAULT_REGISTRATION_NAME = "$Default";
 	private static final String REGISTRATION_NAME_STORAGE_KEY = "__NH_REG_NAME_";
 
-	private NativeRegistration register(TestCase test, NotificationHub hub, String gcmId, String[] tags) throws Exception {
+	private Registration register(TestCase test, NotificationHub hub, String gcmId, String[] tags) throws Exception {
 		test.log("Register Native with GCMID = " + gcmId);
 		if (tags != null && tags.length > 0) {
 			for (String tag : tags) {
@@ -818,7 +817,7 @@ public class MiscTests extends TestGroup {
 					result.setTestCase(this);
 
 					String gcmId = UUID.randomUUID().toString();
-					NativeRegistration nativeRegistration = register(this, notificationHub, gcmId, (String[]) null);
+					Registration nativeRegistration = register(this, notificationHub, gcmId, (String[]) null);
 					String registrationId = nativeRegistration.getRegistrationId();
 					unregister(this, notificationHub);
 
@@ -978,7 +977,7 @@ public class MiscTests extends TestGroup {
 					result.setTestCase(this);
 
 					String gcmId = UUID.randomUUID().toString();
-					NativeRegistration nativeRegistration = register(this, notificationHub, gcmId, (String[]) null);
+					Registration nativeRegistration = register(this, notificationHub, gcmId, (String[]) null);
 					String registrationId = nativeRegistration.getRegistrationId();
 
 					registerTemplate(this, notificationHub, gcmId, templateName, (String[]) null);
