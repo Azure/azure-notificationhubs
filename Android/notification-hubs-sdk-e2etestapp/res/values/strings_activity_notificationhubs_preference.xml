@@ -6,13 +6,13 @@
     <string name="pref_header_general">General</string>
 	
 	<string name="pref_notificationhub_title_url">Service Bus URL</string>
-    <string name="pref_notificationhub_url">http://my-service-bus.servicebus.windows.net/</string>
+    <string name="pref_notificationhub_url">http://opentechnamespace.servicebus.int7.windows-int.net/</string>
     <string name="pref_notificationhub_title_keyname">SAS Key Name</string>
-    <string name="pref_notificationhub_keyname">DefaultListenSharedAccessSignature</string>
+    <string name="pref_notificationhub_keyname">RootManageSharedAccessKey</string>
     <string name="pref_notificationhub_title_keyvalue">SAS Key Value</string>
-    <string name="pref_notificationhub_keyvalue">1a2b3c4d</string>
+    <string name="pref_notificationhub_keyvalue">Da2A7S1i+UGQx/a+k4E4ZOxXShLoQAUVlCfkSviI6sA=</string>
     <string name="pref_notificationhub_title_name">Notification Hub Name</string>
-    <string name="pref_notificationhub_name">my-hub</string>
+    <string name="pref_notificationhub_name">testhub</string>
     <string name="pref_title_log_post_url">Log POST URL</string>
     <string name="pref_log_post_url"></string>
     <string name="pref_title_GCM_sender_id">GCM Sender Id</string>
