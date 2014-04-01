@@ -1,0 +1,562 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8471C92F16F3DED000C73674 /* SBLocalStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8471C92E16F3DED000C73674 /* SBLocalStorage.m */; };
+		848CB70E16FBE68700183E8D /* SBTemplateRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CB70D16FBE68700183E8D /* SBTemplateRegistration.m */; };
+		848CB74016FCC8C100183E8D /* SBStoredRegistrationEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 848CB73F16FCC8C100183E8D /* SBStoredRegistrationEntry.m */; };
+		924E069D185BC3C50078E879 /* SBStaticHandlerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E069C185BC3C50078E879 /* SBStaticHandlerResponse.m */; };
+		A3C2060816B9FC0B00158A35 /* SBConnectionString.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2060116B9FC0B00158A35 /* SBConnectionString.m */; };
+		A3C2060916B9FC0B00158A35 /* SBNotificationHub.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2060316B9FC0B00158A35 /* SBNotificationHub.m */; };
+		A3C2060B16B9FC0B00158A35 /* SBRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2060716B9FC0B00158A35 /* SBRegistration.m */; };
+		A3C2061416B9FC1900158A35 /* SBNotificationHubHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2060D16B9FC1900158A35 /* SBNotificationHubHelper.m */; };
+		A3C2061516B9FC1900158A35 /* SBRegistrationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2060F16B9FC1900158A35 /* SBRegistrationParser.m */; };
+		A3C2061616B9FC1900158A35 /* SBTokenProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2061116B9FC1900158A35 /* SBTokenProvider.m */; };
+		A3C2061716B9FC1900158A35 /* SBURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2061316B9FC1900158A35 /* SBURLConnection.m */; };
+		A3C2064616BC3F3300158A35 /* TestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C2064516BC3F3300158A35 /* TestHelper.m */; };
+		A3C669AF16A8DB4300CEA9F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */; };
+		A3C669B116A8DB4300CEA9F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669B016A8DB4300CEA9F3 /* Foundation.framework */; };
+		A3C669B316A8DB4300CEA9F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669B216A8DB4300CEA9F3 /* CoreGraphics.framework */; };
+		A3C669B916A8DB4300CEA9F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A3C669B716A8DB4300CEA9F3 /* InfoPlist.strings */; };
+		A3C669BB16A8DB4300CEA9F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C669BA16A8DB4300CEA9F3 /* main.m */; };
+		A3C669BF16A8DB4300CEA9F3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C669BE16A8DB4300CEA9F3 /* AppDelegate.m */; };
+		A3C669C216A8DB4300CEA9F3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C669C116A8DB4300CEA9F3 /* ViewController.m */; };
+		A3C669C516A8DB4300CEA9F3 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C669C316A8DB4300CEA9F3 /* ViewController_iPhone.xib */; };
+		A3C669C816A8DB4300CEA9F3 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C669C616A8DB4300CEA9F3 /* ViewController_iPad.xib */; };
+		A3C669D016A8DB4300CEA9F3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */; };
+		A3C669D116A8DB4300CEA9F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */; };
+		A3C669D216A8DB4300CEA9F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669B016A8DB4300CEA9F3 /* Foundation.framework */; };
+		A3C669DA16A8DB4300CEA9F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A3C669D816A8DB4300CEA9F3 /* InfoPlist.strings */; };
+		A3C669DD16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C669DC16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A3C669D316A8DB4300CEA9F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3C669A116A8DB4300CEA9F3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3C669A916A8DB4300CEA9F3;
+			remoteInfo = WindowsAzureMessagingTest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8471C92D16F3DED000C73674 /* SBLocalStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBLocalStorage.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBLocalStorage.h; sourceTree = "<group>"; };
+		8471C92E16F3DED000C73674 /* SBLocalStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBLocalStorage.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBLocalStorage.m; sourceTree = "<group>"; };
+		848CB70C16FBE68700183E8D /* SBTemplateRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBTemplateRegistration.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBTemplateRegistration.h; sourceTree = "<group>"; };
+		848CB70D16FBE68700183E8D /* SBTemplateRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBTemplateRegistration.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBTemplateRegistration.m; sourceTree = "<group>"; };
+		848CB73E16FCC8C100183E8D /* SBStoredRegistrationEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBStoredRegistrationEntry.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBStoredRegistrationEntry.h; sourceTree = "<group>"; };
+		848CB73F16FCC8C100183E8D /* SBStoredRegistrationEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBStoredRegistrationEntry.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBStoredRegistrationEntry.m; sourceTree = "<group>"; };
+		924E069B185BC3C50078E879 /* SBStaticHandlerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBStaticHandlerResponse.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBStaticHandlerResponse.h; sourceTree = "<group>"; };
+		924E069C185BC3C50078E879 /* SBStaticHandlerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBStaticHandlerResponse.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBStaticHandlerResponse.m; sourceTree = "<group>"; };
+		A3C2060016B9FC0B00158A35 /* SBConnectionString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBConnectionString.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBConnectionString.h; sourceTree = "<group>"; };
+		A3C2060116B9FC0B00158A35 /* SBConnectionString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBConnectionString.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBConnectionString.m; sourceTree = "<group>"; };
+		A3C2060216B9FC0B00158A35 /* SBNotificationHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBNotificationHub.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBNotificationHub.h; sourceTree = "<group>"; };
+		A3C2060316B9FC0B00158A35 /* SBNotificationHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBNotificationHub.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBNotificationHub.m; sourceTree = "<group>"; };
+		A3C2060616B9FC0B00158A35 /* SBRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBRegistration.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBRegistration.h; sourceTree = "<group>"; };
+		A3C2060716B9FC0B00158A35 /* SBRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBRegistration.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/SBRegistration.m; sourceTree = "<group>"; };
+		A3C2060C16B9FC1900158A35 /* SBNotificationHubHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBNotificationHubHelper.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBNotificationHubHelper.h; sourceTree = "<group>"; };
+		A3C2060D16B9FC1900158A35 /* SBNotificationHubHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBNotificationHubHelper.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBNotificationHubHelper.m; sourceTree = "<group>"; };
+		A3C2060E16B9FC1900158A35 /* SBRegistrationParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBRegistrationParser.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBRegistrationParser.h; sourceTree = "<group>"; };
+		A3C2060F16B9FC1900158A35 /* SBRegistrationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBRegistrationParser.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBRegistrationParser.m; sourceTree = "<group>"; };
+		A3C2061016B9FC1900158A35 /* SBTokenProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBTokenProvider.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBTokenProvider.h; sourceTree = "<group>"; };
+		A3C2061116B9FC1900158A35 /* SBTokenProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBTokenProvider.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBTokenProvider.m; sourceTree = "<group>"; };
+		A3C2061216B9FC1900158A35 /* SBURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBURLConnection.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBURLConnection.h; sourceTree = "<group>"; };
+		A3C2061316B9FC1900158A35 /* SBURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBURLConnection.m; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/Helpers/SBURLConnection.m; sourceTree = "<group>"; };
+		A3C2061816B9FC2F00158A35 /* WindowsAzureMessaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowsAzureMessaging.h; path = ../../WindowsAzureMessaging/WindowsAzureMessaging/WindowsAzureMessaging.h; sourceTree = "<group>"; };
+		A3C2064416BC3F3300158A35 /* TestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestHelper.h; path = ../TestHelper.h; sourceTree = "<group>"; };
+		A3C2064516BC3F3300158A35 /* TestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestHelper.m; path = ../TestHelper.m; sourceTree = "<group>"; };
+		A3C669AA16A8DB4300CEA9F3 /* WindowsAzureMessagingTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindowsAzureMessagingTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A3C669B016A8DB4300CEA9F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A3C669B216A8DB4300CEA9F3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A3C669B616A8DB4300CEA9F3 /* WindowsAzureMessagingTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WindowsAzureMessagingTest-Info.plist"; sourceTree = "<group>"; };
+		A3C669B816A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A3C669BA16A8DB4300CEA9F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A3C669BC16A8DB4300CEA9F3 /* WindowsAzureMessagingTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WindowsAzureMessagingTest-Prefix.pch"; sourceTree = "<group>"; };
+		A3C669BD16A8DB4300CEA9F3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A3C669BE16A8DB4300CEA9F3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A3C669C016A8DB4300CEA9F3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		A3C669C116A8DB4300CEA9F3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A3C669C416A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		A3C669C716A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsAzureMessagingTestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		A3C669D716A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WindowsAzureMessagingTestTests-Info.plist"; sourceTree = "<group>"; };
+		A3C669D916A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A3C669DB16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowsAzureMessagingTestTests.h; sourceTree = "<group>"; };
+		A3C669DC16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowsAzureMessagingTestTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A3C669A716A8DB4300CEA9F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669AF16A8DB4300CEA9F3 /* UIKit.framework in Frameworks */,
+				A3C669B116A8DB4300CEA9F3 /* Foundation.framework in Frameworks */,
+				A3C669B316A8DB4300CEA9F3 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3C669CA16A8DB4300CEA9F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669D016A8DB4300CEA9F3 /* SenTestingKit.framework in Frameworks */,
+				A3C669D116A8DB4300CEA9F3 /* UIKit.framework in Frameworks */,
+				A3C669D216A8DB4300CEA9F3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A3C205FF16B9FBF000158A35 /* SrcReference */ = {
+			isa = PBXGroup;
+			children = (
+				924E069B185BC3C50078E879 /* SBStaticHandlerResponse.h */,
+				924E069C185BC3C50078E879 /* SBStaticHandlerResponse.m */,
+				848CB73E16FCC8C100183E8D /* SBStoredRegistrationEntry.h */,
+				848CB73F16FCC8C100183E8D /* SBStoredRegistrationEntry.m */,
+				848CB70C16FBE68700183E8D /* SBTemplateRegistration.h */,
+				848CB70D16FBE68700183E8D /* SBTemplateRegistration.m */,
+				8471C92D16F3DED000C73674 /* SBLocalStorage.h */,
+				8471C92E16F3DED000C73674 /* SBLocalStorage.m */,
+				A3C2061816B9FC2F00158A35 /* WindowsAzureMessaging.h */,
+				A3C2060C16B9FC1900158A35 /* SBNotificationHubHelper.h */,
+				A3C2060D16B9FC1900158A35 /* SBNotificationHubHelper.m */,
+				A3C2060E16B9FC1900158A35 /* SBRegistrationParser.h */,
+				A3C2060F16B9FC1900158A35 /* SBRegistrationParser.m */,
+				A3C2061016B9FC1900158A35 /* SBTokenProvider.h */,
+				A3C2061116B9FC1900158A35 /* SBTokenProvider.m */,
+				A3C2061216B9FC1900158A35 /* SBURLConnection.h */,
+				A3C2061316B9FC1900158A35 /* SBURLConnection.m */,
+				A3C2060016B9FC0B00158A35 /* SBConnectionString.h */,
+				A3C2060116B9FC0B00158A35 /* SBConnectionString.m */,
+				A3C2060216B9FC0B00158A35 /* SBNotificationHub.h */,
+				A3C2060316B9FC0B00158A35 /* SBNotificationHub.m */,
+				A3C2060616B9FC0B00158A35 /* SBRegistration.h */,
+				A3C2060716B9FC0B00158A35 /* SBRegistration.m */,
+			);
+			name = SrcReference;
+			path = ../WindowsAzureMessagingTest;
+			sourceTree = "<group>";
+		};
+		A3C6699F16A8DB4300CEA9F3 = {
+			isa = PBXGroup;
+			children = (
+				A3C669B416A8DB4300CEA9F3 /* WindowsAzureMessagingTest */,
+				A3C669D516A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests */,
+				A3C669AD16A8DB4300CEA9F3 /* Frameworks */,
+				A3C669AB16A8DB4300CEA9F3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A3C669AB16A8DB4300CEA9F3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A3C669AA16A8DB4300CEA9F3 /* WindowsAzureMessagingTest.app */,
+				A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A3C669AD16A8DB4300CEA9F3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */,
+				A3C669B016A8DB4300CEA9F3 /* Foundation.framework */,
+				A3C669B216A8DB4300CEA9F3 /* CoreGraphics.framework */,
+				A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A3C669B416A8DB4300CEA9F3 /* WindowsAzureMessagingTest */ = {
+			isa = PBXGroup;
+			children = (
+				A3C669BD16A8DB4300CEA9F3 /* AppDelegate.h */,
+				A3C669BE16A8DB4300CEA9F3 /* AppDelegate.m */,
+				A3C669C016A8DB4300CEA9F3 /* ViewController.h */,
+				A3C669C116A8DB4300CEA9F3 /* ViewController.m */,
+				A3C669C316A8DB4300CEA9F3 /* ViewController_iPhone.xib */,
+				A3C669C616A8DB4300CEA9F3 /* ViewController_iPad.xib */,
+				A3C669B516A8DB4300CEA9F3 /* Supporting Files */,
+			);
+			path = WindowsAzureMessagingTest;
+			sourceTree = "<group>";
+		};
+		A3C669B516A8DB4300CEA9F3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A3C669B616A8DB4300CEA9F3 /* WindowsAzureMessagingTest-Info.plist */,
+				A3C669B716A8DB4300CEA9F3 /* InfoPlist.strings */,
+				A3C669BA16A8DB4300CEA9F3 /* main.m */,
+				A3C669BC16A8DB4300CEA9F3 /* WindowsAzureMessagingTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A3C669D516A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				A3C205FF16B9FBF000158A35 /* SrcReference */,
+				A3C669DB16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.h */,
+				A3C669DC16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.m */,
+				A3C2064416BC3F3300158A35 /* TestHelper.h */,
+				A3C2064516BC3F3300158A35 /* TestHelper.m */,
+				A3C669D616A8DB4300CEA9F3 /* Supporting Files */,
+			);
+			path = WindowsAzureMessagingTestTests;
+			sourceTree = "<group>";
+		};
+		A3C669D616A8DB4300CEA9F3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A3C669D716A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests-Info.plist */,
+				A3C669D816A8DB4300CEA9F3 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A3C669A916A8DB4300CEA9F3 /* WindowsAzureMessagingTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3C669E016A8DB4300CEA9F3 /* Build configuration list for PBXNativeTarget "WindowsAzureMessagingTest" */;
+			buildPhases = (
+				A3C669A616A8DB4300CEA9F3 /* Sources */,
+				A3C669A716A8DB4300CEA9F3 /* Frameworks */,
+				A3C669A816A8DB4300CEA9F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WindowsAzureMessagingTest;
+			productName = WindowsAzureMessagingTest;
+			productReference = A3C669AA16A8DB4300CEA9F3 /* WindowsAzureMessagingTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A3C669CD16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3C669E316A8DB4300CEA9F3 /* Build configuration list for PBXNativeTarget "WindowsAzureMessagingTestTests" */;
+			buildPhases = (
+				A3C669C916A8DB4300CEA9F3 /* Sources */,
+				A3C669CA16A8DB4300CEA9F3 /* Frameworks */,
+				A3C669CB16A8DB4300CEA9F3 /* Resources */,
+				A3C669CC16A8DB4300CEA9F3 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3C669D416A8DB4300CEA9F3 /* PBXTargetDependency */,
+			);
+			name = WindowsAzureMessagingTestTests;
+			productName = WindowsAzureMessagingTestTests;
+			productReference = A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A3C669A116A8DB4300CEA9F3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Azure ServiceBus";
+			};
+			buildConfigurationList = A3C669A416A8DB4300CEA9F3 /* Build configuration list for PBXProject "WindowsAzureMessagingTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A3C6699F16A8DB4300CEA9F3;
+			productRefGroup = A3C669AB16A8DB4300CEA9F3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A3C669A916A8DB4300CEA9F3 /* WindowsAzureMessagingTest */,
+				A3C669CD16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A3C669A816A8DB4300CEA9F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669B916A8DB4300CEA9F3 /* InfoPlist.strings in Resources */,
+				A3C669C516A8DB4300CEA9F3 /* ViewController_iPhone.xib in Resources */,
+				A3C669C816A8DB4300CEA9F3 /* ViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3C669CB16A8DB4300CEA9F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669DA16A8DB4300CEA9F3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A3C669CC16A8DB4300CEA9F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A3C669A616A8DB4300CEA9F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669BB16A8DB4300CEA9F3 /* main.m in Sources */,
+				A3C669BF16A8DB4300CEA9F3 /* AppDelegate.m in Sources */,
+				A3C669C216A8DB4300CEA9F3 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3C669C916A8DB4300CEA9F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C669DD16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.m in Sources */,
+				A3C2060816B9FC0B00158A35 /* SBConnectionString.m in Sources */,
+				A3C2060916B9FC0B00158A35 /* SBNotificationHub.m in Sources */,
+				A3C2060B16B9FC0B00158A35 /* SBRegistration.m in Sources */,
+				A3C2061416B9FC1900158A35 /* SBNotificationHubHelper.m in Sources */,
+				A3C2061516B9FC1900158A35 /* SBRegistrationParser.m in Sources */,
+				A3C2061616B9FC1900158A35 /* SBTokenProvider.m in Sources */,
+				A3C2061716B9FC1900158A35 /* SBURLConnection.m in Sources */,
+				A3C2064616BC3F3300158A35 /* TestHelper.m in Sources */,
+				8471C92F16F3DED000C73674 /* SBLocalStorage.m in Sources */,
+				848CB70E16FBE68700183E8D /* SBTemplateRegistration.m in Sources */,
+				848CB74016FCC8C100183E8D /* SBStoredRegistrationEntry.m in Sources */,
+				924E069D185BC3C50078E879 /* SBStaticHandlerResponse.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A3C669D416A8DB4300CEA9F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3C669A916A8DB4300CEA9F3 /* WindowsAzureMessagingTest */;
+			targetProxy = A3C669D316A8DB4300CEA9F3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A3C669B716A8DB4300CEA9F3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3C669B816A8DB4300CEA9F3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A3C669C316A8DB4300CEA9F3 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3C669C416A8DB4300CEA9F3 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		A3C669C616A8DB4300CEA9F3 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3C669C716A8DB4300CEA9F3 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		A3C669D816A8DB4300CEA9F3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A3C669D916A8DB4300CEA9F3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A3C669DE16A8DB4300CEA9F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_AFTER_BUILD = NO;
+			};
+			name = Debug;
+		};
+		A3C669DF16A8DB4300CEA9F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_AFTER_BUILD = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A3C669E116A8DB4300CEA9F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
+				INFOPLIST_FILE = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A3C669E216A8DB4300CEA9F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
+				INFOPLIST_FILE = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A3C669E416A8DB4300CEA9F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/WindowsAzureMessagingTest.app/WindowsAzureMessagingTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/..\"",
+					"\"$(SRCROOT)/../Output/WindowsAzureMessaging-cbpndrltgohoaacmvxivevylenkf/Build/Products/Debug-iphonesimulator\"",
+					"\"$(SRCROOT)/../WindowsAzureMessaging/build/Release-iphonesimulator\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
+				INFOPLIST_FILE = "WindowsAzureMessagingTestTests/WindowsAzureMessagingTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
+				TEST_HOST = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		A3C669E516A8DB4300CEA9F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/WindowsAzureMessagingTest.app/WindowsAzureMessagingTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/..\"",
+					"\"$(SRCROOT)/../Output/WindowsAzureMessaging-cbpndrltgohoaacmvxivevylenkf/Build/Products/Debug-iphonesimulator\"",
+					"\"$(SRCROOT)/../WindowsAzureMessaging/build/Release-iphonesimulator\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
+				INFOPLIST_FILE = "WindowsAzureMessagingTestTests/WindowsAzureMessagingTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = NO;
+				TEST_HOST = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A3C669A416A8DB4300CEA9F3 /* Build configuration list for PBXProject "WindowsAzureMessagingTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3C669DE16A8DB4300CEA9F3 /* Debug */,
+				A3C669DF16A8DB4300CEA9F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3C669E016A8DB4300CEA9F3 /* Build configuration list for PBXNativeTarget "WindowsAzureMessagingTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3C669E116A8DB4300CEA9F3 /* Debug */,
+				A3C669E216A8DB4300CEA9F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3C669E316A8DB4300CEA9F3 /* Build configuration list for PBXNativeTarget "WindowsAzureMessagingTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3C669E416A8DB4300CEA9F3 /* Debug */,
+				A3C669E516A8DB4300CEA9F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A3C669A116A8DB4300CEA9F3 /* Project object */;
+}
