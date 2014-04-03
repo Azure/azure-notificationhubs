@@ -10,17 +10,17 @@ cd $ABSPATH
 cd WORKSPACE
 
 #create build directory
-path=../build/"$(date +%Y-%m%d-%H%M%S)"
+path=../../../build/"$(date +%Y-%m%d-%H%M%S)"
 mkdir -p $path
 
 #prepare lof file names
-buildLogPath=../../../$path/buildLog.txt
-testLogPath=../../../$path/testLog.txt
+buildLogPath=../$path/buildLog.txt
+testLogPath=../$path/testLog.txt
 
 
 #build framework
 echo "******Build framework************"
-cd Push_iOS_SDK_CI/iOS/WindowsAzureMessaging
+cd WindowsAzureMessaging
 xcodebuild clean &> /dev/null
 xcodebuild | sed '/setenv/d' 2>&1 | tee $buildLogPath
 
@@ -29,7 +29,7 @@ if [ ! -e build/Release-iphonesimulator/WindowsAzureMessaging.framework ] ; then
     error_exit "****** Build framework failed ************"
 fi
 cd build/Release-iphonesimulator
-zip -r ../../../../../$path/WindowsAzureMessaging.framework.zip WindowsAzureMessaging.framework
+zip -r ../../../$path/WindowsAzureMessaging.framework.zip WindowsAzureMessaging.framework
 cd ../../
 echo "******Build framework SUCCEEDED ************"
 
