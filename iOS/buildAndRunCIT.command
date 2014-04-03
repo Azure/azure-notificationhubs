@@ -7,8 +7,6 @@ function error_exit
 ABSPATH=$(cd "$(dirname "$0")"; pwd)
 cd $ABSPATH
 
-cd WORKSPACE
-
 #create build directory
 path=../../../build/"$(date +%Y-%m%d-%H%M%S)"
 mkdir -p $path
@@ -36,7 +34,7 @@ echo "******Build framework SUCCEEDED ************"
 #build and run CIT
 echo "******Build and run CIT************"
 cd ../WindowsAzureMessagingTest/
-xcodebuild -destination 'platform=iOS Simulator,name=iPhone' test | sed '/Compile/d' | sed '/GenerateDSYMFile/d' | sed '/ProcessInfoPlistFile/d' | sed '/builtin/d' | sed '/Ld/d' | sed '/ld/d' |sed '/CopyStringsFile/d' | sed '/PhaseScript/d' | sed '/cd/d' | sed '/\/bin\/sh/d' | sed '/setenv/d' | sed '/\/Application/d' | sed '/^$/N;/^\n$/D' 2>&1 | tee $testLogPath
+xcodebuild -scheme WindowsAzureMessagingTest -destination 'platform=iOS Simulator,name=iPhone' test | sed '/Compile/d' | sed '/GenerateDSYMFile/d' | sed '/ProcessInfoPlistFile/d' | sed '/builtin/d' | sed '/Ld/d' | sed '/ld/d' |sed '/CopyStringsFile/d' | sed '/PhaseScript/d' | sed '/cd/d' | sed '/\/bin\/sh/d' | sed '/setenv/d' | sed '/\/Application/d' | sed '/^$/N;/^\n$/D' 2>&1 | tee $testLogPath
 
 #check whether test is succeed
 grep " TEST SUCCEEDED " $testLogPath &> /dev/null
