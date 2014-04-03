@@ -15,7 +15,6 @@ mkdir -p $path
 buildLogPath=../$path/buildLog.txt
 testLogPath=../$path/testLog.txt
 
-
 #build framework
 echo "******Build framework************"
 cd WindowsAzureMessaging
