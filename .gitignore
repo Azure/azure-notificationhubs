@@ -6,3 +6,10 @@ Android/notification-hubs-sdk-testapp/bin
 Android/notification-hubs-sdk-testapp/gen
 Android/notification-hubs-sdk-testapp-tests/bin
 Android/notification-hubs-sdk-testapp-tests/gen
+
+iOS/WindowsAzureMessaging/build
+iOS/WindowsAzureMessaging/WindowsAzureMessaging.xcodeproj/project.xcworkspace
+iOS/WindowsAzureMessaging/WindowsAzureMessaging.xcodeproj/project.xcuserdata
+iOS/WindowsAzureMessagingTest/build
+iOS/WindowsAzureMessagingTest/WindowsAzureMessagingTest.xcodeproj/project.xcworkspace
+iOS/WindowsAzureMessagingTest/WindowsAzureMessagingTest.xcodeproj/project.xcuserdata
