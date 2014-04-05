@@ -11,7 +11,7 @@ cd $ABSPATH
 path=../../../build/"$(date +%Y-%m%d-%H%M%S)"
 mkdir -p $path
 
-#prepare lof file names
+#prepare log file names
 buildLogPath=../$path/buildLog.txt
 testLogPath=../$path/testLog.txt
 
@@ -21,11 +21,12 @@ cd WindowsAzureMessaging
 xcodebuild clean &> /dev/null
 xcodebuild | sed '/setenv/d' 2>&1 | tee $buildLogPath
 
-#check if build is succeed and zip bins
+#check if build is succeed, zip bins and copy framework to BVT folder
 if [ ! -e build/Release-iphonesimulator/WindowsAzureMessaging.framework ] ; then
     error_exit "****** Build framework failed ************"
 fi
 cd build/Release-iphonesimulator
+ditto WindowsAzureMessaging.framework ../../../BVT/WindowsAzureMessaging.framework/
 zip -r ../../../$path/WindowsAzureMessaging.framework.zip WindowsAzureMessaging.framework
 cd ../../
 echo "******Build framework SUCCEEDED ************"
