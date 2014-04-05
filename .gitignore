@@ -14,5 +14,5 @@ iOS/WindowsAzureMessagingTest/build
 iOS/WindowsAzureMessagingTest/WindowsAzureMessagingTest.xcodeproj/*xcworkspace*
 iOS/WindowsAzureMessagingTest/WindowsAzureMessagingTest.xcodeproj/*xcuserdata*
 iOS/BVT/build
-iOS/BVT/IosSdkTests.xcodeproj/WindowsAzureMessagingTest.xcodeproj/*xcworkspace*
-iOS/BVT/IosSdkTests.xcodeproj/WindowsAzureMessagingTest.xcodeproj/*xcuserdata*
+iOS/BVT/IosSdkTests.xcodeproj/*xcworkspace*
+iOS/BVT/IosSdkTests.xcodeproj/*xcuserdata*
