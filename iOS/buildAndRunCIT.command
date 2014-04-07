@@ -19,7 +19,7 @@ testLogPath=../$path/testLog.txt
 echo "******Build framework************"
 cd WindowsAzureMessaging
 xcodebuild clean &> /dev/null
-xcodebuild | sed '/setenv/d' 2>&1 | tee $buildLogPath
+xcodebuild -scheme Framework -target Framework -configuration Release BUILD_DIR=./Build | sed '/setenv/d' 2>&1 | tee $buildLogPath
 
 #check if build is succeed, zip bins and copy framework to BVT folder
 if [ ! -e build/Release-iphonesimulator/WindowsAzureMessaging.framework ] ; then
