@@ -71,7 +71,7 @@
 {
     NSLog(@"CreateNotificationhubRest with name: %@", hubName);
     createNotificationSemaphore = dispatch_semaphore_create(0);
-    NSString* connString = [NSString stringWithFormat:@"http://%@.servicebus.int7.windows-int.net/%@?api-version=2013-04", m_serviceNamespace, hubName];
+    NSString* connString = [NSString stringWithFormat:@"http://%@.servicebus.int7.windows-int.net/%@?api-version=2014-01", m_serviceNamespace, hubName];
     NSString* authHeader = [self GetToken];
     
     createNotificationSemaphore = dispatch_semaphore_create(0);
@@ -80,11 +80,8 @@
                                     initWithURL: [NSURL
                                                   URLWithString:connString]];
     
-    NSString* payload = [NSString stringWithFormat:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><title type=\"text\">%@</title><content type=\"application/xml\"><NotificationHubDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><WnsCredential><Properties><Property><Name>PackageSid</Name><Value>ms-app://s-1-15-2-1185740631-77398440-1493721689-3550961144-3662611179-2285788125-3925323875</Value></Property><Property><Name>SecretKey</Name><Value>UYq-vNxAcORTyOTl-4ImouRj4YkJdwAt</Value></Property><Property><Name>WindowsLiveEndpoint</Name><Value>http://pushtestservice2.cloudapp.net/LiveID/accesstoken.srf</Value></Property></Properties></WnsCredential><AuthorizationRules><AuthorizationRule i:type=\"SharedAccessAuthorizationRule\"><ClaimType>SharedAccessKey</ClaimType><ClaimValue>None</ClaimValue><Rights><AccessRights>Listen</AccessRights></Rights><KeyName>DefaultListenSharedAccessSignature</KeyName><PrimaryKey>%@</PrimaryKey></AuthorizationRule></AuthorizationRules></NotificationHubDescription></content></entry>", hubName, sasKey];
+    NSString* payload=[NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xmlns=\"http://www.w3.org/2005/Atom\"><id>uuid:27bc2717-90c6-4fa4-b91b-43b87008bcf3;id=1</id><title type=\"text\">%@</title><updated>2014-04-08T20:02:49Z</updated><content type=\"application/atom+xml;type=entry;charset=utf-8\"><NotificationHubDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><AuthorizationRules><AuthorizationRule i:type=\"SharedAccessAuthorizationRule\"><ClaimType>SharedAccessKey</ClaimType><ClaimValue>None</ClaimValue><Rights><AccessRights>Listen</AccessRights></Rights><CreatedTime>2014-04-08T20:02:14.889701Z</CreatedTime><ModifiedTime>2014-04-08T20:02:14.889701Z</ModifiedTime><KeyName>DefaultListenSharedAccessSignature</KeyName><PrimaryKey>%@</PrimaryKey></AuthorizationRule></AuthorizationRules></NotificationHubDescription></content></entry>", hubName, sasKey];
     
-    
-    
-    //
     [request setHTTPMethod:@"PUT"];
     [request setValue:@"application/atom+xml" forHTTPHeaderField:@"Content-type"];
     
@@ -96,7 +93,10 @@
     
     NSURLResponse* response;
     NSError* error;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
+    NSString *responseBody = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
 }
 
 -(NSString*)GetToken
@@ -104,7 +104,7 @@
     NSLog(@"GetToken");
     acs_semaphore = dispatch_semaphore_create(0);
     
-    NSString* acsEndPoint = [NSString stringWithFormat:@"https://%@-sb.accesscontrol.aadint.windows-int.net:443/WRAPv0.9/", m_serviceNamespace];
+    NSString* acsEndPoint = [NSString stringWithFormat:@"https://%@-sb.accesscontrol.windows-ppe.net:443/WRAPv0.9/", m_serviceNamespace];
     NSString* realm = [NSString stringWithFormat:@"http://%@.servicebus.int7.windows-int.net/", m_serviceNamespace];
     NSString* issuerKey = (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)m_issuerKey, NULL, (CFStringRef)@"!*&=+", kCFStringEncodingUTF8);
     NSMutableString* requestStr = [[NSMutableString alloc] initWithFormat:@"wrap_name=%@&wrap_password=%@&wrap_scope=%@",@"owner", issuerKey, realm];

@@ -156,7 +156,7 @@ TokenProvider* tokenProvider;
 
 - (NSURL*) composeRetrieveAllRegistrationsUriWithDeviceToken:(NSString*)deviceToken
 {
-    NSString* APIVersion = @"2013-04";
+    NSString* APIVersion = @"2014-01";
     NSString* fullPath = [NSString stringWithFormat:@"%@%@/Registrations/?$filter=deviceToken+eq+'%@'&api-version=%@", [self->_serviceEndPoint absoluteString],self->_path, deviceToken, APIVersion];
     
     return[[NSURL alloc] initWithString: fullPath];

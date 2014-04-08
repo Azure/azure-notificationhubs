@@ -104,7 +104,7 @@ const int DEFAULT_REG_EXPIRY_IN_DAYS = 90;
 
 -(NSURL*)getCurrentStsEndPoint
 {
-    NSString* stsEndPoint = [NSString stringWithFormat:@"StsEndPoint=https://%@-sb.accesscontrol.aadint.windows-int.net",testSolutionName];
+    NSString* stsEndPoint = [NSString stringWithFormat:@"StsEndPoint=https://%@-sb.accesscontrol.windows-ppe.net",testSolutionName];
     //return stsEndPoint;
     return [NSURL URLWithString:stsEndPoint];
 }
@@ -122,8 +122,8 @@ const int DEFAULT_REG_EXPIRY_IN_DAYS = 90;
     connType               = @"SAS";
     notificationHubWithWrongConnStr = @"iossdktesting1";
     notificationHubWithSpecialTokens = @"iossdktesting2";
-    specialTokenValue = @"replace with specialTokenValue";
-    testSasKey   = @"replace with testSasKey"; //listenAccessSecret
+    specialTokenValue = @"nsEDOgLthiSalJr80DYMDWD9fN2jo6VE;;";
+    testSasKey   = @"d+EqhqCpnyTvgQeh3ArXHd2yKFa8bD/b1mh5JZYnZ50="; //listenAccessSecret
 }
 
 // TBD read from test configuration

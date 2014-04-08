@@ -12,7 +12,7 @@ path=../../../productionReadyBins/"$(date +%Y-%m%d-%H%M%S)"
 mkdir -p $path
 
 #prepare log file names
-bvtLogPath=../$path/sdkLog.txt
+bvtLogPath=../$path/BVTLog.txt
 
 #prepare test framework
 cd BVT
@@ -23,10 +23,14 @@ cd IosSdkTests
 unzip -o png.zip
 cd ..
 
-GHUNIT_CLI=1 xcodebuild -scheme IosSdkTests -destination 'platform=iOS Simulator,name=iPhone' -configuration Debug -sdk iphonesimulator6.1 clean build | grep -e "Executed" -e "SUCCESS" -e "Starting" -e "FAIL"  2>&1 | tee $bvtLogPath
+echo "***************Build and run BVT *****************" 2>&1 | tee -a $bvtLogPath
+GHUNIT_CLI=1 xcodebuild -scheme IosSdkTests -destination 'platform=iOS Simulator,name=iPhone' -configuration Debug -sdk iphonesimulator6.1 clean build 2>&1 | tee -a $bvtLogPath
 
 grep "with 0 failures" $bvtLogPath &> /dev/null
 if [ "$?" != "0" ]; then
     error_exit echo "**************IOS SDK BVT Failed*******************"
 fi
-echo "***************IOS SDK BVT Passed *****************"
+zip -r ../$path/WindowsAzureMessaging.framework.zip WindowsAzureMessaging.framework
+echo "===================================================" 2>&1 | tee -a $bvtLogPath
+lipo -info WindowsAzureMessaging.framework/WindowsAzureMessaging 2>&1 | tee -a $bvtLogPath
+echo "***************IOS SDK BVT Passed *****************" 2>&1 | tee -a $bvtLogPath
