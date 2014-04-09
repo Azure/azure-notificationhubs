@@ -161,7 +161,7 @@ NSString* const domain = @"WindowsAzureMessaging";
 
 + (NSError*) errorForNullDeviceToken
 {
-    return [SBNotificationHubHelper errorWithMsg:@"Device Token is not updated. Please call refreshRegistrationsWithDeviceToken." code:-1];
+    return [SBNotificationHubHelper errorWithMsg:@"Device Token can't be nil." code:-1];
 }
 
 + (NSError*) errorForReservedTemplateName
