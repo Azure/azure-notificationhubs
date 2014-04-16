@@ -34,9 +34,6 @@ NSString* const currentVersion = @"v0.1.6";
 NSString* const _APIVersion = @"2013-04";
 NSString* const _UserAgentTemplate = @"NOTIFICATIONHUBS/%@(api-origin=IosSdk; os=%@; os_version=%@;)";
 
-SBTokenProvider* tokenProvider;
-SBLocalStorage* storageManager;
-
 - (SBNotificationHub*) initWithConnectionString:(NSString*) connectionString notificationHubPath:(NSString*)notificationHubPath
 {
     self = [super init];

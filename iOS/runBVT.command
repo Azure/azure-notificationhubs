@@ -1,9 +1,3 @@
-function error_exit
-{
-    echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
-    exit 1
-}
-
 ABSPATH=$(cd "$(dirname "$0")"; pwd)
 cd $ABSPATH
 
@@ -28,7 +22,8 @@ GHUNIT_CLI=1 xcodebuild -scheme IosSdkTests -destination 'platform=iOS Simulator
 
 grep "with 0 failures" $bvtLogPath &> /dev/null
 if [ "$?" != "0" ]; then
-    error_exit echo "**************IOS SDK BVT Failed*******************"
+    echo "**************IOS SDK BVT Failed*******************" 2>&1 | tee -a $bvtLogPath
+    exit 1
 fi
 zip -r ../$path/WindowsAzureMessaging.framework.zip WindowsAzureMessaging.framework
 echo "===================================================" 2>&1 | tee -a $bvtLogPath
