@@ -19,3 +19,9 @@ iOS/BVT/IosSdkTests.xcodeproj/*xcuserdata*
 iOS/BVT/RunTests.sh
 iOS/BVT/GHUnitIOS.framework
 iOS/BVT/WindowsAzureMessaging.framework
+
+iOS/BVT/IosSdkTests/Default.png
+
+iOS/BVT/IosSdkTests/Default-568h@2x.png
+
+iOS/BVT/IosSdkTests/Default@2x.png
