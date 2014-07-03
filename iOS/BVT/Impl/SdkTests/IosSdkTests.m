@@ -735,6 +735,8 @@ NSString* _storageVersion = @"v1.0.0";
     // Get the registartion and check with expected
     NSArray* regs = [retriever retrieveAllWithDeviceToken:currentDeviceTokenData error:&error];
     [self setLastRegistrationInfo:[Registration Name] deviceToken:currentDeviceToken tags:tags];
+    
+    return regs[0];
 }
 
 -(void)DeleteAllAndThenNativeAndTemplateRegistration:(BOOL)sync
@@ -881,7 +883,7 @@ NSString* _storageVersion = @"v1.0.0";
 
 -(void)setLastRegistrationInfo:(NSString*)regName deviceToken : (NSString*)deviceToken tags : (NSSet*)tags
 {
-    lastRegistrationInfo = [Registration alloc];
+    lastRegistrationInfo = [[Registration alloc] init];
     [lastRegistrationInfo setTags:tags];
     [lastRegistrationInfo setDeviceToken:deviceToken];
     [lastRegistrationInfo setExpiresAt:[[NSDate date] dateByAddingTimeInterval:DEFAULT_REG_EXPIRY_IN_DAYS * 24 * 60 * 60] ];
@@ -890,7 +892,7 @@ NSString* _storageVersion = @"v1.0.0";
 -(void)setLastRegistrationInfo:(NSString*)regName deviceToken : (NSString*)deviceToken tags : (NSSet*)tags
 bodyTemplate : (NSString*)bodyTemplate expiry : (NSString*)expiry
 {
-    lastRegistrationInfo = [TemplateRegistration alloc];
+    lastRegistrationInfo = [[TemplateRegistration alloc] init];
     [lastRegistrationInfo setTags:tags];
     [lastRegistrationInfo setDeviceToken:deviceToken];
     [lastRegistrationInfo setExpiresAt:[[NSDate date] dateByAddingTimeInterval:DEFAULT_REG_EXPIRY_IN_DAYS * 24 * 60 * 60] ];

@@ -13,6 +13,7 @@ typedef SBStaticHandlerResponse* (^StaticHandleBlock)(NSURLRequest*);
     NSURLRequest* _request;
     NSHTTPURLResponse* _response;
     SBURLConnectionCompletion _completion;
+    NSMutableData *_data;
 }
 
 - (void) sendRequest: (NSURLRequest*) request completion:(void (^)(NSHTTPURLResponse*,NSData*,NSError*))completion;

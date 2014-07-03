@@ -109,8 +109,7 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 createRegistrationIdRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];                response.Data = [[NSData alloc] init];
                 response.Headers = @{@"Location":@"https://test.servicebus.windows.net/PushTest/registrations/73838-337-2383"};
                 return response;
             }
@@ -124,8 +123,8 @@ NSString* deviceToken2 = @"22";
                 }
             
                 httpRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+                response.Data = [[NSData alloc] init];
                 return response;
             }
         }];
@@ -162,8 +161,8 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 createRegistrationIdRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+                response.Data = [[NSData alloc] init];
                 response.Headers = @{@"Location":@"https://test.servicebus.windows.net/PushTest/registrations/73838-337-2383"};
                 return response;
             }
@@ -177,8 +176,8 @@ NSString* deviceToken2 = @"22";
                 }
             
                 httpRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+                response.Data = [[NSData alloc] init];
                 return response;
             }
         }];
@@ -234,8 +233,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }];
         
@@ -268,8 +267,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }];
         
@@ -314,7 +313,7 @@ NSString* deviceToken2 = @"22";
             
             refreshRequestFinished = TRUE;
             
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
             response.Data = [emptyRegistrations dataUsingEncoding:NSUTF8StringEncoding];
             return response;
         }
@@ -329,8 +328,8 @@ NSString* deviceToken2 = @"22";
             }
             
             createRegistrationIdRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             response.Headers = @{@"Location":@"https://test.servicebus.windows.net/PushTest/registrations/73838-337-2383"};
             return response;
         }
@@ -350,8 +349,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }
     }];
@@ -444,7 +443,7 @@ NSString* deviceToken2 = @"22";
             }
             
             refreshRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
             response.Data = [emptyRegistrations dataUsingEncoding:NSUTF8StringEncoding];
             return response;
         }
@@ -459,8 +458,8 @@ NSString* deviceToken2 = @"22";
             }
             
             createRegistrationIdRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             response.Headers = @{@"Location":@"https://test.servicebus.windows.net/PushTest/registrations/73838-337-2383"};
             return response;
         }
@@ -481,8 +480,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }
     }];
@@ -582,8 +581,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }];
         
@@ -616,8 +615,8 @@ NSString* deviceToken2 = @"22";
             }
             
             httpRequestFinished = TRUE;
-            SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-            response.Data = [NSData alloc];
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
             return response;
         }];
         
@@ -672,7 +671,7 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 tokenRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
                 response.Data = [@"wrap_access_token=newToken&wrap_acess_token_expires_in=3600" dataUsingEncoding:NSUTF8StringEncoding];
                 return response;
             }
@@ -686,8 +685,8 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 httpRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+                response.Data = [[NSData alloc] init];
                 return response;
             }
         }];
@@ -727,7 +726,7 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 tokenRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
                 response.Data = [@"wrap_access_token=newToken&wrap_acess_token_expires_in=3600" dataUsingEncoding:NSUTF8StringEncoding];
                 return response;
             }
@@ -741,8 +740,8 @@ NSString* deviceToken2 = @"22";
                 }
                 
                 httpRequestFinished = TRUE;
-                SBStaticHandlerResponse* response = [SBStaticHandlerResponse alloc];
-                response.Data = [NSData alloc];
+                SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+                response.Data = [[NSData alloc] init];
                 return response;
             }
         }];

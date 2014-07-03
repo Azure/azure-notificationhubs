@@ -6,6 +6,6 @@
 
 @implementation SBStaticHandlerResponse
 
-@synthesize Data, Headers;
+//@synthesize Data, Headers;
 
 @end

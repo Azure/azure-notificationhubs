@@ -99,15 +99,24 @@ StaticHandleBlock _staticHandler;
         self->_completion =nil;
         return;
     }
+    
+    _data = [[NSMutableData alloc]init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    [_data appendData:data];
+}
+
+-(void) connectionDidFinishLoading:(NSURLConnection *)connection
+{
     if( self->_completion)
     {
-        self->_completion(self->_response,data,nil);
+        self->_completion(self->_response,_data,nil);
         self->_completion = nil;
     }
+    _data = nil;
+
 }
 
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error
