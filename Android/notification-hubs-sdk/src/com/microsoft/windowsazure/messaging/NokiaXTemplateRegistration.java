@@ -37,7 +37,7 @@ public class NokiaXTemplateRegistration extends TemplateRegistration{
 	/**
 	 * Custom node name for PNS handle
 	 */
-	private static final String NOKIAX_HANDLE_NODE = "NOKIAXRegistrationId";
+	private static final String NOKIAX_HANDLE_NODE = "NokiaXRegistrationId";
 
 	/**
 	 * Creates a new template registration

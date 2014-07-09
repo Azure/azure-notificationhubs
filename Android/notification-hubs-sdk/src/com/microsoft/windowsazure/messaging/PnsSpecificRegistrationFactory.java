@@ -34,12 +34,7 @@ public final class PnsSpecificRegistrationFactory {
 	 * Keeps the single instance
 	 */
 	private static final PnsSpecificRegistrationFactory mInstance=new PnsSpecificRegistrationFactory();
-	
-	/**
-	 * If it is Amazon device
-	 */
-	private boolean mIsAmazonDevice;
-	
+		
 	private AndroidDeviceType type;
 	
 	
@@ -47,8 +42,6 @@ public final class PnsSpecificRegistrationFactory {
 	 * Creates a new instance of PnsSpecificRegistrationFactory
 	 */
 	private PnsSpecificRegistrationFactory() {
-		// https://developer.amazon.com/public/solutions/devices/kindle-fire/specifications/01-device-and-feature-specifications
-		//mIsAmazonDevice=android.os.Build.MANUFACTURER.compareToIgnoreCase("Amazon")==0;
 	    String manufacturer = android.os.Build.MANUFACTURER;
 		if(manufacturer.compareToIgnoreCase("Amazon") == 0)
 		{
@@ -85,11 +78,6 @@ public final class PnsSpecificRegistrationFactory {
 			default:
 				return new GcmNativeRegistration(notificationHubPath);
 		}
-			
-/*		return mIsAmazonDevice?
-				new AdmNativeRegistration(notificationHubPath):
-					new GcmNativeRegistration(notificationHubPath);
-*/
 	}
 	
 	/**
@@ -106,10 +94,6 @@ public final class PnsSpecificRegistrationFactory {
 			default:
 				return new GcmTemplateRegistration(notificationHubPath);
 		}		
-		/*		return mIsAmazonDevice?
-				new AdmTemplateRegistration(notificationHubPath):
-					new GcmTemplateRegistration(notificationHubPath);
-*/					
 	}
 	
 	/**
@@ -132,12 +116,6 @@ public final class PnsSpecificRegistrationFactory {
 		}		
 	
 		return xml.contains("<" + regx);
-/*		
-		return xml.contains("<" + (
-				mIsAmazonDevice?
-						AdmTemplateRegistration.ADM_TEMPLATE_REGISTRATION_CUSTOM_NODE: 
-							GcmTemplateRegistration.GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE));
-*/							
 	}
 	
 	/**
@@ -153,7 +131,6 @@ public final class PnsSpecificRegistrationFactory {
 			default:
 				return GcmNativeRegistration.GCM_HANDLE_NODE;	
 		}
-		//return mIsAmazonDevice?AdmNativeRegistration.ADM_HANDLE_NODE:GcmNativeRegistration.GCM_HANDLE_NODE;
 	}
 	
 	/**
@@ -168,7 +145,7 @@ public final class PnsSpecificRegistrationFactory {
 				return "AndroidSdkAdm";
 			default:
 				return "AndroidSdkGcm";	
-		}	
-		//return mIsAmazonDevice?"AndroidSdkAdm":"AndroidSdkGcm";
+		}
+		//
 	}
 }
