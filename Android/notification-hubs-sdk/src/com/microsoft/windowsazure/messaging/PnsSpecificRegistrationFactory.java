@@ -20,10 +20,13 @@ See the Apache Version 2.0 License for specific language governing permissions a
 
 package com.microsoft.windowsazure.messaging;
 
+import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
+
 /**
  * Represents a factory which creates Registrations according the PNS supported on device, and also provides some PNS specific utility methods
  */
 public final class PnsSpecificRegistrationFactory {
+
 	/**
 	 * Keeps the single instance
 	 */
@@ -57,8 +60,31 @@ public final class PnsSpecificRegistrationFactory {
 		return mIsAmazonDevice?
 				new AdmNativeRegistration(notificationHubPath):
 					new GcmNativeRegistration(notificationHubPath);
+				
 	}
 	
+	/**
+	 * Creates native registration according the PNS supported on device
+	 * @param notificationHubPath The Notification Hub path
+	 * @param type the notification type.
+	 */
+	public Registration createNativeRegistration(String notificationHubPath, RegistrationType type){
+		switch(type)
+		{
+			case gcm:{
+				return new GcmNativeRegistration(notificationHubPath);
+			}
+			case baidu:{
+				return new BaiduNativeRegistration(notificationHubPath);
+			}
+			case adm:{
+				return new AdmNativeRegistration(notificationHubPath);
+			}
+			default:{
+				throw new AssertionError("Ivalid registration type!");
+			}
+		}
+	}
 	/**
 	 * Creates template registration according the PNS supported on device
 	 * @param notificationHubPath The Notification Hub path
@@ -68,6 +94,27 @@ public final class PnsSpecificRegistrationFactory {
 				new AdmTemplateRegistration(notificationHubPath):
 					new GcmTemplateRegistration(notificationHubPath);
 	}
+	
+	/**
+	 * Creates template registration according the PNS supported on device
+	 * @param notificationHubPath The Notification Hub path
+	 * @param type the notification type.
+	 */
+	public TemplateRegistration createTemplateRegistration(String notificationHubPath, RegistrationType type){
+		switch(type)
+		{
+			case gcm:
+				return new GcmTemplateRegistration(notificationHubPath);
+			case baidu:
+				return new BaiduTemplateRegistration(notificationHubPath);
+			case adm:
+				return new AdmTemplateRegistration(notificationHubPath);
+			default:
+				// @TODO: Assert.
+				return null;
+		}		
+	}
+	
 	
 	/**
 	 * Indicates if a registration xml is a Template Registration

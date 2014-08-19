@@ -24,42 +24,42 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Represents ADM native registration
+ * Represents Baidu native registration
  */
-public class AdmNativeRegistration extends Registration {
+public class BaiduNativeRegistration extends Registration {
 
 	/**
 	 * Custom payload node name for native registrations
 	 */
-	private static final String ADM_NATIVE_REGISTRATION_CUSTOM_NODE = "AdmRegistrationDescription";
+	private static final String BAIDU_NATIVE_REGISTRATION_CUSTOM_NODE = "BaiduRegistrationDescription";
 	
 	/**
 	 * Custom node name for PNS handle
 	 */
-	static final String ADM_HANDLE_NODE = "AdmRegistrationId";
+	static final String BAIDU_HANDLE_NODE = "BaiduRegistrationId";
 
 	/**
 	 * Creates a new native registration
 	 * @param notificationHubPath	The notification hub path
 	 */
-	AdmNativeRegistration(String notificationHubPath) {
+	BaiduNativeRegistration(String notificationHubPath) {
 		super(notificationHubPath);
-		mRegistrationType = RegistrationType.adm;
+		mRegistrationType = RegistrationType.baidu;
 	}
 
 	@Override
 	protected String getSpecificPayloadNodeName() {
-		return ADM_NATIVE_REGISTRATION_CUSTOM_NODE;
+		return BAIDU_NATIVE_REGISTRATION_CUSTOM_NODE;
 	}
 
 	@Override
 	protected void appendCustomPayload(Document doc, Element registrationDescription) {
-		appendNodeWithValue(doc, registrationDescription, ADM_HANDLE_NODE, getPNSHandle());
+		appendNodeWithValue(doc, registrationDescription, BAIDU_HANDLE_NODE, getPNSHandle());
 	}
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
-		setPNSHandle(getNodeValue(payloadNode, ADM_HANDLE_NODE));
+		setPNSHandle(getNodeValue(payloadNode, BAIDU_HANDLE_NODE));
 		setName(DEFAULT_REGISTRATION_NAME);
 	}
 }

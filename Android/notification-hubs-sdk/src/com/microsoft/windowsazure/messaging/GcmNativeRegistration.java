@@ -44,6 +44,7 @@ public class GcmNativeRegistration extends Registration {
 	 */
 	GcmNativeRegistration(String notificationHubPath) {
 		super(notificationHubPath);
+		mRegistrationType = RegistrationType.gcm;
 	}
 
 	@Override

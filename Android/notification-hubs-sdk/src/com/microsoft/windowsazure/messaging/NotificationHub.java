@@ -22,6 +22,8 @@ package com.microsoft.windowsazure.messaging;
 
 import static com.microsoft.windowsazure.messaging.Utils.*;
 
+import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -140,6 +142,34 @@ public class NotificationHub {
 		return registerInternal(registration);
 	}
 
+	/**
+	 * Registers the client for native notifications with the specified tags
+	 * @param userId Baidu user Id
+	 * @param channelId Baidu channel Id
+	 * @param tags	Tags to use in the registration
+	 * @return The created registration
+	 * @throws Exception
+	 */
+	public Registration registerBaidu(String userId, String channelId, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(userId)) {
+			throw new IllegalArgumentException("userId");
+		}
+		if (isNullOrWhiteSpace(channelId)) {
+			throw new IllegalArgumentException("channelId");
+		}
+		
+		Registration registration =
+				PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, RegistrationType.baidu);
+		// @TODO: Verify.
+		
+		// string baiduRegistrationIdCheckString = ManagementStrings.BaiduUserId + "-" + ManagementStrings.BaiduChannelId + " eq ";
+		registration.setPNSHandle(userId + "-" + channelId);
+		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
+		registration.addTags(tags);
+
+		return registerInternal(registration);
+	}
+	
 	/**
 	 * Registers the client for template notifications with the specified tags
 	 * @param pnsHandle	PNS specific identifier
@@ -379,10 +409,16 @@ public class NotificationHub {
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT");
 		
 		Registration result;
-		if (PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response)) {
-			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
-		} else {
-			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
+		
+		boolean isTemplateRegistration = PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response);
+
+		if (isTemplateRegistration)
+		{
+			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath, registration.getRegistrationType());
+		}
+		else
+		{
+			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, registration.getRegistrationType());
 		}
 
 		result.loadXml(response, mNotificationHubPath);

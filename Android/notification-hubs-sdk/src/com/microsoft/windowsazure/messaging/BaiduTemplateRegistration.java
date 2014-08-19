@@ -24,42 +24,42 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Represents ADM native registration
+ * Represents GCM template registration
  */
-public class AdmNativeRegistration extends Registration {
+public class BaiduTemplateRegistration extends TemplateRegistration {
 
 	/**
-	 * Custom payload node name for native registrations
+	 * Custom payload node name for template registrations
 	 */
-	private static final String ADM_NATIVE_REGISTRATION_CUSTOM_NODE = "AdmRegistrationDescription";
+	static final String GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE = "GcmTemplateRegistrationDescription";
 	
 	/**
 	 * Custom node name for PNS handle
 	 */
-	static final String ADM_HANDLE_NODE = "AdmRegistrationId";
+	private static final String GCM_HANDLE_NODE = "GcmRegistrationId";
 
 	/**
-	 * Creates a new native registration
+	 * Creates a new template registration
 	 * @param notificationHubPath	The notification hub path
 	 */
-	AdmNativeRegistration(String notificationHubPath) {
+	BaiduTemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
-		mRegistrationType = RegistrationType.adm;
 	}
-
+	
 	@Override
 	protected String getSpecificPayloadNodeName() {
-		return ADM_NATIVE_REGISTRATION_CUSTOM_NODE;
+		return GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
 	}
 
 	@Override
-	protected void appendCustomPayload(Document doc, Element registrationDescription) {
-		appendNodeWithValue(doc, registrationDescription, ADM_HANDLE_NODE, getPNSHandle());
+	protected void appendCustomPayload(Document doc, Element templateRegistrationDescription) {
+		appendNodeWithValue(doc, templateRegistrationDescription, GCM_HANDLE_NODE, getPNSHandle());
+		super.appendCustomPayload(doc,templateRegistrationDescription);
 	}
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
-		setPNSHandle(getNodeValue(payloadNode, ADM_HANDLE_NODE));
-		setName(DEFAULT_REGISTRATION_NAME);
-	}
+		setPNSHandle(getNodeValue(payloadNode, GCM_HANDLE_NODE));
+		super.loadCustomXmlData(payloadNode);
+	}	
 }
