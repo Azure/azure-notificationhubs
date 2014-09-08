@@ -23,6 +23,8 @@ package com.microsoft.windowsazure.messaging;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
+
 /**
  * Represents GCM template registration
  */
@@ -44,6 +46,7 @@ public class GcmTemplateRegistration extends TemplateRegistration {
 	 */
 	GcmTemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
+		mRegistrationType = RegistrationType.gcm;
 	}
 	
 	@Override

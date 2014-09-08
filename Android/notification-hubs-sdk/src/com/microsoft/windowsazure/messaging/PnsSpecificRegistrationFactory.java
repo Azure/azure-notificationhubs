@@ -94,7 +94,7 @@ public final class PnsSpecificRegistrationFactory {
 				new AdmTemplateRegistration(notificationHubPath):
 					new GcmTemplateRegistration(notificationHubPath);
 	}
-	
+
 	/**
 	 * Creates template registration according the PNS supported on device
 	 * @param notificationHubPath The Notification Hub path

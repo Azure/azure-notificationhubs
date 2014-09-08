@@ -202,6 +202,41 @@ public class NotificationHub {
 	}
 
 	/**
+	 * Registers the client for template notifications with the specified tags
+	 * @param pnsHandle	PNS specific identifier
+	 * @param templateName	The template name
+	 * @param template	The template body
+	 * @param tags	The tags to use in the registration
+	 * @return	The created registration
+	 * @throws Exception
+	 */
+	public TemplateRegistration registerBaiduTemplate(String userId, String channelId, String templateName, String template, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(userId)) {
+			throw new IllegalArgumentException("userId");
+		}
+		
+		if (isNullOrWhiteSpace(channelId)) {
+			throw new IllegalArgumentException("channelId");
+		}
+		
+		if (isNullOrWhiteSpace(templateName)) {
+			throw new IllegalArgumentException("templateName");
+		}
+		
+		if (isNullOrWhiteSpace(template)) {
+			throw new IllegalArgumentException("template");
+		}
+
+		TemplateRegistration registration = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath, RegistrationType.baidu);
+		registration.setPNSHandle(userId + "-" + channelId);
+		registration.setName(templateName);
+		registration.setBodyTemplate(template);
+		registration.addTags(tags);
+
+		return (TemplateRegistration) registerInternal(registration);
+	}
+	
+	/**
 	 * Unregisters the client for native notifications
 	 * @throws Exception
 	 */
