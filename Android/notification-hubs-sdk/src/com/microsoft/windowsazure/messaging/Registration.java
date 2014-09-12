@@ -48,6 +48,7 @@ public abstract class Registration {
 	
 	public enum RegistrationType
 	{
+		unknown,
 		gcm,
 		adm,
 		baidu

@@ -23,22 +23,20 @@ package com.microsoft.windowsazure.messaging;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
-
 /**
- * Represents GCM template registration
+ * Represents BAIDU template registration
  */
 public class BaiduTemplateRegistration extends TemplateRegistration {
 
 	/**
 	 * Custom payload node name for template registrations
 	 */
-	static final String GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE = "GcmTemplateRegistrationDescription";
+	static final String BAIDU_TEMPLATE_REGISTRATION_CUSTOM_NODE = "BaiduTemplateRegistrationDescription";
 	
 	/**
 	 * Custom node name for PNS handle
 	 */
-	private static final String GCM_HANDLE_NODE = "GcmRegistrationId";
+	private static final String BAIDU_HANDLE_NODE = "BaiduRegistrationId";
 
 	/**
 	 * Creates a new template registration
@@ -51,18 +49,18 @@ public class BaiduTemplateRegistration extends TemplateRegistration {
 	
 	@Override
 	protected String getSpecificPayloadNodeName() {
-		return GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
+		return BAIDU_TEMPLATE_REGISTRATION_CUSTOM_NODE;
 	}
 
 	@Override
 	protected void appendCustomPayload(Document doc, Element templateRegistrationDescription) {
-		appendNodeWithValue(doc, templateRegistrationDescription, GCM_HANDLE_NODE, getPNSHandle());
+		appendNodeWithValue(doc, templateRegistrationDescription, BAIDU_HANDLE_NODE, getPNSHandle());
 		super.appendCustomPayload(doc,templateRegistrationDescription);
 	}
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
-		setPNSHandle(getNodeValue(payloadNode, GCM_HANDLE_NODE));
+		setPNSHandle(getNodeValue(payloadNode, BAIDU_HANDLE_NODE));
 		super.loadCustomXmlData(payloadNode);
 	}	
 }

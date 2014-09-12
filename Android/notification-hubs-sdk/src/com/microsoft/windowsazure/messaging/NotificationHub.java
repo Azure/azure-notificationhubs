@@ -46,6 +46,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+
 /**
  * The notification hub client
  */
@@ -109,9 +110,9 @@ public class NotificationHub {
 	 * @param connectionString	Notification Hub connection string
 	 * @param context	Android context used to access SharedPreferences
 	 */
-	public NotificationHub(String notificationHubPath, String connectionString, Context context) {		
-		setNotificationHubPath(notificationHubPath);
+	public NotificationHub(String notificationHubPath, String connectionString, Context context) {
 		setConnectionString(connectionString);
+		setNotificationHubPath(notificationHubPath);
 
 		if (context == null) {
 			throw new IllegalArgumentException("context");
@@ -157,12 +158,14 @@ public class NotificationHub {
 		if (isNullOrWhiteSpace(channelId)) {
 			throw new IllegalArgumentException("channelId");
 		}
-		
-		Registration registration =
-				PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, RegistrationType.baidu);
-		// @TODO: Verify.
-		
-		// string baiduRegistrationIdCheckString = ManagementStrings.BaiduUserId + "-" + ManagementStrings.BaiduChannelId + " eq ";
+
+		BaiduNativeRegistration registration =
+				(BaiduNativeRegistration)PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, RegistrationType.baidu);
+
+		// Setting the Baidu Specific Info.
+		registration.setUserId(userId);
+		registration.setChannelId(channelId);
+
 		registration.setPNSHandle(userId + "-" + channelId);
 		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
 		registration.addTags(tags);
@@ -444,7 +447,6 @@ public class NotificationHub {
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT");
 		
 		Registration result;
-		
 		boolean isTemplateRegistration = PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response);
 
 		if (isTemplateRegistration)

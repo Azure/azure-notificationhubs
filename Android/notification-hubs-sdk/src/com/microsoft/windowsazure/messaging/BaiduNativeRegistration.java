@@ -34,10 +34,30 @@ public class BaiduNativeRegistration extends Registration {
 	private static final String BAIDU_NATIVE_REGISTRATION_CUSTOM_NODE = "BaiduRegistrationDescription";
 	
 	/**
+	 * Baidu User ID.
+	 */
+	private static final String BAIDU_USER_ID = "BaiduUserId";
+	
+	/**
+	 * Baidu Channel ID.
+	 */
+	private static final String BAIDU_CHANNEL_ID = "BaiduChannelId";
+	
+	/**
 	 * Custom node name for PNS handle
 	 */
-	static final String BAIDU_HANDLE_NODE = "BaiduRegistrationId";
+	static final String BAIDU_HANDLE_NODE = "BaiduUserId-BaiduChannelId";
 
+	/**
+	 * The Baidu User Id
+	 */
+	protected String mUserId;
+	
+	/**
+	 * The Baidu Channel Id
+	 */
+	protected String mChannelId;
+	
 	/**
 	 * Creates a new native registration
 	 * @param notificationHubPath	The notification hub path
@@ -47,6 +67,34 @@ public class BaiduNativeRegistration extends Registration {
 		mRegistrationType = RegistrationType.baidu;
 	}
 
+	/**
+	 * Gets the Baidu user Id.
+	 */
+	public String getUserId() {
+		return mUserId;
+	}
+
+	/**
+	 * Sets the Baidu user Id.
+	 */
+	void setUserId(String pUserId) {
+		mUserId = pUserId;
+	}
+	
+	/**
+	 * Gets the Baidu channel Id.
+	 */
+	public String getChannelId() {
+		return mChannelId;
+	}
+
+	/**
+	 * Sets the Baidu channel Id.
+	 */
+	void setChannelId(String pChannelId) {
+		mChannelId = pChannelId;
+	}
+
 	@Override
 	protected String getSpecificPayloadNodeName() {
 		return BAIDU_NATIVE_REGISTRATION_CUSTOM_NODE;
@@ -54,7 +102,8 @@ public class BaiduNativeRegistration extends Registration {
 
 	@Override
 	protected void appendCustomPayload(Document doc, Element registrationDescription) {
-		appendNodeWithValue(doc, registrationDescription, BAIDU_HANDLE_NODE, getPNSHandle());
+		appendNodeWithValue(doc, registrationDescription, BAIDU_USER_ID, getUserId());
+		appendNodeWithValue(doc, registrationDescription, BAIDU_CHANNEL_ID, getChannelId());
 	}
 
 	@Override

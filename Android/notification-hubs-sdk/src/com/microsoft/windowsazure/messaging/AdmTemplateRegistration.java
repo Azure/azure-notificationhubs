@@ -23,8 +23,6 @@ package com.microsoft.windowsazure.messaging;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
-
 /**
  * Represents ADM template registration
  */
