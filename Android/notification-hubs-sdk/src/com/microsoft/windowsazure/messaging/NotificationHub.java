@@ -159,18 +159,10 @@ public class NotificationHub {
 			throw new IllegalArgumentException("channelId");
 		}
 
-		BaiduNativeRegistration registration =
-				(BaiduNativeRegistration)PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, RegistrationType.baidu);
-
-		// Setting the Baidu Specific Info.
-		registration.setUserId(userId);
-		registration.setChannelId(channelId);
-
-		registration.setPNSHandle(userId + "-" + channelId);
-		registration.setName(Registration.DEFAULT_REGISTRATION_NAME);
-		registration.addTags(tags);
-
-		return registerInternal(registration);
+		// Changing the registration type to Baidu.
+		PnsSpecificRegistrationFactory.getInstance().setRegistrationType(RegistrationType.baidu);
+		
+		return this.register(userId + "-" + channelId , tags);
 	}
 	
 	/**
@@ -230,13 +222,10 @@ public class NotificationHub {
 			throw new IllegalArgumentException("template");
 		}
 
-		TemplateRegistration registration = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath, RegistrationType.baidu);
-		registration.setPNSHandle(userId + "-" + channelId);
-		registration.setName(templateName);
-		registration.setBodyTemplate(template);
-		registration.addTags(tags);
+		// Changing the registration type to Baidu.
+		PnsSpecificRegistrationFactory.getInstance().setRegistrationType(RegistrationType.baidu);
 
-		return (TemplateRegistration) registerInternal(registration);
+		return this.registerTemplate(userId + "-" + channelId, templateName, template, tags);
 	}
 	
 	/**
@@ -451,11 +440,11 @@ public class NotificationHub {
 
 		if (isTemplateRegistration)
 		{
-			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath, registration.getRegistrationType());
+			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
 		}
 		else
 		{
-			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath, registration.getRegistrationType());
+			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
 		}
 
 		result.loadXml(response, mNotificationHubPath);

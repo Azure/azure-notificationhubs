@@ -20,6 +20,8 @@ See the Apache Version 2.0 License for specific language governing permissions a
 
 package com.microsoft.windowsazure.messaging;
 
+import static com.microsoft.windowsazure.messaging.Utils.isNullOrWhiteSpace;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -27,6 +29,16 @@ import org.w3c.dom.Element;
  * Represents BAIDU template registration
  */
 public class BaiduTemplateRegistration extends TemplateRegistration {
+
+	/**
+	 * The Baidu User Id
+	 */
+	protected String mUserId;
+	
+	/**
+	 * The Baidu Channel Id
+	 */
+	protected String mChannelId;
 
 	/**
 	 * Custom payload node name for template registrations
@@ -47,6 +59,61 @@ public class BaiduTemplateRegistration extends TemplateRegistration {
 		mRegistrationType = RegistrationType.baidu;
 	}
 	
+	/**
+	 * Gets the Baidu user Id.
+	 */
+	public String getUserId() {
+		return mUserId;
+	}
+
+	/**
+	 * Sets the Baidu user Id.
+	 */
+	void setUserId(String pUserId) {
+		mUserId = pUserId;
+	}
+	
+	/**
+	 * Gets the Baidu channel Id.
+	 */
+	public String getChannelId() {
+		return mChannelId;
+	}
+
+	/**
+	 * Sets the Baidu channel Id.
+	 */
+	void setChannelId(String pChannelId) {
+		mChannelId = pChannelId;
+	}
+
+	/**
+	 * Sets the PNS specific identifier and extract the userId and channelId out of it
+	 * the format of pnsHandel for Baidu is: userId-channelId
+	 */
+	@Override
+	void setPNSHandle(String pNSHandle) {
+		// @TODO: change
+		if (isNullOrWhiteSpace(pNSHandle))
+			return;
+
+		mPNSHandle = pNSHandle;
+		String[] baiduInfo = pNSHandle.split("-");
+		
+		String userId = baiduInfo[0];
+		
+		if (isNullOrWhiteSpace(userId)) {
+			throw new AssertionError("Baidu userId is inalid!");
+			} 
+		setUserId(userId);
+		
+		String channelId = baiduInfo[1];
+		if (isNullOrWhiteSpace(userId)) {
+			throw new AssertionError("Baidu channelId is inalid!");
+			}
+		setChannelId(channelId);
+	}
+
 	@Override
 	protected String getSpecificPayloadNodeName() {
 		return BAIDU_TEMPLATE_REGISTRATION_CUSTOM_NODE;

@@ -22,6 +22,7 @@ package com.microsoft.windowsazure.messaging;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import static com.microsoft.windowsazure.messaging.Utils.isNullOrWhiteSpace;
 
 /**
  * Represents Baidu native registration
@@ -68,6 +69,33 @@ public class BaiduNativeRegistration extends Registration {
 	}
 
 	/**
+	 * Sets the PNS specific identifier and extract the userId and channelId out of it
+	 * the format of pnsHandel for Baidu is: userId-channelId
+	 */
+	void setPNSHandle(String pNSHandle) {
+		
+		// @TODO: change
+		if (isNullOrWhiteSpace(pNSHandle))
+			return;
+
+		mPNSHandle = pNSHandle;
+		String[] baiduInfo = pNSHandle.split("-");
+		
+		String userId = baiduInfo[0];
+		
+		if (isNullOrWhiteSpace(userId)) {
+			throw new AssertionError("Baidu userId is inalid!");
+			} 
+		setUserId(userId);
+		
+		String channelId = baiduInfo[1];
+		if (isNullOrWhiteSpace(userId)) {
+			throw new AssertionError("Baidu channelId is inalid!");
+			}
+		setChannelId(channelId);
+	}
+
+	/**
 	 * Gets the Baidu user Id.
 	 */
 	public String getUserId() {
@@ -108,7 +136,6 @@ public class BaiduNativeRegistration extends Registration {
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
-		setPNSHandle(getNodeValue(payloadNode, BAIDU_HANDLE_NODE));
-		setName(DEFAULT_REGISTRATION_NAME);
+		// not required.
 	}
 }

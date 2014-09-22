@@ -95,7 +95,7 @@ class Connection {
 	/**
 	 * SDK Version
 	 */
-	private static final String SDK_VERSION = "2014-08";
+	private static final String SDK_VERSION = "2014-09";
 
 	/**
 	 * API version query string parameter
@@ -105,7 +105,7 @@ class Connection {
 	/**
 	 * Api version
 	 */
-	private static final String API_VERSION = "2014-08";
+	private static final String API_VERSION = "2014-09";
 
 	/**
 	 * Connection data retrieved from connection string
