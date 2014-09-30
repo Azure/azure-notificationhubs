@@ -22,6 +22,8 @@ package com.microsoft.windowsazure.messaging;
 
 import static com.microsoft.windowsazure.messaging.Utils.*;
 
+import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -43,6 +45,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+
 
 /**
  * The notification hub client
@@ -107,9 +110,9 @@ public class NotificationHub {
 	 * @param connectionString	Notification Hub connection string
 	 * @param context	Android context used to access SharedPreferences
 	 */
-	public NotificationHub(String notificationHubPath, String connectionString, Context context) {		
-		setNotificationHubPath(notificationHubPath);
+	public NotificationHub(String notificationHubPath, String connectionString, Context context) {
 		setConnectionString(connectionString);
+		setNotificationHubPath(notificationHubPath);
 
 		if (context == null) {
 			throw new IllegalArgumentException("context");
@@ -141,6 +144,28 @@ public class NotificationHub {
 	}
 
 	/**
+	 * Registers the client for native notifications with the specified tags
+	 * @param userId Baidu user Id
+	 * @param channelId Baidu channel Id
+	 * @param tags	Tags to use in the registration
+	 * @return The created registration
+	 * @throws Exception
+	 */
+	public Registration registerBaidu(String userId, String channelId, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(userId)) {
+			throw new IllegalArgumentException("userId");
+		}
+		if (isNullOrWhiteSpace(channelId)) {
+			throw new IllegalArgumentException("channelId");
+		}
+
+		// Changing the registration type to Baidu.
+		PnsSpecificRegistrationFactory.getInstance().setRegistrationType(RegistrationType.baidu);
+		
+		return this.register(userId + "-" + channelId , tags);
+	}
+	
+	/**
 	 * Registers the client for template notifications with the specified tags
 	 * @param pnsHandle	PNS specific identifier
 	 * @param templateName	The template name
@@ -171,6 +196,38 @@ public class NotificationHub {
 		return (TemplateRegistration) registerInternal(registration);
 	}
 
+	/**
+	 * Registers the client for template notifications with the specified tags
+	 * @param pnsHandle	PNS specific identifier
+	 * @param templateName	The template name
+	 * @param template	The template body
+	 * @param tags	The tags to use in the registration
+	 * @return	The created registration
+	 * @throws Exception
+	 */
+	public TemplateRegistration registerBaiduTemplate(String userId, String channelId, String templateName, String template, String... tags) throws Exception {
+		if (isNullOrWhiteSpace(userId)) {
+			throw new IllegalArgumentException("userId");
+		}
+		
+		if (isNullOrWhiteSpace(channelId)) {
+			throw new IllegalArgumentException("channelId");
+		}
+		
+		if (isNullOrWhiteSpace(templateName)) {
+			throw new IllegalArgumentException("templateName");
+		}
+		
+		if (isNullOrWhiteSpace(template)) {
+			throw new IllegalArgumentException("template");
+		}
+
+		// Changing the registration type to Baidu.
+		PnsSpecificRegistrationFactory.getInstance().setRegistrationType(RegistrationType.baidu);
+
+		return this.registerTemplate(userId + "-" + channelId, templateName, template, tags);
+	}
+	
 	/**
 	 * Unregisters the client for native notifications
 	 * @throws Exception
@@ -379,9 +436,14 @@ public class NotificationHub {
 		String response = conn.executeRequest(resource, content, XML_CONTENT_TYPE, "PUT");
 		
 		Registration result;
-		if (PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response)) {
+		boolean isTemplateRegistration = PnsSpecificRegistrationFactory.getInstance().isTemplateRegistration(response);
+
+		if (isTemplateRegistration)
+		{
 			result = PnsSpecificRegistrationFactory.getInstance().createTemplateRegistration(mNotificationHubPath);
-		} else {
+		}
+		else
+		{
 			result = PnsSpecificRegistrationFactory.getInstance().createNativeRegistration(mNotificationHubPath);
 		}
 

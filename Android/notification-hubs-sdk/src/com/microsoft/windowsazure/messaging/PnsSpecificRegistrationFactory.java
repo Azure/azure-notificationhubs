@@ -20,28 +20,36 @@ See the Apache Version 2.0 License for specific language governing permissions a
 
 package com.microsoft.windowsazure.messaging;
 
+import com.microsoft.windowsazure.messaging.Registration.RegistrationType;
+
 /**
  * Represents a factory which creates Registrations according the PNS supported on device, and also provides some PNS specific utility methods
  */
 public final class PnsSpecificRegistrationFactory {
+	
+	/**
+	 * Specifies the SDK registration Type.
+	 */
+	private static RegistrationType mRegistrationType = RegistrationType.gcm;
+
 	/**
 	 * Keeps the single instance
 	 */
-	private static final PnsSpecificRegistrationFactory mInstance=new PnsSpecificRegistrationFactory();
-	
-	/**
-	 * If it is Amazon device
-	 */
-	private boolean mIsAmazonDevice;
+	private static final PnsSpecificRegistrationFactory mInstance = new PnsSpecificRegistrationFactory();
 	
 	/**
 	 * Creates a new instance of PnsSpecificRegistrationFactory
+	 * https://developer.amazon.com/public/solutions/devices/kindle-fire/specifications/01-device-and-feature-specifications
 	 */
 	private PnsSpecificRegistrationFactory() {
-		// https://developer.amazon.com/public/solutions/devices/kindle-fire/specifications/01-device-and-feature-specifications
-		mIsAmazonDevice=android.os.Build.MANUFACTURER.compareToIgnoreCase("Amazon")==0;
+		boolean isAmazondevice = android.os.Build.MANUFACTURER.compareToIgnoreCase("Amazon")== 0;
+		
+		if (isAmazondevice)
+		{
+			mRegistrationType = RegistrationType.adm;
+		}
 	}
-	
+
 	/**
 	 * Returns the instance of PnsSpecificRegistrationFactory
 	 */
@@ -49,24 +57,47 @@ public final class PnsSpecificRegistrationFactory {
 		return mInstance;
 	}
 
+	public void setRegistrationType(RegistrationType type){
+		mRegistrationType = type;
+	}
+	
 	/**
 	 * Creates native registration according the PNS supported on device
 	 * @param notificationHubPath The Notification Hub path
 	 */
 	public Registration createNativeRegistration(String notificationHubPath){
-		return mIsAmazonDevice?
-				new AdmNativeRegistration(notificationHubPath):
-					new GcmNativeRegistration(notificationHubPath);
+		switch(mRegistrationType) {
+			case gcm:{
+				return new GcmNativeRegistration(notificationHubPath);
+			}
+			case baidu:{
+				return new BaiduNativeRegistration(notificationHubPath);
+			}
+			case adm:{
+				return new AdmNativeRegistration(notificationHubPath);
+			}
+			default:{
+				throw new AssertionError("Ivalid registration type!");
+			}
+		}
 	}
 	
 	/**
 	 * Creates template registration according the PNS supported on device
+	 * @TODO: This API needs to be deprecated
 	 * @param notificationHubPath The Notification Hub path
 	 */
 	public TemplateRegistration createTemplateRegistration(String notificationHubPath){
-		return mIsAmazonDevice?
-				new AdmTemplateRegistration(notificationHubPath):
-					new GcmTemplateRegistration(notificationHubPath);
+		switch(mRegistrationType) {
+			case gcm:
+				return new GcmTemplateRegistration(notificationHubPath);
+			case baidu:
+				return new BaiduTemplateRegistration(notificationHubPath);
+			case adm:
+				return new AdmTemplateRegistration(notificationHubPath);
+			default:
+				throw new AssertionError("Invalid registration type!");
+		}	
 	}
 	
 	/**
@@ -74,23 +105,74 @@ public final class PnsSpecificRegistrationFactory {
 	 * @param xml	The xml to check
 	 */
 	public boolean isTemplateRegistration(String xml){
-		return xml.contains("<" + (
-				mIsAmazonDevice?
-						AdmTemplateRegistration.ADM_TEMPLATE_REGISTRATION_CUSTOM_NODE: 
-							GcmTemplateRegistration.GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE));
+
+		String tempelateRegistrationCustomNode;
+		
+		switch(mRegistrationType)
+		{
+			case gcm:{
+				tempelateRegistrationCustomNode =
+						GcmTemplateRegistration.GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
+				break;
+			}
+			case baidu:{
+				tempelateRegistrationCustomNode =
+						BaiduTemplateRegistration.BAIDU_TEMPLATE_REGISTRATION_CUSTOM_NODE;
+				break;
+			}
+			case adm:{
+				tempelateRegistrationCustomNode =
+						AdmTemplateRegistration.ADM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
+				break;
+			}
+			default:{
+				throw new AssertionError("Invalid registration type!");
+			}
+		}
+
+		return xml.contains("<" + (tempelateRegistrationCustomNode));
 	}
 	
 	/**
 	 * Returns PNS handle field name according the PNS supported on device
 	 */
 	public String getPNSHandleFieldName(){
-		return mIsAmazonDevice?AdmNativeRegistration.ADM_HANDLE_NODE:GcmNativeRegistration.GCM_HANDLE_NODE;
+		switch(mRegistrationType)
+		{
+			case gcm:{
+				return GcmNativeRegistration.GCM_HANDLE_NODE;
+			}
+			case baidu:{
+				return BaiduNativeRegistration.BAIDU_HANDLE_NODE;
+			}
+			case adm:{
+				return AdmNativeRegistration.ADM_HANDLE_NODE;
+			}
+			default:{
+				throw new AssertionError("Invalid registration type!");
+			}
+		}
 	}
 	
 	/**
 	 * Returns API origin value according the PNS supported on device
 	 */
 	public String getAPIOrigin(){
-		return mIsAmazonDevice?"AndroidSdkAdm":"AndroidSdkGcm";
+		
+		switch(mRegistrationType)
+		{
+			case gcm:{
+				return "AndroidSdkAdm";
+			}
+			case baidu:{
+				return "AndroidSdkBaidu";
+			}
+			case adm:{
+				return "AndroidSdkGcm";
+			}
+			default:{
+				throw new AssertionError("Invalid registration type!");
+			}
+		}
 	}
 }

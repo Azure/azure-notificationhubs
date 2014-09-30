@@ -44,6 +44,7 @@ public class AdmTemplateRegistration extends TemplateRegistration {
 	 */
 	AdmTemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
+		mRegistrationType = RegistrationType.adm;
 	}
 	
 	@Override

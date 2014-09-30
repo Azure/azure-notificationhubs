@@ -44,6 +44,7 @@ public class GcmTemplateRegistration extends TemplateRegistration {
 	 */
 	GcmTemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
+		mRegistrationType = RegistrationType.gcm;
 	}
 	
 	@Override

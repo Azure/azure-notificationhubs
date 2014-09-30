@@ -20,6 +20,8 @@ See the Apache Version 2.0 License for specific language governing permissions a
 
 package com.microsoft.windowsazure.messaging;
 
+import static com.microsoft.windowsazure.messaging.Utils.isNullOrWhiteSpace;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +95,7 @@ class Connection {
 	/**
 	 * SDK Version
 	 */
-	private static final String SDK_VERSION = "2014-01";
+	private static final String SDK_VERSION = "2014-09";
 
 	/**
 	 * API version query string parameter
@@ -103,7 +105,7 @@ class Connection {
 	/**
 	 * Api version
 	 */
-	private static final String API_VERSION = "2014-01";
+	private static final String API_VERSION = "2014-09";
 
 	/**
 	 * Connection data retrieved from connection string
@@ -226,7 +228,7 @@ class Connection {
 					headerValue=response.getFirstHeader(targetHeaderName).getValue();
 				}
 			}
-			
+
 		} finally {
 			if (client != null) {
 				client.close();
@@ -293,9 +295,16 @@ class Connection {
 	 * @throws InvalidKeyException
 	 */
 	private String generateAuthToken(String url) throws InvalidKeyException {
-
+		
 		String keyName = mConnectionData.get(SHARED_ACCESS_KEY_NAME);
+		if (isNullOrWhiteSpace(keyName)) {
+			throw new AssertionError("SharedAccessKeyName");
+		}
+		
 		String key = mConnectionData.get(SHARED_ACCESS_KEY);
+		if (isNullOrWhiteSpace(key)) {
+			throw new AssertionError("SharedAccessKey");
+		}
 
 		try {
 			url = URLEncoder.encode(url, UTF8_ENCODING).toLowerCase(Locale.getDefault());
@@ -332,7 +341,7 @@ class Connection {
 			// this shouldn't happen because of the fixed encoding
 		}
 
-		// construct autorization string
+		// construct authorization string
 		String token = "SharedAccessSignature sr=" + url + "&sig=" + base64Signature + "&se=" + expires + "&skn=" + keyName;
 
 		return token;

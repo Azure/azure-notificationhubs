@@ -44,6 +44,7 @@ public class AdmNativeRegistration extends Registration {
 	 */
 	AdmNativeRegistration(String notificationHubPath) {
 		super(notificationHubPath);
+		mRegistrationType = RegistrationType.adm;
 	}
 
 	@Override
