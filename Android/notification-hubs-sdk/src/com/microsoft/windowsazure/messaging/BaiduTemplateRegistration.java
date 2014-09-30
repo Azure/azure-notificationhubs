@@ -46,9 +46,19 @@ public class BaiduTemplateRegistration extends TemplateRegistration {
 	static final String BAIDU_TEMPLATE_REGISTRATION_CUSTOM_NODE = "BaiduTemplateRegistrationDescription";
 	
 	/**
+	 * Baidu User ID.
+	 */
+	private static final String BAIDU_USER_ID = "BaiduUserId";
+	
+	/**
+	 * Baidu Channel ID.
+	 */
+	private static final String BAIDU_CHANNEL_ID = "BaiduChannelId";
+	
+	/**
 	 * Custom node name for PNS handle
 	 */
-	private static final String BAIDU_HANDLE_NODE = "BaiduRegistrationId";
+	private static final String BAIDU_HANDLE_NODE = "BaiduUserId-BaiduChannelId";
 
 	/**
 	 * Creates a new template registration
@@ -121,7 +131,8 @@ public class BaiduTemplateRegistration extends TemplateRegistration {
 
 	@Override
 	protected void appendCustomPayload(Document doc, Element templateRegistrationDescription) {
-		appendNodeWithValue(doc, templateRegistrationDescription, BAIDU_HANDLE_NODE, getPNSHandle());
+		appendNodeWithValue(doc, templateRegistrationDescription, BAIDU_USER_ID, getUserId());
+		appendNodeWithValue(doc, templateRegistrationDescription, BAIDU_CHANNEL_ID, getChannelId());
 		super.appendCustomPayload(doc,templateRegistrationDescription);
 	}
 

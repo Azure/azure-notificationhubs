@@ -38,11 +38,12 @@ public abstract class TemplateRegistration extends Registration {
 
 	/**
 	 * Creates a new template registration
+	 * 
 	 * @param notificationHubPath	The notification hub path
 	 */
 	TemplateRegistration(String notificationHubPath) {
 		super(notificationHubPath);
-	}	
+	}
 
 	@Override
 	protected void appendCustomPayload(Document doc, Element templateRegistrationDescription) {
@@ -52,6 +53,7 @@ public abstract class TemplateRegistration extends Registration {
 
 	/**
 	 * Appends the template body to a registration xml
+	 * 
 	 * @param doc
 	 * @param templateRegistrationDescription
 	 */
@@ -95,7 +97,7 @@ public abstract class TemplateRegistration extends Registration {
 	void setBodyTemplate(String bodyTemplate) {
 		mBodyTemplate = bodyTemplate;
 	}
-	
+
 	/**
 	 * Gets the template name
 	 */

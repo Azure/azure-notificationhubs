@@ -136,6 +136,6 @@ public class BaiduNativeRegistration extends Registration {
 
 	@Override
 	protected void loadCustomXmlData(Element payloadNode) {
-		// not required.
+		setName(DEFAULT_REGISTRATION_NAME);
 	}
 }
