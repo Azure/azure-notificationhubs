@@ -262,7 +262,7 @@
 			name = WindowsAzureMessagingTestTests;
 			productName = WindowsAzureMessagingTestTests;
 			productReference = A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -479,6 +479,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
 				INFOPLIST_FILE = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = app;
@@ -491,6 +492,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
 				INFOPLIST_FILE = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = app;

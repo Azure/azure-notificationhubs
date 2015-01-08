@@ -168,7 +168,7 @@ NSString* deviceToken2 = @"22";
             }
             else
             {
-                NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"PUT" url:@"https://test.servicebus.windows.net/PushTest/Registrations/73838-337-2383?api-version=2013-04" body:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"text/xml\"><AppleTemplateRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><Tags>tag3,tag4</Tags><DeviceToken>3131</DeviceToken><BodyTemplate><![CDATA[{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}]]></BodyTemplate><Expiry>$(expiry)</Expiry><TemplateName>MyReg2</TemplateName></AppleTemplateRegistrationDescription></content></entry>"];
+                NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"PUT" url:@"https://test.servicebus.windows.net/PushTest/Registrations/73838-337-2383?api-version=2013-04" body:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"text/xml\"><AppleTemplateRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><Tags>tag4,tag3</Tags><DeviceToken>3131</DeviceToken><BodyTemplate><![CDATA[{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}]]></BodyTemplate><Expiry>$(expiry)</Expiry><TemplateName>MyReg2</TemplateName></AppleTemplateRegistrationDescription></content></entry>"];
             
                 if(ret)
                 {
@@ -259,7 +259,7 @@ NSString* deviceToken2 = @"22";
     {
         [SBURLConnection setStaticHandler:^SBStaticHandlerResponse *(NSURLRequest *request) {
             
-            NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"PUT" url:@"https://test.servicebus.windows.net/PushTest/Registrations/myRegId2?api-version=2013-04" body:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"text/xml\"><AppleTemplateRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><Tags>tag3,tag4</Tags><DeviceToken>3131</DeviceToken><BodyTemplate><![CDATA[{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}]]></BodyTemplate><Expiry>$(expiry)</Expiry><TemplateName>regName</TemplateName></AppleTemplateRegistrationDescription></content></entry>"];
+            NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"PUT" url:@"https://test.servicebus.windows.net/PushTest/Registrations/myRegId2?api-version=2013-04" body:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"text/xml\"><AppleTemplateRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><Tags>tag4,tag3</Tags><DeviceToken>3131</DeviceToken><BodyTemplate><![CDATA[{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}]]></BodyTemplate><Expiry>$(expiry)</Expiry><TemplateName>regName</TemplateName></AppleTemplateRegistrationDescription></content></entry>"];
             
             if(ret)
             {
