@@ -84,7 +84,7 @@ public final class PnsSpecificRegistrationFactory {
 	
 	/**
 	 * Creates template registration according the PNS supported on device
-	 * @TODO: This API needs to be deprecated
+	 * TODO: This API needs to be deprecated
 	 * @param notificationHubPath The Notification Hub path
 	 */
 	public TemplateRegistration createTemplateRegistration(String notificationHubPath){

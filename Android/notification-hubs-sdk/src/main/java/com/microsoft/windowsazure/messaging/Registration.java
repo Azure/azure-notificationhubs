@@ -254,7 +254,7 @@ public abstract class Registration {
 
 	/**
 	 * Gets the custom payload name for a specific registration type
-	 * @return
+	 * @return String object
 	 */
 	protected abstract String getSpecificPayloadNodeName();
 
@@ -262,7 +262,7 @@ public abstract class Registration {
 	 * Get the node value
 	 * @param element The element to read
 	 * @param node	The node name to retrieve
-	 * @return
+	 * @return String object
 	 */
 	protected static String getNodeValue(Element element, String node) {
 		NodeList nodes = element.getElementsByTagName(node);

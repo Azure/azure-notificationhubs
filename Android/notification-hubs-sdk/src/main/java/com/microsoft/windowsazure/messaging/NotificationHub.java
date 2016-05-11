@@ -198,7 +198,8 @@ public class NotificationHub {
 
 	/**
 	 * Registers the client for template notifications with the specified tags
-	 * @param pnsHandle	PNS specific identifier
+	 * @param userId The User Id
+	 * @param channelId The channel Id
 	 * @param templateName	The template name
 	 * @param template	The template body
 	 * @param tags	The tags to use in the registration
