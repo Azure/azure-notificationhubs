@@ -307,7 +307,7 @@ class Connection {
 		}
 
 		try {
-			url = URLEncoder.encode(url, UTF8_ENCODING).toLowerCase(Locale.getDefault());
+			url = URLEncoder.encode(url, UTF8_ENCODING).toLowerCase(Locale.ENGLISH);
 		} catch (UnsupportedEncodingException e) {
 			// this shouldn't happen because of the fixed encoding
 		}
