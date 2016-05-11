@@ -1,1 +1,0 @@
-include ':notification-hubs-sdk', ':notification-hubs-sdk-e2etestapp', ':notification-hubs-sdk-tests'
