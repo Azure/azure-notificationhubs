@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Azure ServiceBus. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface WindowsAzureMessagingTestTests : SenTestCase
+@interface WindowsAzureMessagingTestTests : XCTestCase
 
 @end

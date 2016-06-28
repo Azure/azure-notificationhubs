@@ -18,7 +18,7 @@ unzip -o png.zip
 cd ..
 
 echo "***************Build and run BVT *****************" 2>&1 | tee -a $bvtLogPath
-GHUNIT_CLI=1 xcodebuild -scheme IosSdkTests -destination 'platform=iOS Simulator,name=iPhone 6' -configuration Debug -sdk iphonesimulator clean build 2>&1 | tee -a $bvtLogPath
+GHUNIT_CLI=1 xcodebuild -scheme IosSdkTests -destination 'platform=iOS Simulator,name=iPhone 6s' -configuration Debug -sdk iphonesimulator9.3 clean build 2>&1 | tee -a $bvtLogPath
 
 grep "with 0 failures" $bvtLogPath &> /dev/null
 if [ "$?" != "0" ]; then
