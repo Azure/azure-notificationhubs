@@ -129,6 +129,11 @@ NSString* const _UserAgentTemplate = @"NOTIFICATIONHUBS/%@(api-origin=IosSdk; os
 
 - (void) registerTemplateWithDeviceToken:(NSData*)deviceTokenData name:(NSString*)name jsonBodyTemplate:(NSString*)bodyTemplate expiryTemplate:(NSString*)expiryTemplate tags:(NSSet*)tags completion:(void (^)(NSError* error))completion;
 {
+    [self registerTemplateWithDeviceToken:deviceTokenData name:name jsonBodyTemplate:bodyTemplate expiryTemplate:expiryTemplate priorityTemplate:nil tags:tags completion:completion];
+}
+
+- (void) registerTemplateWithDeviceToken:(NSData*)deviceTokenData name:(NSString*)name jsonBodyTemplate:(NSString*)bodyTemplate expiryTemplate:(NSString*)expiryTemplate priorityTemplate:(NSString*)priorityTemplate tags:(NSSet*)tags completion:(void (^)(NSError* error))completion;
+{
     if( deviceTokenData == nil)
     {
         if(completion)
@@ -152,7 +157,7 @@ NSString* const _UserAgentTemplate = @"NOTIFICATIONHUBS/%@(api-origin=IosSdk; os
         return;
     }
     
-    NSString* payload = [SBTemplateRegistration payloadWithDeviceToken:deviceToken bodyTemplate:bodyTemplate expiryTemplate:expiryTemplate tags:tags templateName:name];
+    NSString* payload = [SBTemplateRegistration payloadWithDeviceToken:deviceToken bodyTemplate:bodyTemplate expiryTemplate:expiryTemplate priorityTemplate:priorityTemplate tags:tags templateName:name];
     
     if( storageManager.isRefreshNeeded)
     {
@@ -472,6 +477,11 @@ NSString* const _UserAgentTemplate = @"NOTIFICATIONHUBS/%@(api-origin=IosSdk; os
 
 - (BOOL) registerTemplateWithDeviceToken:(NSData*)deviceTokenData name:(NSString*)templateName jsonBodyTemplate:(NSString*)bodyTemplate expiryTemplate:(NSString*)expiryTemplate tags:(NSSet*)tags error:(NSError**)error
 {
+    return [self registerTemplateWithDeviceToken:deviceTokenData name:templateName jsonBodyTemplate:bodyTemplate expiryTemplate:expiryTemplate priorityTemplate:nil tags:tags error:error];
+}
+
+- (BOOL) registerTemplateWithDeviceToken:(NSData*)deviceTokenData name:(NSString*)templateName jsonBodyTemplate:(NSString*)bodyTemplate expiryTemplate:(NSString*)expiryTemplate priorityTemplate:(NSString*)priorityTemplate tags:(NSSet*)tags error:(NSError**)error
+{
     if( deviceTokenData == nil)
     {
         if(error)
@@ -489,7 +499,7 @@ NSString* const _UserAgentTemplate = @"NOTIFICATIONHUBS/%@(api-origin=IosSdk; os
         return FALSE;
     }
     
-    NSString* payload = [SBTemplateRegistration payloadWithDeviceToken:deviceToken bodyTemplate:bodyTemplate expiryTemplate:expiryTemplate tags:tags templateName:templateName];
+    NSString* payload = [SBTemplateRegistration payloadWithDeviceToken:deviceToken bodyTemplate:bodyTemplate expiryTemplate:expiryTemplate priorityTemplate:priorityTemplate tags:tags templateName:templateName];
     
     if( storageManager.isRefreshNeeded)
     {

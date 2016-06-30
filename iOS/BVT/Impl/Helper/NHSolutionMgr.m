@@ -14,7 +14,7 @@
 
 - (void)CheckoutSolution:(NSString *)environmentName
 {
-    NSString* url = @"http://nhsolutionmgr.azurewebsites.net/csm";
+    NSString* url = @"https://nhsolutionmgr.azurewebsites.net/csm";
     NSMutableString* urlStr = [[NSMutableString alloc] initWithString:url];
     [urlStr appendFormat:@"?%@=%@", @"TargetEnvironment", environmentName];
     
@@ -47,7 +47,7 @@
     //Register with notification tracker.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL: [NSURL
-                                                  URLWithString:@"http://nhsolutionmgr.azurewebsites.net/csm"]];
+                                                  URLWithString:@"https://nhsolutionmgr.azurewebsites.net/csm"]];
     
     NSString* payload = @"";
     [request setHTTPMethod:@"POST"];
@@ -71,7 +71,7 @@
 {
     NSLog(@"CreateNotificationhubRest with name: %@", hubName);
     createNotificationSemaphore = dispatch_semaphore_create(0);
-    NSString* connString = [NSString stringWithFormat:@"http://%@.servicebus.int7.windows-int.net/%@?api-version=2014-01", m_serviceNamespace, hubName];
+    NSString* connString = [NSString stringWithFormat:@"https://%@.servicebus.int7.windows-int.net/%@?api-version=2014-01", m_serviceNamespace, hubName];
     NSString* authHeader = [self GetToken];
     
     createNotificationSemaphore = dispatch_semaphore_create(0);
@@ -105,7 +105,7 @@
     acs_semaphore = dispatch_semaphore_create(0);
     
     NSString* acsEndPoint = [NSString stringWithFormat:@"https://%@-sb.accesscontrol.windows-ppe.net:443/WRAPv0.9/", m_serviceNamespace];
-    NSString* realm = [NSString stringWithFormat:@"http://%@.servicebus.int7.windows-int.net/", m_serviceNamespace];
+    NSString* realm = [NSString stringWithFormat:@"https://%@.servicebus.int7.windows-int.net/", m_serviceNamespace];
     NSString* issuerKey = (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)m_issuerKey, NULL, (CFStringRef)@"!*&=+", kCFStringEncodingUTF8);
     NSMutableString* requestStr = [[NSMutableString alloc] initWithFormat:@"wrap_name=%@&wrap_password=%@&wrap_scope=%@",@"owner", issuerKey, realm];
     NSData* requestData = [NSData dataWithBytes:[requestStr UTF8String] length:[requestStr length]];

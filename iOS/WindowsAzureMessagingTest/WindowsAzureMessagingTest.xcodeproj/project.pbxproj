@@ -28,7 +28,6 @@
 		A3C669C216A8DB4300CEA9F3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C669C116A8DB4300CEA9F3 /* ViewController.m */; };
 		A3C669C516A8DB4300CEA9F3 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C669C316A8DB4300CEA9F3 /* ViewController_iPhone.xib */; };
 		A3C669C816A8DB4300CEA9F3 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C669C616A8DB4300CEA9F3 /* ViewController_iPad.xib */; };
-		A3C669D016A8DB4300CEA9F3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */; };
 		A3C669D116A8DB4300CEA9F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */; };
 		A3C669D216A8DB4300CEA9F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C669B016A8DB4300CEA9F3 /* Foundation.framework */; };
 		A3C669DA16A8DB4300CEA9F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A3C669D816A8DB4300CEA9F3 /* InfoPlist.strings */; };
@@ -85,8 +84,7 @@
 		A3C669C116A8DB4300CEA9F3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A3C669C416A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		A3C669C716A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsAzureMessagingTestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsAzureMessagingTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3C669D716A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WindowsAzureMessagingTestTests-Info.plist"; sourceTree = "<group>"; };
 		A3C669D916A8DB4300CEA9F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A3C669DB16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowsAzureMessagingTestTests.h; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3C669D016A8DB4300CEA9F3 /* SenTestingKit.framework in Frameworks */,
 				A3C669D116A8DB4300CEA9F3 /* UIKit.framework in Frameworks */,
 				A3C669D216A8DB4300CEA9F3 /* Foundation.framework in Frameworks */,
 			);
@@ -162,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				A3C669AA16A8DB4300CEA9F3 /* WindowsAzureMessagingTest.app */,
-				A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */,
+				A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -173,7 +170,6 @@
 				A3C669AE16A8DB4300CEA9F3 /* UIKit.framework */,
 				A3C669B016A8DB4300CEA9F3 /* Foundation.framework */,
 				A3C669B216A8DB4300CEA9F3 /* CoreGraphics.framework */,
-				A3C669CF16A8DB4300CEA9F3 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,8 +257,8 @@
 			);
 			name = WindowsAzureMessagingTestTests;
 			productName = WindowsAzureMessagingTestTests;
-			productReference = A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productReference = A3C669CE16A8DB4300CEA9F3 /* WindowsAzureMessagingTestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -270,6 +266,7 @@
 		A3C669A116A8DB4300CEA9F3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0730;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Azure ServiceBus";
 			};
@@ -510,14 +507,13 @@
 					"\"$(SRCROOT)/..\"",
 					"\"$(SRCROOT)/../Output/WindowsAzureMessaging-cbpndrltgohoaacmvxivevylenkf/Build/Products/Debug-iphonesimulator\"",
 					"\"$(SRCROOT)/../WindowsAzureMessaging/build/Release-iphonesimulator\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
 				INFOPLIST_FILE = "WindowsAzureMessagingTestTests/WindowsAzureMessagingTestTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -532,14 +528,13 @@
 					"\"$(SRCROOT)/..\"",
 					"\"$(SRCROOT)/../Output/WindowsAzureMessaging-cbpndrltgohoaacmvxivevylenkf/Build/Products/Debug-iphonesimulator\"",
 					"\"$(SRCROOT)/../WindowsAzureMessaging/build/Release-iphonesimulator\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WindowsAzureMessagingTest/WindowsAzureMessagingTest-Prefix.pch";
 				INFOPLIST_FILE = "WindowsAzureMessagingTestTests/WindowsAzureMessagingTestTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = NO;
 				TEST_HOST = "";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

@@ -49,21 +49,21 @@ NSString* deviceToken2 = @"22";
     
     if(![conn isEqualToString:@"Endpoint=sb://INT7-SN1-012Tinnu-0-10.servicebus.int7.windows-int.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=myFullAccessPwd"])
     {
-        STFail(@"Fail at connectionString for full accessSecret.");
+        XCTFail(@"Fail at connectionString for full accessSecret.");
         return;
     }
     
     conn = [SBConnectionString stringWithEndpoint:[NSURL URLWithString:@"sb://INT7-SN1-012Tinnu-0-10.servicebus.int7.windows-int.net/"] listenAccessSecret:@"myListenAccessPwd"];
     if(![conn isEqualToString:@"Endpoint=sb://INT7-SN1-012Tinnu-0-10.servicebus.int7.windows-int.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=myListenAccessPwd"])
     {
-        STFail(@"Fail at connectionString for listen accessSecret.");
+        XCTFail(@"Fail at connectionString for listen accessSecret.");
         return;
     }
     
     conn = [SBConnectionString stringWithEndpoint:[NSURL URLWithString:@"sb://INT7-SN1-012Tinnu-0-10.servicebus.int7.windows-int.net/"] issuer:@"owner" issuerSecret:@"GnxQQPqX2xwy72BE2Kmb/RvD58R1p7/NqVL9v8bmqC0="];
     if(![conn isEqualToString:@"Endpoint=sb://INT7-SN1-012Tinnu-0-10.servicebus.int7.windows-int.net/;SharedSecretIssuer=owner;SharedSecretValue=GnxQQPqX2xwy72BE2Kmb/RvD58R1p7/NqVL9v8bmqC0="])
     {
-        STFail(@"Fail at connectionString for full sharedScrete.");
+        XCTFail(@"Fail at connectionString for full sharedScrete.");
         return;
     }
 }
@@ -73,7 +73,7 @@ NSString* deviceToken2 = @"22";
     SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:@"wrongConnectionString" notificationHubPath:path];
     if(notificationHub)
     {
-        STFail(@"Fail at creating notificationHub.");
+        XCTFail(@"Fail at creating notificationHub.");
         return;
     }
 }
@@ -87,7 +87,7 @@ NSString* deviceToken2 = @"22";
     SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:connectionStringSAS notificationHubPath:path];
     if(!notificationHub)
     {
-        STFail(@"Fail at creating notificationHub.");
+        XCTFail(@"Fail at creating notificationHub.");
         return;
     }
     
@@ -105,7 +105,7 @@ NSString* deviceToken2 = @"22";
                 if(ret)
                 {
                     NSLog(@"Second call should be create registraionId call.");
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 createRegistrationIdRequestFinished = TRUE;
@@ -119,7 +119,7 @@ NSString* deviceToken2 = @"22";
             
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
             
                 httpRequestFinished = TRUE;
@@ -135,7 +135,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] error:nil];
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         httpRequestFinished = FALSE;
@@ -143,7 +143,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -157,7 +157,7 @@ NSString* deviceToken2 = @"22";
                 if(ret)
                 {
                     NSLog(@"Second call should be create registraionId call.");
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 createRegistrationIdRequestFinished = TRUE;
@@ -172,7 +172,7 @@ NSString* deviceToken2 = @"22";
             
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
             
                 httpRequestFinished = TRUE;
@@ -190,7 +190,7 @@ NSString* deviceToken2 = @"22";
         
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     
         httpRequestFinished = FALSE;
@@ -198,7 +198,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         [SBURLConnection setStaticHandler:nil];
@@ -214,7 +214,7 @@ NSString* deviceToken2 = @"22";
     SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:connectionStringSAS notificationHubPath:path];
     if(!notificationHub)
     {
-        STFail(@"Fail at creating notificationHub.");
+        XCTFail(@"Fail at creating notificationHub.");
         return;
     }
     
@@ -229,7 +229,7 @@ NSString* deviceToken2 = @"22";
             
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             httpRequestFinished = TRUE;
@@ -243,7 +243,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] error:nil];
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         httpRequestFinished = FALSE;
@@ -251,7 +251,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -263,7 +263,7 @@ NSString* deviceToken2 = @"22";
             
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             httpRequestFinished = TRUE;
@@ -279,7 +279,7 @@ NSString* deviceToken2 = @"22";
         
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         httpRequestFinished = FALSE;
@@ -287,7 +287,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         [SBURLConnection setStaticHandler:nil];
@@ -305,10 +305,10 @@ NSString* deviceToken2 = @"22";
         if( !refreshRequestFinished)
         {
             NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"GET" url:@"https://test.servicebus.windows.net/PushTest/Registrations/?$filter=deviceToken+eq+'3131'&api-version=2013-04" body:@""];
-            
+
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             refreshRequestFinished = TRUE;
@@ -324,7 +324,7 @@ NSString* deviceToken2 = @"22";
             if(ret)
             {
                 NSLog(@"Second call should be create registraionId call.");
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             createRegistrationIdRequestFinished = TRUE;
@@ -338,14 +338,14 @@ NSString* deviceToken2 = @"22";
             //second call should be create
             if(![[request HTTPMethod] isEqualToString:@"PUT"])
             {
-                STFail(@"Last call should be create call.");
+                XCTFail(@"Last call should be create call.");
             }
             
             // same deviceToken
             NSString* body = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
             if ([body rangeOfString:@"<DeviceToken>3131</DeviceToken>"].location == NSNotFound)
             {
-                STFail(@"Second call body should include correct deviceToken.");
+                XCTFail(@"Second call body should include correct deviceToken.");
             }
             
             httpRequestFinished = TRUE;
@@ -367,7 +367,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] error:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -382,7 +382,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] completion:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -401,7 +401,7 @@ NSString* deviceToken2 = @"22";
         
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -418,7 +418,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerTemplateWithDeviceToken:deviceToken name:@"MyReg2" jsonBodyTemplate:jsonBody expiryTemplate:@"$(expiry)" tags:[NSSet setWithArray:@[@"tag3",@"tag4"]] completion:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -439,7 +439,7 @@ NSString* deviceToken2 = @"22";
 
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             refreshRequestFinished = TRUE;
@@ -454,7 +454,7 @@ NSString* deviceToken2 = @"22";
             if(ret)
             {
                 NSLog(@"Second call should be create registraionId call.");
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             createRegistrationIdRequestFinished = TRUE;
@@ -469,14 +469,14 @@ NSString* deviceToken2 = @"22";
             NSString* method = [request HTTPMethod];
             if(![method isEqualToString:@"PUT"])
             {
-                STFail(@"Second call should be create call.");
+                XCTFail(@"Second call should be create call.");
             }
             
             // new deviceToken
             NSString* body = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
             if ([body rangeOfString:@"<DeviceToken>3232</DeviceToken>"].location == NSNotFound)
             {
-                STFail(@"Second call body should include correct deviceToken.");
+                XCTFail(@"Second call body should include correct deviceToken.");
             }
             
             httpRequestFinished = TRUE;
@@ -497,7 +497,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] error:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -512,7 +512,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerNativeWithDeviceToken:deviceToken tags:[NSSet setWithArray:@[@"Tag1",@"Tag2"]] completion:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -531,7 +531,7 @@ NSString* deviceToken2 = @"22";
         
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -547,7 +547,91 @@ NSString* deviceToken2 = @"22";
         [notificationHub registerTemplateWithDeviceToken:deviceToken name:@"MyReg2" jsonBodyTemplate:jsonBody expiryTemplate:@"$(expiry)" tags:[NSSet setWithArray:@[@"tag3",@"tag4"]] completion:nil];
         if(!httpRequestFinished || !refreshRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
+        }
+    }
+    
+    [SBURLConnection setStaticHandler:nil];
+}
+
+- (void)testCreateTemplateRegistrationWithPriority
+{
+    NSString* jsonBody = @"{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}";
+    
+    NSData* deviceToken = [deviceToken1 dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [SBURLConnection setStaticHandler:^SBStaticHandlerResponse *(NSURLRequest *request) {
+        
+        if (!createRegistrationIdRequestFinished)
+        {
+            NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"POST" url:@"https://test.servicebus.windows.net/PushTest/registrationids/?api-version=2013-04" body:@""];
+            
+            if(ret)
+            {
+                NSLog(@"First call should be create registraionId call.");
+                XCTFail("%@", ret);
+            }
+            
+            createRegistrationIdRequestFinished = TRUE;
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
+            response.Headers = @{@"Location":@"https://test.servicebus.windows.net/PushTest/registrations/73838-337-2383"};
+            return response;
+        }
+        else
+        {
+            NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"PUT" url:@"https://test.servicebus.windows.net/PushTest/Registrations/73838-337-2383?api-version=2013-04" body:@"<entry xmlns=\"http://www.w3.org/2005/Atom\"><content type=\"text/xml\"><AppleTemplateRegistrationDescription xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\"><Tags>tag4,tag3</Tags><DeviceToken>3131</DeviceToken><BodyTemplate><![CDATA[{\"aps\":{\"alert\":\"$(GotMail)\",\"badge\":10, \"sound\":\"bingbong.aiff\"},\"acme\":\"My data\"}]]></BodyTemplate><Expiry>$(expiry)</Expiry><Priority>$(priority)</Priority><TemplateName>MyReg2</TemplateName></AppleTemplateRegistrationDescription></content></entry>"];
+            
+            if(ret)
+            {
+                XCTFail("%@", ret);
+            }
+            
+            httpRequestFinished = TRUE;
+            SBStaticHandlerResponse* response = [[SBStaticHandlerResponse alloc] init];
+            response.Data = [[NSData alloc] init];
+            return response;
+        }
+    }];
+    
+    NSLog(@"1. registerTemplate");
+    {
+        [TestHelper updateSettingWithVersion:TRUE registrations:FALSE useOldVersion:FALSE];
+        
+        SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:connectionStringSAS notificationHubPath:path];
+        if(!notificationHub)
+        {
+            XCTFail(@"Fail at creating notificationHub.");
+            return;
+        }
+        
+        createRegistrationIdRequestFinished = FALSE;
+        httpRequestFinished = FALSE;
+        [notificationHub registerTemplateWithDeviceToken:deviceToken name:@"MyReg2" jsonBodyTemplate:jsonBody expiryTemplate:@"$(expiry)" priorityTemplate:@"$(priority)" tags:[NSSet setWithArray:@[@"tag3",@"tag4"]] error:nil];
+        
+        if(!httpRequestFinished)
+        {
+            XCTFail(@"Http request didn't send out.");
+        }
+    }
+    
+    NSLog(@"2. registerTemplate async");
+    {
+        [TestHelper updateSettingWithVersion:TRUE registrations:FALSE useOldVersion:FALSE];
+        
+        SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:connectionStringSAS notificationHubPath:path];
+        if(!notificationHub)
+        {
+            XCTFail(@"Fail at creating notificationHub.");
+            return;
+        }
+        
+        createRegistrationIdRequestFinished = FALSE;
+        httpRequestFinished = FALSE;
+        [notificationHub registerTemplateWithDeviceToken:deviceToken name:@"MyReg2" jsonBodyTemplate:jsonBody expiryTemplate:@"$(expiry)" priorityTemplate:@"$(priority)" tags:[NSSet setWithArray:@[@"tag3",@"tag4"]] completion:nil];
+        if(!httpRequestFinished)
+        {
+            XCTFail(@"Http request didn't send out.");
         }
     }
     
@@ -563,7 +647,7 @@ NSString* deviceToken2 = @"22";
     SBNotificationHub* notificationHub = [[SBNotificationHub alloc] initWithConnectionString:connectionStringSAS notificationHubPath:path];
     if(!notificationHub)
     {
-        STFail(@"Fail at creating notificationHub.");
+        XCTFail(@"Fail at creating notificationHub.");
         return;
     }
     
@@ -577,7 +661,7 @@ NSString* deviceToken2 = @"22";
             NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"DELETE" url:@"https://test.servicebus.windows.net/PushTest/Registrations/myRegId1?api-version=2013-04" body:@""];
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             httpRequestFinished = TRUE;
@@ -590,14 +674,14 @@ NSString* deviceToken2 = @"22";
         [notificationHub unregisterNativeWithError:nil];
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         httpRequestFinished = FALSE;
         [notificationHub unregisterNativeWithCompletion:nil];
         if(httpRequestFinished)
         {
-            STFail(@"HTTP requests was sent out");
+            XCTFail(@"HTTP requests was sent out");
         }
         
         [SBURLConnection setStaticHandler:nil];
@@ -611,7 +695,7 @@ NSString* deviceToken2 = @"22";
             NSString* ret = [TestHelper verifySASHttpRequest:request httpMethod:@"DELETE" url:@"https://test.servicebus.windows.net/PushTest/Registrations/myRegId2?api-version=2013-04" body:@""];
             if(ret)
             {
-                STFail(ret);
+                XCTFail("%@", ret);
             }
             
             httpRequestFinished = TRUE;
@@ -624,7 +708,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub unregisterTemplateWithName:@"regName" error:nil];
         if(!httpRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         httpRequestFinished = FALSE;
@@ -632,7 +716,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(httpRequestFinished)
         {
-            STFail(@"HTTP requests was sent out");
+            XCTFail(@"HTTP requests was sent out");
         }
         
         
@@ -641,7 +725,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(httpRequestFinished)
         {
-            STFail(@"Http request should not sent");
+            XCTFail(@"Http request should not sent");
         }
         
         [SBURLConnection setStaticHandler:nil];
@@ -667,7 +751,7 @@ NSString* deviceToken2 = @"22";
                 
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 tokenRequestFinished = TRUE;
@@ -681,7 +765,7 @@ NSString* deviceToken2 = @"22";
                 
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 httpRequestFinished = TRUE;
@@ -696,7 +780,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub unregisterNativeWithError:nil];
         if(!httpRequestFinished || !tokenRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         tokenRequestFinished = FALSE;
@@ -705,7 +789,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(httpRequestFinished || tokenRequestFinished)
         {
-            STFail(@"HTTP requests was sent out");
+            XCTFail(@"HTTP requests was sent out");
         }
         
         [SBURLConnection setStaticHandler:nil];
@@ -722,7 +806,7 @@ NSString* deviceToken2 = @"22";
                 
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 tokenRequestFinished = TRUE;
@@ -736,7 +820,7 @@ NSString* deviceToken2 = @"22";
                 
                 if(ret)
                 {
-                    STFail(ret);
+                    XCTFail("%@", ret);
                 }
                 
                 httpRequestFinished = TRUE;
@@ -751,7 +835,7 @@ NSString* deviceToken2 = @"22";
         [notificationHub unregisterTemplateWithName:@"regName" error:nil];
         if(!httpRequestFinished || !tokenRequestFinished)
         {
-            STFail(@"Http request didn't send out.");
+            XCTFail(@"Http request didn't send out.");
         }
         
         tokenRequestFinished = FALSE;
@@ -760,7 +844,7 @@ NSString* deviceToken2 = @"22";
         sleep(1);
         if(httpRequestFinished || tokenRequestFinished)
         {
-            STFail(@"HTTP requests was sent out");
+            XCTFail(@"HTTP requests was sent out");
         }
         
         [SBURLConnection setStaticHandler:nil];
