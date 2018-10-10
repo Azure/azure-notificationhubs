@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
-def version = 0.4
+def version = 0.5
 def PUBLISH_ARTIFACT_ID = 'notification-hubs-android-sdk'
 def groupId = 'com.microsoft.azure'
 
