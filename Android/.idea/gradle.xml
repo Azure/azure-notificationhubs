@@ -13,8 +13,8 @@
             <option value="$PROJECT_DIR$/notification-hubs-sdk-tests" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
 </project>
-
