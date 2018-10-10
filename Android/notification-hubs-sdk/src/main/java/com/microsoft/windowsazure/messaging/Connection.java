@@ -27,28 +27,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TimeZone;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.EntityEnclosingRequestWrapper;
-import org.apache.http.message.BasicHttpEntityEnclosingRequest;
-import org.apache.http.protocol.HTTP;
-
-import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.util.Base64;
 
@@ -130,10 +124,9 @@ class Connection {
 	 * @return	The response content body
 	 * @throws Exception
 	 */
-	public String executeRequest(String resource, String content, String contentType, String method, Header... extraHeaders) throws Exception {
+	public String executeRequest(String resource, String content, String contentType, String method, SimpleEntry<String, String>... extraHeaders) throws Exception {
 		return executeRequest(resource, content, contentType, method, null, extraHeaders);
 	}
-	
 	
 	/**
 	 * Executes a request to the Notification Hub server
@@ -146,7 +139,7 @@ class Connection {
 	 * @return	The response content body
 	 * @throws Exception
 	 */
-	public String executeRequest(String resource, String content, String contentType, String method, String targetHeaderName, Header... extraHeaders) throws Exception {
+	public String executeRequest(String resource, String content, String contentType, String method, String targetHeaderName, SimpleEntry<String, String>... extraHeaders) throws Exception {
 		URI endpointURI = URI.create(mConnectionData.get(ENDPOINT_KEY));
 		String scheme = endpointURI.getScheme();
 
@@ -160,22 +153,32 @@ class Connection {
 
 		url = AddApiVersionToUrl(url);
 
-		BasicHttpEntityEnclosingRequest request = new BasicHttpEntityEnclosingRequest(method, url);
+		URL wrappedUrl = new URL(url);
+		HttpURLConnection conn = (HttpURLConnection) wrappedUrl.openConnection();
+		conn.setRequestMethod(method);
+		
+		conn.setDoInput(true);
 
 		if (!Utils.isNullOrWhiteSpace(content)) {
-			request.setEntity(new StringEntity(content, UTF8_ENCODING));
+			conn.setDoOutput(true);
+
+			OutputStream os = conn.getOutputStream();
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, UTF8_ENCODING));
+			writer.write(content);
+			writer.flush();
+			writer.close();
+			os.close();
 		}
 
-		request.addHeader(HTTP.CONTENT_TYPE, contentType);
-		EntityEnclosingRequestWrapper wrapper = new EntityEnclosingRequestWrapper(request);
+		conn.setRequestProperty(HTTP.CONTENT_TYPE, contentType);
 
 		if (extraHeaders != null) {
-			for (Header header : extraHeaders) {
-				wrapper.addHeader(header);
+			for (SimpleEntry<String, String> header : extraHeaders) {
+				conn.setRequestProperty(header.getKey(), header.getValue());
 			}
 		}
 
-		return executeRequest(wrapper, targetHeaderName);
+		return executeRequest(conn, targetHeaderName);
 	}
 
 	/**
@@ -199,39 +202,37 @@ class Connection {
 
 	/**
 	 * Executes a web request
-	 * @param request	The request to execute
+	 * @param conn	The HttpURLConnection to execute
 	 * @param targetHeaderName The header name when we need to get value from it in instead of content
 	 * @return	The content string or header value
 	 * @throws Exception
 	 */
-	private String executeRequest(HttpUriRequest request, String targetHeaderName) throws Exception {
-		addAuthorizationHeader(request);
+	private String executeRequest(HttpURLConnection conn, String targetHeaderName) throws Exception {
+		addAuthorizationHeader(conn);
 
 		int status;
 		String content;
-		String headerValue=null;
-		AndroidHttpClient client = null;
+		String headerValue = null;
 		boolean noHeaderButExpected=false;
 
 		try {
-			client = AndroidHttpClient.newInstance(getUserAgent());
+			conn.setRequestProperty("User-Agent", getUserAgent());
 
-			HttpResponse response = client.execute(request);
-
-			status = response.getStatusLine().getStatusCode();			
-			content = getResponseContent(response);
+			conn.connect();
+			status = conn.getResponseCode();		
+			content = getResponseContent(conn);
 			
-			if(targetHeaderName!=null){
-				if(!response.containsHeader(targetHeaderName)){
-					noHeaderButExpected=true;					
+			if(targetHeaderName != null) {
+				if (conn.getHeaderField(targetHeaderName) == null) {
+					noHeaderButExpected = true;					
 				} else{
-					headerValue=response.getFirstHeader(targetHeaderName).getValue();
+					headerValue = conn.getHeaderField(targetHeaderName);
 				}
 			}
 
 		} finally {
-			if (client != null) {
-				client.close();
+			if (conn != null) {
+				conn.disconnect();
 			}
 		}
 
@@ -252,40 +253,37 @@ class Connection {
 	}
 
 	/**
-	 * Reads the content from a response to a string
-	 * @param response	The response to read
+	 * Reads the content from a HttpURLConnection to a string
+	 * @param conn	The HttpURLConnection to read
 	 * @return	The content string
 	 * @throws java.io.IOException
 	 */
-	private String getResponseContent(HttpResponse response) throws IOException {
-		HttpEntity entity = response.getEntity();
-		if (entity != null) {
-			InputStream instream = entity.getContent();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+	private String getResponseContent(HttpURLConnection conn) throws IOException {
+		InputStream instream = conn.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 
-			StringBuilder sb = new StringBuilder();
-			String content = reader.readLine();
-			while (content != null) {
-				sb.append(content);
-				sb.append('\n');
-				content = reader.readLine();
-			}
-
-			return sb.toString();
-		} else {
+		StringBuilder sb = new StringBuilder();
+		String content = reader.readLine();
+		if (content == null) {
 			return null;
 		}
+		while (content != null) {
+			sb.append(content);
+			sb.append('\n');
+			content = reader.readLine();
+		}
+
+		return sb.toString();
 	}
 
 	/**
 	 * Adds the Authorization header to a request
-	 * @param request	The request to modify
+	 * @param conn	The HttpURLConnection to modify
 	 * @throws java.security.InvalidKeyException
 	 */
-	private void addAuthorizationHeader(HttpUriRequest request) throws InvalidKeyException {
+	private void addAuthorizationHeader(HttpURLConnection conn) throws InvalidKeyException {
 		String token = generateAuthToken(request.getURI().toString());
-
-		request.addHeader(AUTHORIZATION_HEADER, token);
+		conn.setRequestProperty(AUTHORIZATION_HEADER, token);
 	}
 
 	/**
