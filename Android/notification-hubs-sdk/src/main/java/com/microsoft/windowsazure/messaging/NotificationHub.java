@@ -28,12 +28,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.http.message.BasicHeader;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -478,7 +479,7 @@ public class NotificationHub {
 		String resource = mNotificationHubPath + "/Registrations/" + registrationId;
 		
 		try {
-			conn.executeRequest(resource, null, XML_CONTENT_TYPE, "DELETE", new BasicHeader("If-Match", "*"));
+			conn.executeRequest(resource, null, XML_CONTENT_TYPE, "DELETE", new SimpleEntry<String, String>("If-Match", "*"));
 		} finally {
 			removeRegistrationId(registrationName);
 		}
