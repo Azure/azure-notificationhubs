@@ -23,9 +23,12 @@ package com.microsoft.windowsazure.messaging;
 import static com.microsoft.windowsazure.messaging.Utils.isNullOrWhiteSpace;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -37,7 +40,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TimeZone;
 
 import javax.crypto.Mac;
@@ -45,6 +47,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.os.Build;
 import android.util.Base64;
+
+import org.apache.http.protocol.HTTP;
 
 /**
  * The connection with a Notification Hub server
@@ -156,19 +160,6 @@ class Connection {
 		URL wrappedUrl = new URL(url);
 		HttpURLConnection conn = (HttpURLConnection) wrappedUrl.openConnection();
 		conn.setRequestMethod(method);
-		
-		conn.setDoInput(true);
-
-		if (!Utils.isNullOrWhiteSpace(content)) {
-			conn.setDoOutput(true);
-
-			OutputStream os = conn.getOutputStream();
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, UTF8_ENCODING));
-			writer.write(content);
-			writer.flush();
-			writer.close();
-			os.close();
-		}
 
 		conn.setRequestProperty(HTTP.CONTENT_TYPE, contentType);
 
@@ -178,7 +169,7 @@ class Connection {
 			}
 		}
 
-		return executeRequest(conn, targetHeaderName);
+		return executeRequest(conn, targetHeaderName, content);
 	}
 
 	/**
@@ -207,7 +198,7 @@ class Connection {
 	 * @return	The content string or header value
 	 * @throws Exception
 	 */
-	private String executeRequest(HttpURLConnection conn, String targetHeaderName) throws Exception {
+	private String executeRequest(HttpURLConnection conn, String targetHeaderName, String postContent) throws Exception {
 		addAuthorizationHeader(conn);
 
 		int status;
@@ -218,7 +209,19 @@ class Connection {
 		try {
 			conn.setRequestProperty("User-Agent", getUserAgent());
 
-			conn.connect();
+			if (Utils.isNullOrWhiteSpace(postContent)) {
+				conn.connect();
+			} else {
+				conn.setDoOutput(true);
+
+				OutputStream os = conn.getOutputStream();
+				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, UTF8_ENCODING));
+				writer.write(postContent);
+				writer.flush();
+				writer.close();
+				os.close();
+			}
+
 			status = conn.getResponseCode();		
 			content = getResponseContent(conn);
 			
@@ -259,21 +262,25 @@ class Connection {
 	 * @throws java.io.IOException
 	 */
 	private String getResponseContent(HttpURLConnection conn) throws IOException {
-		InputStream instream = conn.getInputStream();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+		try {
+			InputStream instream = conn.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 
-		StringBuilder sb = new StringBuilder();
-		String content = reader.readLine();
-		if (content == null) {
+			StringBuilder sb = new StringBuilder();
+			String content = reader.readLine();
+			if (content == null) {
+				return null;
+			}
+			while (content != null) {
+				sb.append(content);
+				sb.append('\n');
+				content = reader.readLine();
+			}
+
+			return sb.toString();
+		} catch (Exception ex) {
 			return null;
 		}
-		while (content != null) {
-			sb.append(content);
-			sb.append('\n');
-			content = reader.readLine();
-		}
-
-		return sb.toString();
 	}
 
 	/**
@@ -282,7 +289,7 @@ class Connection {
 	 * @throws java.security.InvalidKeyException
 	 */
 	private void addAuthorizationHeader(HttpURLConnection conn) throws InvalidKeyException {
-		String token = generateAuthToken(request.getURI().toString());
+		String token = generateAuthToken(conn.getURL().toString());
 		conn.setRequestProperty(AUTHORIZATION_HEADER, token);
 	}
 
