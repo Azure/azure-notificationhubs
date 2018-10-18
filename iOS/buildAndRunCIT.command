@@ -2,7 +2,7 @@ ABSPATH=$(cd "$(dirname "$0")"; pwd)
 cd $ABSPATH
 
 #create build directory
-path=../../../build/"$(date +%Y-%m%d-%H%M%S)"
+path=./build/"$(date +%Y-%m%d-%H%M%S)"
 mkdir -p $path
 
 #prepare log file names
