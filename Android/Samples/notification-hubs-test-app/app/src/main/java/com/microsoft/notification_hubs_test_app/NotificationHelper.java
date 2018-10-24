@@ -14,11 +14,10 @@ public class NotificationHelper {
 
     public static void createChannelAndHandleNotifications(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID,
                     NOTIFICATION_CHANNEL_NAME,
-                    importance);
+                    NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);

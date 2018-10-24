@@ -39,12 +39,12 @@ public class DemoNotificationsHandler extends NotificationsHandler {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        Notification.Builder notificationBuilder = new Notification.Builder(
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                 context,
                 NotificationHelper.NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("Notification Hubs Notification")
-                .setContentText(msg)
                 .setSmallIcon(android.R.drawable.stat_notify_more)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setAutoCancel(true);
 
         mNotificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
