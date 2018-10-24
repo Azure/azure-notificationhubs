@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 import android.content.Intent;
 import android.util.Log;
@@ -66,17 +67,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void onRegisterClick(View view) {
         registerWithNotificationHubs();
-        Button registerButton = (Button) findViewById(R.id.registerButton);
-        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
-        registerButton.setEnabled(false);
-        unregisterButton.setEnabled(true);
+//        Button registerButton = (Button) findViewById(R.id.registerButton);
+//        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
+//        registerButton.setEnabled(false);
+//        unregisterButton.setEnabled(true);
     }
 
     public void onUnregisterClick(View view) {
-        Button registerButton = (Button) findViewById(R.id.registerButton);
-        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
-        registerButton.setEnabled(true);
-        unregisterButton.setEnabled(false);
+        unregisterFromNotificationHubs();
+//        Button registerButton = (Button) findViewById(R.id.registerButton);
+//        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
+//        registerButton.setEnabled(true);
+//        unregisterButton.setEnabled(false);
     }
 
     /**
@@ -110,6 +112,16 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, RegistrationIntentService.class);
             intent.putExtra(RegistrationIntentService.TAGS_KEY, tagsText.getText().toString());
+
+            startService(intent);
+        }
+    }
+
+    private void unregisterFromNotificationHubs() {
+        if (checkPlayServices()) {
+            // Start IntentService to unregister this application with FCM.
+
+            Intent intent = new Intent(this, UnregistrationIntentService.class);
 
             startService(intent);
         }

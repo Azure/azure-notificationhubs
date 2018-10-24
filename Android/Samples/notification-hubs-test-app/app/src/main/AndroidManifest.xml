@@ -29,6 +29,11 @@
             android:exported="false">
         </service>
 
+        <service
+            android:name=".UnregistrationIntentService"
+            android:exported="false">
+        </service>
+
         <receiver android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
