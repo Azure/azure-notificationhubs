@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def secretsPropertiesFile = rootProject.file("secrets.properties")
+def secretsProperties = new Properties()
+secretsProperties.load(new FileInputStream(secretsPropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -9,6 +13,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "senderId", secretsProperties['senderId'])
+        buildConfigField("String", "hubName", secretsProperties['hubName'])
+        buildConfigField("String", "hubListenConnectionString", secretsProperties['hubListenConnectionString'])
+
     }
     buildTypes {
         release {

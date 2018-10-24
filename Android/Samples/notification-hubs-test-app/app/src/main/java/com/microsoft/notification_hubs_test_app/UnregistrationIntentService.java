@@ -20,8 +20,8 @@ public class UnregistrationIntentService extends IntentService {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
-            NotificationHub hub = new NotificationHub(NotificationSettings.HubName,
-                    NotificationSettings.HubListenConnectionString, this);
+            NotificationHub hub = new NotificationHub(BuildConfig.hubName,
+                    BuildConfig.hubListenConnectionString, this);
             hub.unregister();
             sharedPreferences.edit().remove("registrationID").apply();
             sharedPreferences.edit().remove("FCMtoken").apply();
