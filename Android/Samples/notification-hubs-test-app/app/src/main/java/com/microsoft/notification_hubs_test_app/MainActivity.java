@@ -7,6 +7,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.SenderId, MyHandler.class);
-        registerWithNotificationHubs();
     }
 
     @Override
@@ -56,10 +58,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
-                TextView helloText = (TextView) findViewById(R.id.text_hello);
-                helloText.setText(notificationMessage);
+                TextView textLog = (TextView) findViewById(R.id.textLog);
+                textLog.setText(notificationMessage);
             }
         });
+    }
+
+    public void onRegisterClick(View view) {
+        registerWithNotificationHubs();
+        Button registerButton = (Button) findViewById(R.id.registerButton);
+        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
+        registerButton.setEnabled(false);
+        unregisterButton.setEnabled(true);
+    }
+
+    public void onUnregisterClick(View view) {
+        Button registerButton = (Button) findViewById(R.id.registerButton);
+        Button unregisterButton = (Button) findViewById(R.id.unregisterButton);
+        registerButton.setEnabled(true);
+        unregisterButton.setEnabled(false);
     }
 
     /**
@@ -85,11 +102,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public void registerWithNotificationHubs()
+    private void registerWithNotificationHubs()
     {
         if (checkPlayServices()) {
             // Start IntentService to register this application with FCM.
+            EditText tagsText = (EditText) findViewById(R.id.tagsText);
+
             Intent intent = new Intent(this, RegistrationIntentService.class);
+            intent.putExtra(RegistrationIntentService.TAGS_KEY, tagsText.getText().toString());
+
             startService(intent);
         }
     }

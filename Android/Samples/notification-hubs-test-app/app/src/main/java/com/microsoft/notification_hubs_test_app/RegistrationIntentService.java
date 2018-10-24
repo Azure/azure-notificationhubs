@@ -11,6 +11,7 @@ import com.microsoft.windowsazure.messaging.NotificationHub;
 
 public class RegistrationIntentService extends IntentService {
 
+    public static final String TAGS_KEY = "Tags";
     private static final String TAG = "RegIntentService";
 
     private NotificationHub hub;
@@ -26,6 +27,8 @@ public class RegistrationIntentService extends IntentService {
         String resultString = null;
         String regID = null;
         String storedToken = null;
+        String tagsString = intent.getStringExtra(TAGS_KEY);
+        String[] tags = tagsString.split(";");
 
         try {
             String FCM_token = FirebaseInstanceId.getInstance().getToken();
@@ -39,7 +42,7 @@ public class RegistrationIntentService extends IntentService {
                 NotificationHub hub = new NotificationHub(NotificationSettings.HubName,
                         NotificationSettings.HubListenConnectionString, this);
                 Log.d(TAG, "Attempting a new registration with NH using FCM token : " + FCM_token);
-                regID = hub.register(FCM_token).getRegistrationId();
+                regID = hub.register(FCM_token, tags).getRegistrationId();
 
                 // If you want to use tags...
                 // Refer to : https://azure.microsoft.com/documentation/articles/notification-hubs-routing-tag-expressions/
@@ -58,7 +61,7 @@ public class RegistrationIntentService extends IntentService {
                 NotificationHub hub = new NotificationHub(NotificationSettings.HubName,
                         NotificationSettings.HubListenConnectionString, this);
                 Log.d(TAG, "NH Registration refreshing with token : " + FCM_token);
-                regID = hub.register(FCM_token).getRegistrationId();
+                regID = hub.register(FCM_token, tags).getRegistrationId();
 
                 // If you want to use tags...
                 // Refer to : https://azure.microsoft.com/documentation/articles/notification-hubs-routing-tag-expressions/
