@@ -6,11 +6,6 @@ if (secretsPropertiesFile.exists()) {
     secretsProperties.load(new FileInputStream(secretsPropertiesFile))
 }
 
-//def googleServicesFile = rootProject.file("app/google-services.json")
-//if (!googleServicesFile.exists()) {
-//    googleServicesFile.write(System.getenv("GOOGLE_SERVICES_JSON"))
-//}
-
 android {
     compileSdkVersion 28
     defaultConfig {
