@@ -15,9 +15,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "senderId", System.getenv("APP_SENDER_ID") ?: secretsProperties["APP_SENDER_ID"])
-        buildConfigField("String", "hubName", System.getenv("APP_HUB_NAME") ?: secretsProperties["APP_HUB_NAME"])
-        buildConfigField("String", "hubListenConnectionString", System.getenv("APP_NH_CONNECTION_STRING") ?: secretsProperties["APP_NH_CONNECTION_STRING"])
+        buildConfigField("String", "senderId", "\"${System.getenv('APP_SENDER_ID') ?: secretsProperties['APP_SENDER_ID']}\"")
+        buildConfigField("String", "hubName", "\"${System.getenv('APP_HUB_NAME') ?: secretsProperties['APP_HUB_NAME']}\"")
+        buildConfigField("String", "hubListenConnectionString", "\"${System.getenv('APP_NH_CONNECTION_STRING') ?: secretsProperties['APP_NH_CONNECTION_STRING']}\"")
 
     }
     buildTypes {
