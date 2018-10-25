@@ -4,10 +4,16 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.widget.ImageView;
+
 
 public class NotificationData {
     public enum CustomActionType {
@@ -31,7 +37,7 @@ public class NotificationData {
     private final Integer badgeCount;
     private final CustomActionType customAction;
     private final CustomAudioType customAudio;
-//    private final boolean includePicture;
+    private final boolean includePicture;
     private final MessageSize messageSize;
     private final Integer timeoutMs;
 
@@ -48,6 +54,7 @@ public class NotificationData {
                 Integer.parseInt(notificationBundle.getString("timeoutMs")) : null;
         this.messageSize = notificationBundle.containsKey("messageSize") ?
                 parseMessageSize(notificationBundle.getString("messageSize")): null;
+        this.includePicture = Boolean.parseBoolean(notificationBundle.getString("includePicture", "false"));
     }
 
     private CustomActionType parseCustomAction(String customActionString) {
@@ -144,6 +151,18 @@ public class NotificationData {
 
         if (this.messageSize == MessageSize.LARGE) {
             notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(this.message));
+        }
+
+        if (this.includePicture) {
+            Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+
+            Canvas canvas  = new Canvas(bitmap);
+            Paint paint = new Paint();
+            paint.setColor(Color.rgb(200, 0, 0));
+            canvas.drawRect(10, 50, 90, 90, paint);
+
+            notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(bitmap));
         }
 
         return notificationBuilder.build();
