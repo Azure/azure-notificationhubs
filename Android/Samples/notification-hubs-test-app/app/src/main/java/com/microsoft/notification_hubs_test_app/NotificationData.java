@@ -32,7 +32,7 @@ public class NotificationData {
     private final CustomActionType customAction;
     private final CustomAudioType customAudio;
 //    private final boolean includePicture;
-//    private final MessageSize messageSize;
+    private final MessageSize messageSize;
     private final Integer timeoutMs;
 
     public NotificationData(Bundle notificationBundle) {
@@ -46,6 +46,8 @@ public class NotificationData {
                 parseCustomAudio(notificationBundle.getString("customAudio")) : null;
         this.timeoutMs = notificationBundle.containsKey("timeoutMs") ?
                 Integer.parseInt(notificationBundle.getString("timeoutMs")) : null;
+        this.messageSize = notificationBundle.containsKey("messageSize") ?
+                parseMessageSize(notificationBundle.getString("messageSize")): null;
     }
 
     private CustomActionType parseCustomAction(String customActionString) {
@@ -71,6 +73,19 @@ public class NotificationData {
 
             case "ringtone":
                 return CustomAudioType.RINGTONE;
+
+            default:
+                return null;
+        }
+    }
+
+    private MessageSize parseMessageSize(String messageSize){
+        switch (messageSize) {
+            case "large":
+                return MessageSize.LARGE;
+
+            case "regular":
+                return MessageSize.REGULAR;
 
             default:
                 return null;
@@ -125,6 +140,10 @@ public class NotificationData {
             }
 
             notificationBuilder.setSound(soundUri);
+        }
+
+        if (this.messageSize == MessageSize.LARGE) {
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(this.message));
         }
 
         return notificationBuilder.build();
