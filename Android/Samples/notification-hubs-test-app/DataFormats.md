@@ -69,7 +69,7 @@
 {
 	"data":	{
 		"message":"Notification Hub test notification", 
-		"timeoutSec": 30
+		"timeoutMs": 5000
 	}
 }
 ```

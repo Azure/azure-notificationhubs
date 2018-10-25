@@ -31,14 +31,17 @@ public class NotificationData {
 //    private final CustomAudioType customAudio;
 //    private final boolean includePicture;
 //    private final MessageSize messageSize;
-//    private final Integer timeoutSec;
+    private final Integer timeoutMs;
 
     public NotificationData(Bundle notificationBundle) {
         this.message = notificationBundle.getString("message");
-        this.title = notificationBundle.containsKey("title") ? notificationBundle.getString("title") : "Default notification title";
-        this.badgeCount = notificationBundle.containsKey("badgeCount") ? notificationBundle.getInt("badgeCount") : null;
+        this.title = notificationBundle.getString("title", "Default notification title");
+        this.badgeCount = notificationBundle.containsKey("badgeCount") ?
+                Integer.parseInt(notificationBundle.getString("badgeCount")) : null;
         this.customAction = notificationBundle.containsKey("customAction") ?
                 parseCustomAction(notificationBundle.getString("customAction")) : null;
+        this.timeoutMs = notificationBundle.containsKey("timeoutMs") ?
+                Integer.parseInt(notificationBundle.getString("timeoutMs")) : null;
     }
 
     private CustomActionType parseCustomAction(String customActionString) {
@@ -73,6 +76,10 @@ public class NotificationData {
                     android.R.drawable.ic_popup_reminder,
                     title,
                     customActionPendingIntent);
+        }
+
+        if (this.timeoutMs != null) {
+            notificationBuilder.setTimeoutAfter(this.timeoutMs);
         }
 
         return notificationBuilder.build();
