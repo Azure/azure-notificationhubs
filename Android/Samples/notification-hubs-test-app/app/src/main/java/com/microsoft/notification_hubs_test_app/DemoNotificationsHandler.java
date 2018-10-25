@@ -20,33 +20,22 @@ public class DemoNotificationsHandler extends NotificationsHandler {
     public void onReceive(Context context, Bundle bundle) {
         if (mNotificationManager == null) {
             mNotificationManager = context.getSystemService(NotificationManager.class);
+
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+                intent, PendingIntent.FLAG_ONE_SHOT);
         }
 
-        String nhMessage = bundle.getString("message");
-        sendNotification(context, nhMessage);
+        NotificationData notificationData = new NotificationData(bundle);
+
+
+        mNotificationManager.notify(NOTIFICATION_ID, notificationData.createNotification(context));
+        //sendNotification(context, nhMessage);
 
         if (MainActivity.isVisible) {
-            MainActivity.mainActivity.ToastNotify(nhMessage);
+            MainActivity.mainActivity.ToastNotify(notificationData.getMessage());
         }
     }
-
-    private void sendNotification(Context context, String msg) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
-                context,
-                NotificationHelper.NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Notification Hubs Notification")
-                .setSmallIcon(android.R.drawable.stat_notify_more)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setAutoCancel(true);
-
-        mNotificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
-    };
 }
