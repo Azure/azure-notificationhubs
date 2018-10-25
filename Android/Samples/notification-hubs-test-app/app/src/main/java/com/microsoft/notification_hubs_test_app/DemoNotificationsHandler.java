@@ -20,19 +20,11 @@ public class DemoNotificationsHandler extends NotificationsHandler {
     public void onReceive(Context context, Bundle bundle) {
         if (mNotificationManager == null) {
             mNotificationManager = context.getSystemService(NotificationManager.class);
-
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                intent, PendingIntent.FLAG_ONE_SHOT);
         }
 
         NotificationData notificationData = new NotificationData(bundle);
 
-
         mNotificationManager.notify(NOTIFICATION_ID, notificationData.createNotification(context));
-        //sendNotification(context, nhMessage);
 
         if (MainActivity.isVisible) {
             MainActivity.mainActivity.ToastNotify(notificationData.getMessage());

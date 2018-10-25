@@ -19,7 +19,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         startService(intent);
     }
 
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

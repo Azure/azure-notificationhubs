@@ -19,6 +19,7 @@ public class NotificationHelper {
                     NOTIFICATION_CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+            channel.setShowBadge(true);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
             NotificationsManager.handleNotifications(context, BuildConfig.senderId, DemoNotificationsHandler.class);
