@@ -42,7 +42,7 @@ public class NotificationData {
                 NotificationHelper.NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(android.R.drawable.stat_notify_more)
+                .setSmallIcon(android.R.drawable.ic_popup_reminder)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
 
         return notificationBuilder.build();

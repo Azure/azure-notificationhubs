@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.google.android.gms:play-services-gcm:16.0.0'
-    compile 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
+    compile 'com.microsoft.azure:notification-hubs-android-sdk:0.5@aar'
     compile 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
 
 }
