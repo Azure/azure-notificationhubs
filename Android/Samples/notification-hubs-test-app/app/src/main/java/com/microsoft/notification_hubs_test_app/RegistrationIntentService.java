@@ -27,7 +27,7 @@ public class RegistrationIntentService extends IntentService {
         String regID = null;
         String storedToken = null;
         String tagsString = intent.getStringExtra(TAGS_KEY);
-        String[] tags = tagsString.split(";");
+        String[] tags = tagsString != null ? tagsString.split(";") : new String[0];
 
         try {
             String FCM_token = FirebaseInstanceId.getInstance().getToken();
