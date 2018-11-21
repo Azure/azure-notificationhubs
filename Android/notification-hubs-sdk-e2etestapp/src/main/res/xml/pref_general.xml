@@ -37,11 +37,11 @@
         android:defaultValue="@string/pref_log_post_url"/>
     
     <EditTextPreference 
-        android:key="pref_GCM_sender_id" 
-        android:title="@string/pref_title_GCM_sender_id"
+        android:key="pref_FCM_sender_id"
+        android:title="@string/pref_title_FCM_sender_id"
         android:maxLines="1"
         android:singleLine="true"
-        android:defaultValue="@string/pref_GCM_sender_id"/>
+        android:defaultValue="@string/pref_FCM_sender_id"/>
     
     
 </PreferenceScreen>

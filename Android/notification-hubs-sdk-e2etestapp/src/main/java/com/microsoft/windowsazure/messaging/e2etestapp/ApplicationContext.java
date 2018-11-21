@@ -81,4 +81,8 @@ public class ApplicationContext {
 	public static String getGCMSenderId() {
 		return PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREFERENCE_GCM_SENDER_ID, "");
 	}
+
+	public static String getFCMSenderId() {
+		return PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREFERENCE_FCM_SENDER_ID, "");
+	}
 }

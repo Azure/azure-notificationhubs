@@ -50,6 +50,7 @@ public abstract class Registration {
 	{
 		unknown,
 		gcm,
+		fcm,
 		adm,
 		baidu
 	}

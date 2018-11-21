@@ -31,4 +31,6 @@ public class Constants {
 	public static final String PREFERENCE_LOG_POST_URL = "pref_log_post_url";
 	
 	public static final String PREFERENCE_GCM_SENDER_ID = "pref_GCM_sender_id";
+
+	public static final String PREFERENCE_FCM_SENDER_ID = "pref_FCM_sender_id";
 }
