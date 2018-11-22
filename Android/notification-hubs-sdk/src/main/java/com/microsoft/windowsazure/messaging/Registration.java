@@ -49,6 +49,10 @@ public abstract class Registration {
 	public enum RegistrationType
 	{
 		unknown,
+		/**
+		 * @deprecated Use fcm instead.
+		 */
+		@Deprecated
 		gcm,
 		fcm,
 		adm,

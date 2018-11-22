@@ -25,7 +25,10 @@ import org.w3c.dom.Element;
 
 /**
  * Represents GCM native registration
+ *
+ * @deprecated use {@link #FcmNativeRegistration} instead.
  */
+@Deprecated
 public class GcmNativeRegistration extends Registration {
 
 	/**
