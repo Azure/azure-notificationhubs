@@ -42,6 +42,11 @@
         android:maxLines="1"
         android:singleLine="true"
         android:defaultValue="@string/pref_FCM_sender_id"/>
-    
+
+    <SwitchPreference
+        android:key="pref_use_GCM"
+        android:defaultValue="@string/pref_use_GCM"
+        android:title="Use deprecated GCM" />
+
     
 </PreferenceScreen>

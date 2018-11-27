@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.microsoft.windowsazure.messaging.ConnectionString;
 import com.microsoft.windowsazure.messaging.NotificationHub;
+import com.microsoft.windowsazure.messaging.PnsSpecificRegistrationFactory;
+import com.microsoft.windowsazure.messaging.Registration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,9 +26,10 @@ public class ApplicationContext {
 	}
 	
 	public static NotificationHub createNotificationHub() throws MalformedURLException {
+		PnsSpecificRegistrationFactory.getInstance().setRegistrationType( getUseGcm()?Registration.RegistrationType.gcm:Registration.RegistrationType.fcm );
 		return createNotificationHub(true);
 	}
-	
+
 	public static NotificationHub createNotificationHub(boolean clearLocalStorage) throws MalformedURLException {
 		String endpoint = getNotificationHubEndpoint();
 		String keyName = getNotificationHubKeyName();
@@ -84,5 +87,9 @@ public class ApplicationContext {
 
 	public static String getFCMSenderId() {
 		return PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREFERENCE_FCM_SENDER_ID, "");
+	}
+
+	public static Boolean getUseGcm(){
+		return PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean(Constants.PREFERENCE_USE_DEPRECATED_GCM, false);
 	}
 }
