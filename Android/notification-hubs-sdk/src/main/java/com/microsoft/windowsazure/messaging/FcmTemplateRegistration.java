@@ -31,12 +31,12 @@ public class FcmTemplateRegistration extends TemplateRegistration {
     /**
      * Custom payload node name for template registrations
      */
-    static final String FCM_TEMPLATE_REGISTRATION_CUSTOM_NODE = "FcmTemplateRegistrationDescription";
+    static final String FCM_TEMPLATE_REGISTRATION_CUSTOM_NODE = "GcmTemplateRegistrationDescription";
 
     /**
      * Custom node name for PNS handle
      */
-    private static final String FCM_HANDLE_NODE = "FcmRegistrationId";
+    private static final String FCM_HANDLE_NODE = "GcmRegistrationId";
 
     /**
      * Creates a new template registration

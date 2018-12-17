@@ -31,12 +31,12 @@ public class FcmNativeRegistration extends Registration {
     /**
      * Custom payload node name for native registrations
      */
-    private static final String FCM_NATIVE_REGISTRATION_CUSTOM_NODE = "FcmRegistrationDescription";
+    private static final String FCM_NATIVE_REGISTRATION_CUSTOM_NODE = "GcmRegistrationDescription";
 
     /**
      * Custom node name for PNS handle
      */
-    static final String FCM_HANDLE_NODE = "FcmRegistrationId";
+    static final String FCM_HANDLE_NODE = "GcmRegistrationId";
 
     /**
      * Creates a new native registration
