@@ -30,7 +30,7 @@ public final class PnsSpecificRegistrationFactory {
 	/**
 	 * Specifies the SDK registration Type.
 	 */
-	private static RegistrationType mRegistrationType = RegistrationType.gcm;
+	private static RegistrationType mRegistrationType = RegistrationType.fcm;
 
 	/**
 	 * Keeps the single instance
@@ -70,6 +70,9 @@ public final class PnsSpecificRegistrationFactory {
 			case gcm:{
 				return new GcmNativeRegistration(notificationHubPath);
 			}
+			case fcm:{
+				return new FcmNativeRegistration(notificationHubPath);
+			}
 			case baidu:{
 				return new BaiduNativeRegistration(notificationHubPath);
 			}
@@ -91,6 +94,8 @@ public final class PnsSpecificRegistrationFactory {
 		switch(mRegistrationType) {
 			case gcm:
 				return new GcmTemplateRegistration(notificationHubPath);
+			case fcm:
+				return new FcmTemplateRegistration(notificationHubPath);
 			case baidu:
 				return new BaiduTemplateRegistration(notificationHubPath);
 			case adm:
@@ -113,6 +118,11 @@ public final class PnsSpecificRegistrationFactory {
 			case gcm:{
 				tempelateRegistrationCustomNode =
 						GcmTemplateRegistration.GCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
+				break;
+			}
+			case fcm:{
+				tempelateRegistrationCustomNode =
+						FcmTemplateRegistration.FCM_TEMPLATE_REGISTRATION_CUSTOM_NODE;
 				break;
 			}
 			case baidu:{
@@ -142,6 +152,9 @@ public final class PnsSpecificRegistrationFactory {
 			case gcm:{
 				return GcmNativeRegistration.GCM_HANDLE_NODE;
 			}
+			case fcm:{
+				return FcmNativeRegistration.FCM_HANDLE_NODE;
+			}
 			case baidu:{
 				return BaiduNativeRegistration.BAIDU_HANDLE_NODE;
 			}
@@ -162,13 +175,16 @@ public final class PnsSpecificRegistrationFactory {
 		switch(mRegistrationType)
 		{
 			case gcm:{
-				return "AndroidSdkAdm";
+				return "AndroidSdkGcm";
+			}
+			case fcm:{
+				return "AndroidSdkFcm";
 			}
 			case baidu:{
 				return "AndroidSdkBaidu";
 			}
 			case adm:{
-				return "AndroidSdkGcm";
+				return "AndroidSdkAdm";
 			}
 			default:{
 				throw new AssertionError("Invalid registration type!");
