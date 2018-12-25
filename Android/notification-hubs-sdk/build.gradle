@@ -5,6 +5,11 @@ def version = 0.6
 def PUBLISH_ARTIFACT_ID = 'notification-hubs-android-sdk'
 def groupId = 'com.microsoft.azure'
 
+def BINTRAY_USERNAME = "$System.env.BINTRAY_USERNAME"
+def BINTRAY_APIKEY = "$System.env.BINTRAY_APIKEY"
+
+def isCI = project.hasProperty('isCI') ? Boolean.valueOf(isCI) : false
+
 android {
     compileSdkVersion 21
     buildToolsVersion '28.0.3'
@@ -68,11 +73,11 @@ uploadArchives {
             url 'https://github.com/Azure/azure-notificationhubs'
         }
         repository (
-                url: 'https://api.bintray.com/maven/microsoftazuremobile/SDK/Notification-Hubs-Android-SDK'
+            url: isCI ? '$System.env.BUILD_ARTIFACTSTAGINGDIRECTORY' : 'https://api.bintray.com/maven/microsoftazuremobile/SDK/Notification-Hubs-Android-SDK'
         ) {
             authentication(
-                    userName: 'bintray username',
-                    password: 'bintray api key'
+                userName: BINTRAY_USERNAME,
+                password: BINTRAY_APIKEY
             )
         }
     }
@@ -96,6 +101,6 @@ task androidSourcesJar(type: Jar) {
 
 artifacts {
     archives androidSourcesJar
-    //archives androidJavadocsJar
+    archives androidJavadocsJar
     archives file : file('build/release/' + PUBLISH_ARTIFACT_ID + '-' + version + '.jar')
 }

@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 /**
  * Represents GCM template registration
  *
- * @deprecated use {@link #FcmTemplateRegistration} instead.
+ * @deprecated use {@link com.microsoft.windowsazure.messaging.FcmTemplateRegistration#FcmTemplateRegistration(String)} instead.
  */
 @Deprecated
 public class GcmTemplateRegistration extends TemplateRegistration {
