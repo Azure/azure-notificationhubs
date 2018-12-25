@@ -77,7 +77,7 @@ public class NotificationHubTests extends InstrumentationTestCase {
 		Context context = getInstrumentation().getTargetContext();
 		NotificationHub nh = new NotificationHub(nhName, cs, context);
 
-		String gcmId = "123456";
+		String fcmId = "123456";
 		String templateName = "myTemplate";
 		String template = "{\"my_int\": 1, \"my_string\": \"1\" }";
 		String[] tags = { "myTag_1", "myTag_2" };
@@ -91,7 +91,7 @@ public class NotificationHubTests extends InstrumentationTestCase {
 		}
 
 		try {
-			nh.registerTemplate(gcmId, null, template, tags);
+			nh.registerTemplate(fcmId, null, template, tags);
 
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {
@@ -99,7 +99,7 @@ public class NotificationHubTests extends InstrumentationTestCase {
 		}
 
 		try {
-			nh.registerTemplate(gcmId, templateName, null, tags);
+			nh.registerTemplate(fcmId, templateName, null, tags);
 
 			fail("invalid parameters");
 		} catch (IllegalArgumentException e) {

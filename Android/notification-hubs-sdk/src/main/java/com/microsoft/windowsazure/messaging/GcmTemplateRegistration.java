@@ -25,7 +25,10 @@ import org.w3c.dom.Element;
 
 /**
  * Represents GCM template registration
+ *
+ * @deprecated use {@link #FcmTemplateRegistration} instead.
  */
+@Deprecated
 public class GcmTemplateRegistration extends TemplateRegistration {
 
 	/**
