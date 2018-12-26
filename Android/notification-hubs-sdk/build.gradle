@@ -9,6 +9,7 @@ def BINTRAY_USERNAME = "$System.env.BINTRAY_USERNAME"
 def BINTRAY_APIKEY = "$System.env.BINTRAY_APIKEY"
 
 def isCI = project.hasProperty('isCI') ? Boolean.valueOf(isCI) : false
+def repoUrl = isCI ? "file://" + "$System.env.BUILD_ARTIFACTSTAGINGDIRECTORY" : 'https://api.bintray.com/maven/microsoftazuremobile/SDK/Notification-Hubs-Android-SDK'
 
 android {
     compileSdkVersion 21
@@ -73,7 +74,7 @@ uploadArchives {
             url 'https://github.com/Azure/azure-notificationhubs'
         }
         repository (
-            url: isCI ? '$System.env.BUILD_ARTIFACTSTAGINGDIRECTORY' : 'https://api.bintray.com/maven/microsoftazuremobile/SDK/Notification-Hubs-Android-SDK'
+            url: repoUrl
         ) {
             authentication(
                 userName: BINTRAY_USERNAME,
