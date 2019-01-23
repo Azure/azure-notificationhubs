@@ -14,7 +14,7 @@ To get the source code of our SDKs and samples via **git** just type:
 ## Building and Referencing the SDK
 
 1. Import the `\azure-notificationhubs\notification-hubs-sdk` project into your workspace
-2. Once Eclipse is done compiling, the resulting .jar file will be located in `\azure-notificationhubs\notification-hubs-sdk\bin`.
+2. Once Android Studio finished compiling the library, the resulting `.jar` file is located in `\azure-notificationhubs\notification-hubs-sdk\bin`.
 
 ## Need Help?
 
