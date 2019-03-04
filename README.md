@@ -1,3 +1,11 @@
+# A T T E N T I O N
+
+The current repo have been split out.
+
+Android part is in [Azure/azure-notificationhubs-android](https://github.com/Azure/azure-notificationhubs-android) repo.
+
+iOS part is in [Azure/azure-notificationhubs-ios](https://github.com/Azure/azure-notificationhubs-ios) repo.
+
 # Microsoft Azure Notification Hubs
 
 Azure Notification Hubs provide an easy-to-use, multiplatform, scaled-out push infrastructure that enables you to send mobile push notifications from any backend (in the cloud or on-premises) to any mobile platform. To learn more, visit our [Developer Center](https://azure.microsoft.com/en-us/documentation/services/notification-hubs).
@@ -5,13 +13,6 @@ Azure Notification Hubs provide an easy-to-use, multiplatform, scaled-out push i
 ## Getting Started
 
 If you are new to Notification Hubs, you can get started by following our tutorials to push notifications to your [iOS apps](https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-ios-get-started/), [Android apps](https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-android-get-started/), and [Windows Universal apps](https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-windows-store-dotnet-get-started/).
-
-## Download Source Code
-
-To get the source code of our SDKs via **git** just type:
-
-    git clone https://github.com/Azure/azure-notificationhubs.git
-    cd ./azure-notificationhubs/
 
 ## Useful Resources
 
