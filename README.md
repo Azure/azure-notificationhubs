@@ -5,7 +5,7 @@
 
 # Microsoft Azure Notification Hubs
 
-Azure Notification Hubs provide an easy-to-use, multiplatform, scaled-out push infrastructure that enables you to send mobile push notifications from any backend (in the cloud or on-premises) to any mobile platform. To learn more, visit our [Developer Center](https://azure.microsoft.com/en-us/documentation/services/notification-hubs).
+Azure Notification Hubs provides an easy-to-use, multiplatform, scaled-out push infrastructure enabling you to send notifications from any backend (in the cloud or on-premises) to any mobile platform. To learn more, visit our [Developer Center](https://azure.microsoft.com/en-us/documentation/services/notification-hubs).
 
 ## Getting Started
 
