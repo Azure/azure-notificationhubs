@@ -4,6 +4,7 @@ The Azure Notification Hubs SDK is now available from the following repositories
 
 + Android SDK: [Azure/azure-notificationhubs-android](https://github.com/Azure/azure-notificationhubs-android)
 + iOS SDK: [Azure/azure-notificationhubs-ios](https://github.com/Azure/azure-notificationhubs-ios)
++ .NET SDK: [Azure/azure-notificationhubs-dotnet](https://github.com/Azure/azure-notificationhubs-dotnet)
 
 # Microsoft Azure Notification Hubs
 
